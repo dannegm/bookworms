@@ -12,15 +12,13 @@ const noto = Noto_Sans({
 
 export default function RootLayout({ environmentInfo, children }: ProvidersProps) {
     return (
-        <Providers environmentInfo={environmentInfo}>
-            <Suspense>
-                <html lang='en'>
-                    <body className={cn(noto.className, 'antialiased')}>
-                        <Debugger />
-                        {children}
-                    </body>
-                </html>
-            </Suspense>
-        </Providers>
+        <html lang='en'>
+            <body className={cn(noto.className, 'antialiased')}>
+                <Providers environmentInfo={environmentInfo}>
+                    <Debugger />
+                    {children}
+                </Providers>
+            </body>
+        </html>
     );
 }
