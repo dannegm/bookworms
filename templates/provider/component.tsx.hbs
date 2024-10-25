@@ -1,0 +1,25 @@
+'use client';
+import type { ChildrenContainer } from '@/types/common';
+import { createContext, useContext } from 'react';
+
+export interface {{pascalCase name}} {
+    // Your payload
+}
+
+const {{pascalCase name}}Context = createContext<{{pascalCase name}}>({
+    // Your payload
+});
+
+export const use{{pascalCase name}} = () => {
+    return useContext({{pascalCase name}}Context);
+};
+
+export default function {{pascalCase name}}Provider({ children }: ChildrenContainer) {
+    return (
+        <{{pascalCase name}}Context.Provider value=\{{
+            // Your payload
+        }}>
+            {children}
+        </{{pascalCase name}}Context.Provider>
+    );
+}
