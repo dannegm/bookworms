@@ -19,6 +19,7 @@
 
 # production
 /build
+/public/covers
 
 # misc
 .DS_Store
