@@ -9,13 +9,14 @@ import SearchRegular from '@/components/icons/search-regular';
 
 export default function SearchBar({ className }) {
     return (
-        <Form className={cn('flex flex-row gap-2', className)} action='/search'>
+        <Form className={cn('relative z-20 flex flex-row gap-2', className)} action='/search'>
             <Input
                 radius='sm'
                 size='lg'
                 variant='bordered'
                 placeholder='Type to search...'
                 name='query'
+                className='bg-white'
                 startContent={
                     <div>
                         <BookOpenRegular className='text-black/50 pointer-events-none' />
@@ -23,7 +24,7 @@ export default function SearchBar({ className }) {
                 }
             />
             <Button
-                className='bg-black text-white'
+                className='hidden sm:flex bg-black text-white'
                 radius='sm'
                 size='lg'
                 type='submit'
@@ -34,6 +35,15 @@ export default function SearchBar({ className }) {
                 }
             >
                 Buscar
+            </Button>
+            <Button
+                className='flex sm:hidden bg-black text-white'
+                radius='sm'
+                size='lg'
+                type='submit'
+                isIconOnly
+            >
+                <SearchRegular />
             </Button>
         </Form>
     );

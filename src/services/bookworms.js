@@ -40,6 +40,12 @@ export const getAuthor = async authorName => {
     return data;
 };
 
+export const getSerie = async serieName => {
+    const serieKey = keyCase(serieName);
+    const { data } = await bookwormsApi.get(`/serie/${serieKey}`);
+    return data;
+};
+
 export const requestBookFile = async filename => {
     await bookwormsApi.get(`request?filename=${filename}`);
 };

@@ -39,9 +39,9 @@ const getDefaultCover = (book, width = DEFAULT_WIDTH) => {
     );
 
     return {
-        width: `${width}px`,
-        height: `${height}px`,
         backgroundImage: `url(https://placehold.co/${width}x${height}/${getRandomColor()}/fff?font=playfair-display&text=${title})`,
+        backgroundSize: `100%`,
+        backgroundPosition: `center`,
     };
 };
 

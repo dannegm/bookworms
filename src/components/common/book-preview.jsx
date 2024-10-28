@@ -53,8 +53,8 @@ export default function BookPreview({ className, book }) {
                         <DownloadSimpleRegular />
                         <b>{book.downloads}</b> descargas
                     </div>
-                    <Divider orientation='vertical' />
-                    <div className='flex flex-row gap-2 items-center'>
+                    <Divider className='hidden lg:block' orientation='vertical' />
+                    <div className='hidden lg:flex flex-row gap-2 items-center'>
                         <EyeRegular />
                         <b>{book.views}</b> vistas
                     </div>

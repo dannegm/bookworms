@@ -61,10 +61,14 @@ export default function DownloadBook({ className, book }) {
                 className={cn(className)}
                 color='primary'
                 size='lg'
-                startContent={<DownloadCloudRegular />}
+                startContent={
+                    <div>
+                        <DownloadCloudRegular />
+                    </div>
+                }
                 onClick={handleRequest}
             >
-                Solicitar libro
+                Solicitar
             </Button>
         ),
         [DownloadStates.REQUESTED]: (
@@ -75,7 +79,7 @@ export default function DownloadBook({ className, book }) {
                 spinner={<Spinner color='default' size='sm' />}
                 isLoading
             >
-                Solicitando libro
+                Solicitando
             </Button>
         ),
         [DownloadStates.AVAILABLE]: (
@@ -83,10 +87,14 @@ export default function DownloadBook({ className, book }) {
                 className={cn('text-white', className)}
                 color='success'
                 size='lg'
-                startContent={<DownloadSimpleRegular />}
+                startContent={
+                    <div>
+                        <DownloadSimpleRegular />
+                    </div>
+                }
                 onClick={handleDownload}
             >
-                Descargar libro
+                Descargar
             </Button>
         ),
         [DownloadStates.DOWNLOADING]: (
@@ -97,7 +105,7 @@ export default function DownloadBook({ className, book }) {
                 spinner={<Spinner color='default' size='sm' />}
                 isLoading
             >
-                Descargando libro
+                Descargando
             </Button>
         ),
         [DownloadStates.REJECTED]: (
@@ -105,9 +113,13 @@ export default function DownloadBook({ className, book }) {
                 className={cn(className)}
                 color='danger'
                 size='lg'
-                startContent={<SmileySadRegular />}
+                startContent={
+                    <div>
+                        <SmileySadRegular />
+                    </div>
+                }
             >
-                Libro no disponible
+                No disponible
             </Button>
         ),
     };

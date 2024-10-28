@@ -43,7 +43,12 @@ export default async function BookDetails({ className, libid }) {
                 />
             </div>
 
-            <div className={cn('flex flex-col gap-4 items-center w-full px-4', 'sm:items-start')}>
+            <div
+                className={cn(
+                    'relative z-20 flex flex-col gap-4 items-center w-full px-4',
+                    'sm:items-start',
+                )}
+            >
                 <h3 className='text-slate-900 text-2xl font-bold text-center text-balance'>
                     {book.title}
                 </h3>
@@ -98,7 +103,7 @@ export default async function BookDetails({ className, libid }) {
                     ))}
                 </div>
 
-                <div className='flex flex-row gap-4 items-center mt-8'>
+                <div className='flex flex-col lg:flex-row gap-4 items-center mt-8'>
                     <DownloadBook className='w-56' book={book} />
                     <span className='text-medium text-slate-600'>
                         <b>{`${formatBytes(book.size)}`}</b> Tamaño del archivo
