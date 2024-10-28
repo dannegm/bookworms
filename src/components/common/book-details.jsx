@@ -21,23 +21,29 @@ export default async function BookDetails({ className, libid }) {
     return (
         <div
             className={cn(
-                'flex flex-col gap-16 items-center',
+                'flex flex-col gap-8 items-center',
                 'sm:flex-row sm:items-start',
+                'xl:gap-16',
                 className,
             )}
         >
-            <div className={cn('relative w-[240px]', 'md:w-[340px]')}>
+            <div
+                className={cn(
+                    'relative',
+                    'w-[250px] h-[375px] sm:w-[280px] sm:h-[420px] md:w-[340px] md:h-[510px]',
+                )}
+            >
                 <BookCover
                     className={cn(
-                        '$main absolute z-20 rounded-xl shadow-2xl w-[250px] h-[375px]',
-                        'md:w-[340px] md:h-[510px]',
+                        '$main absolute z-20 rounded-xl shadow-2xl',
+                        'w-[250px] h-[375px] sm:w-[280px] sm:h-[420px] md:w-[340px] md:h-[510px]',
                     )}
                     book={book}
                 />
                 <BookCover
                     className={cn(
-                        '$blur rounded-xl blur-3xl opacity-50 w-[250px] h-[375px]',
-                        'md:w-[340px] md:h-[510px]',
+                        '$blur rounded-xl blur-3xl opacity-50',
+                        'w-[250px] h-[375px] sm:w-[280px] sm:h-[420px] md:w-[340px] md:h-[510px]',
                     )}
                     book={book}
                 />
@@ -49,7 +55,12 @@ export default async function BookDetails({ className, libid }) {
                     'sm:items-start',
                 )}
             >
-                <h3 className='text-slate-900 text-2xl font-bold text-center text-balance'>
+                <h3
+                    className={cn(
+                        'text-slate-900 text-2xl font-bold text-center text-balance',
+                        'sm:text-left',
+                    )}
+                >
                     {book.title}
                 </h3>
 

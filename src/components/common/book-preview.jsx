@@ -13,8 +13,9 @@ export default function BookPreview({ className, book }) {
     return (
         <Card
             className={cn(
-                'flex flex-col gap-0 px-4 py-6 bg-white overflow-hidden',
-                'sm:gap-2 sm:py-8',
+                'flex flex-col gap-0 px-1 py-2 bg-white overflow-hidden',
+                'sm:py-4',
+                'md:gap-2 md:py-8',
                 className,
             )}
             as='a'
@@ -26,14 +27,14 @@ export default function BookPreview({ className, book }) {
                     <BookCover
                         className={cn(
                             '$main absolute z-20 rounded-xl shadow-xl',
-                            'w-[180px] h-[270px] sm:w-[200px] sm:h-[300px]',
+                            'w-[120px] h-[180px] sm:w-[180px] sm:h-[270px] md:w-[200px] md:h-[300px]',
                         )}
                         book={book}
                     />
                     <BookCover
                         className={cn(
                             '$blur rounded-xl blur-3xl opacity-35',
-                            'w-[180px] h-[270px] sm:w-[200px] sm:h-[300px]',
+                            'w-[120px] h-[180px] sm:w-[180px] sm:h-[270px] md:w-[200px] md:h-[300px]',
                         )}
                         book={book}
                     />
