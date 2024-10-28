@@ -21,6 +21,7 @@ export const getReferencedDownloadURL = async path => {
         const url = await getDownloadURL($ref);
         return url;
     } catch (error) {
+        console.error(error);
         return null;
     }
 };
