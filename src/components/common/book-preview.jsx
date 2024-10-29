@@ -1,5 +1,6 @@
 import { Card, CardBody, CardFooter } from '@nextui-org/card';
 import { Divider } from '@nextui-org/divider';
+import { Tooltip } from '@nextui-org/tooltip';
 
 import { cn } from '@/helpers/utils';
 
@@ -39,9 +40,12 @@ export default function BookPreview({ className, book }) {
                         book={book}
                     />
                 </div>
-                <h3 className='mt-4 px-4 text-center text-slate-900 text-medium font-bold truncate'>
-                    {book.title}
-                </h3>
+
+                <Tooltip className='bg-black text-white rounded-md' content={book.title} delay={1000}>
+                    <h3 className='mt-4 px-4 text-center text-slate-900 text-medium font-bold truncate'>
+                        {book.title}
+                    </h3>
+                </Tooltip>
 
                 {book?.authors && (
                     <p className='px-4 text-center text-slate-700 text-small '>

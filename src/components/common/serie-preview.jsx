@@ -1,6 +1,8 @@
 import { Avatar } from '@nextui-org/avatar';
+
 import { cn } from '@/helpers/utils';
 import { keyCase } from '@/helpers/strings';
+
 import BooksRegular from '../icons/books-regular';
 import BookRegular from '../icons/book-regular';
 
