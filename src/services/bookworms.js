@@ -2,8 +2,14 @@ import axios from 'axios';
 import { keyCase } from '@/helpers/strings';
 
 const baseURL = 'https://endpoints.hckr.mx/bookworms/';
+const API_KEY = process.env.NEXT_PUBLIC_BOOKWORMS_API_KEY;
 
-const bookwormsApi = axios.create({ baseURL });
+const bookwormsApi = axios.create({
+    baseURL,
+    headers: {
+        'x-dnn-apikey': API_KEY,
+    },
+});
 
 export const getTop = async (entity = 'books', category = 'views', limit = 10) => {
     const urlParams = new URLSearchParams();
