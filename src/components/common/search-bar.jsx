@@ -1,6 +1,5 @@
 'use client';
-import { useState } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Input } from '@nextui-org/input';
 import { Button } from '@nextui-org/button';
@@ -12,23 +11,16 @@ import BookOpenRegular from '@/components/icons/book-open-regular';
 import SearchRegular from '@/components/icons/search-regular';
 
 export default function SearchBar({ className }) {
-    const pathname = usePathname();
     const router = useRouter();
     const searchParams = useSearchParams();
 
     const query = searchParams.get('query');
-    const [searching, setSearching] = useState(false);
     const [queryValue, handleChangeQueryValue] = useInput(query || '');
 
     const handleSearch = event => {
         event.preventDefault();
-        setSearching(true);
         const encodedQuery = encodeURI(queryValue);
         router.push(`/bypass?query=${encodedQuery}`);
-
-        if (pathname === '/search') {
-            window.location.reload();
-        }
     };
 
     return (
@@ -45,7 +37,6 @@ export default function SearchBar({ className }) {
                 onChange={handleChangeQueryValue}
                 size='lg'
                 variant='bordered'
-                disabled={searching}
                 startContent={
                     <div>
                         <BookOpenRegular className='text-black/50 pointer-events-none' />
@@ -57,7 +48,6 @@ export default function SearchBar({ className }) {
                 radius='sm'
                 size='lg'
                 type='submit'
-                isLoading={searching}
                 endContent={
                     <div>
                         <SearchRegular />
@@ -71,7 +61,6 @@ export default function SearchBar({ className }) {
                 radius='sm'
                 size='lg'
                 type='submit'
-                isLoading={searching}
                 isIconOnly
             >
                 <SearchRegular />
