@@ -1,19 +1,29 @@
 'use server';
-import { notFound } from 'next/navigation';
+import { redirect, RedirectType } from 'next/navigation';
 
 import { cn } from '@/helpers/utils';
-import Header from '@/components/common/header';
+import { retry } from '@/helpers/handlers';
 import { search } from '@/services/bookworms';
+
+import Header from '@/components/common/header';
 import BooksList from '@/components/common/books-list';
 import AuthorsList from '@/components/common/authors-list';
 import SeriesLists from '@/components/common/series-lists';
+import Pagination from '@/components/common/pagination';
+
+const BOOKS_PER_PAGE = 12;
+
+const redundantSearch = async ({ query, page = 1, limit = 20 }) => {
+    const [result, error] = await retry(() => search({ query, page, limit }), { delay: 1000 });
+    return [result, error];
+};
 
 export default async function SearchPage({ searchParams }) {
-    const { query, showRest } = await searchParams;
-    const { data, error } = await search(query);
+    const { query, page } = await searchParams;
+    const [data, error] = await redundantSearch({ query, page, limit: BOOKS_PER_PAGE });
 
     if (error) {
-        return notFound();
+        return redirect('/404', RedirectType.replace);
     }
 
     return (
@@ -24,7 +34,6 @@ export default async function SearchPage({ searchParams }) {
                 className='mt-12'
                 title='Autores encontrados'
                 authors={data?.authors?.results}
-                showRest={showRest}
                 limit={8}
             />
 
@@ -32,11 +41,12 @@ export default async function SearchPage({ searchParams }) {
                 className='mt-12'
                 title='Series encontrados'
                 series={data?.series?.results}
-                showRest={showRest}
                 limit={8}
             />
 
             <BooksList className='mt-12' title='Libros encontrados' books={data?.books?.results} />
+
+            <Pagination className='mt-12' total={Math.ceil(data?.books?.total / BOOKS_PER_PAGE)} />
         </main>
     );
 }

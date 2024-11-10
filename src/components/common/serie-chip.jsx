@@ -7,13 +7,13 @@ export default function SerieChip({ className, serie }) {
     return (
         <Button
             as='a'
-            href={`/serie/${keyCase(serie)}`}
+            href={`/serie/${keyCase(serie.name)}`}
             className={cn(className)}
             radius='full'
             size='sm'
             startContent={<BooksRegular />}
         >
-            {serie}
+            {serie.name}
         </Button>
     );
 }

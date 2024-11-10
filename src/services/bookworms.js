@@ -11,6 +11,24 @@ const bookwormsApi = axios.create({
     },
 });
 
+export const getSummaries = async () => {
+    const { data } = await bookwormsApi.get(`/summaries`);
+    return data;
+};
+
+export const search = async ({ query, page = 1, limit = 20 }) => {
+    const urlParams = new URLSearchParams();
+
+    urlParams.append('q', query);
+    urlParams.append('page', page);
+    urlParams.append('limit', limit);
+
+    console.log(`/search?${urlParams.toString()}`);
+
+    const { data } = await bookwormsApi.get(`/search?${urlParams.toString()}`);
+    return data;
+};
+
 export const getTop = async (entity = 'books', category = 'views', limit = 10) => {
     const urlParams = new URLSearchParams();
 
@@ -20,19 +38,6 @@ export const getTop = async (entity = 'books', category = 'views', limit = 10) =
 
     const { data } = await bookwormsApi.get(`/top?${urlParams.toString()}`);
     return data;
-};
-
-export const search = async query => {
-    const urlParams = new URLSearchParams();
-
-    urlParams.append('q', query);
-
-    try {
-        const { data } = await bookwormsApi.get(`/search?${urlParams.toString()}`);
-        return { data, error: null };
-    } catch (error) {
-        return { data: null, error };
-    }
 };
 
 export const getBook = async libid => {

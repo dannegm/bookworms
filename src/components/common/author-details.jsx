@@ -1,7 +1,6 @@
 import { Divider } from '@nextui-org/divider';
 
 import { cn } from '@/helpers/utils';
-import { getAuthor } from '@/services/bookworms';
 
 import BookRegular from '@/components/icons/book-regular';
 import EyeRegular from '@/components/icons/eye-regular';
@@ -9,8 +8,7 @@ import EyeRegular from '@/components/icons/eye-regular';
 import AuthorAvatar from './author-avatar';
 import BooksList from './books-list';
 
-export default async function AuthorDetails({ className, authorKey }) {
-    const author = await getAuthor(authorKey);
+export default function AuthorDetails({ className, author }) {
     return (
         <div className={cn(className)}>
             <div className='flex flex-col items-center gap-2'>
@@ -29,7 +27,9 @@ export default async function AuthorDetails({ className, authorKey }) {
                         <BookRegular />
                         <b>{author.books.length}</b> Libros
                     </div>
+
                     <Divider orientation='vertical' />
+
                     <div className='flex flex-row gap-2 items-center'>
                         <EyeRegular />
                         <b>{author.views}</b> Vistas

@@ -1,15 +1,13 @@
 import { Divider } from '@nextui-org/divider';
 
 import { cn } from '@/helpers/utils';
-import { getSerie } from '@/services/bookworms';
 
 import BookRegular from '@/components/icons/book-regular';
 import EyeRegular from '@/components/icons/eye-regular';
 
 import BooksList from './books-list';
 
-export default async function SerieDetails({ className, serieKey }) {
-    const serie = await getSerie(serieKey);
+export default function SerieDetails({ className, serie }) {
     return (
         <div className={cn(className)}>
             <div className='flex flex-col items-center gap-2'>
@@ -20,7 +18,9 @@ export default async function SerieDetails({ className, serieKey }) {
                         <BookRegular />
                         <b>{serie.books.length}</b> Libros
                     </div>
+
                     <Divider orientation='vertical' />
+
                     <div className='flex flex-row gap-2 items-center'>
                         <EyeRegular />
                         <b>{serie.views}</b> Vistas

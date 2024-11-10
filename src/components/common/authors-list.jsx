@@ -1,50 +1,41 @@
-import { Button } from '@nextui-org/button';
-
 import { cn } from '@/helpers/utils';
 import { keyCase } from '@/helpers/strings';
 
 import AuthorPreview from './author-preview';
-import PlusRegular from '../icons/plus-regular';
+import AuthorChip from './author-chip';
 
-export default function AuthorsList({
-    className,
-    title,
-    authors = [],
-    showRest = false,
-    limit = undefined,
-}) {
-    const limitedAuthors = limit ? authors.slice(0, limit) : authors;
-    const restAuthors = authors.length > limit ? authors.slice(limit) : [];
+export default function AuthorsList({ className, title, authors = [], limit = undefined }) {
+    const largeResults = authors.length > limit;
 
     return (
         <div className={cn(className)}>
             <h1 className='text-gray-500 font-bold text-medium mb-4'>{title}</h1>
 
-            <div className={cn('flex flex-row flex-wrap gap-4')}>
-                {limitedAuthors.map(author => (
-                    <AuthorPreview
-                        key={`primary-author-${keyCase(author.name)}`}
-                        authorKey={keyCase(author.name)}
-                    />
-                ))}
+            {!Boolean(authors.length) && (
+                <div className='block bg-slate-200 text-slate-700 py-4 px-6 text-small italic rounded-lg'>
+                    <span>No se encontraron authores para esta búsqueda</span>
+                </div>
+            )}
 
-                {showRest && (
-                    <>
-                        {restAuthors.map(author => (
-                            <AuthorPreview
-                                key={`rest-author-${keyCase(author.name)}`}
-                                authorKey={keyCase(author.name)}
-                            />
-                        ))}
-                    </>
-                )}
-            </div>
+            {!largeResults && (
+                <div className={cn('flex flex-row flex-wrap gap-4')}>
+                    {authors.map(author => (
+                        <AuthorPreview
+                            key={`primary-author-${keyCase(author.name)}`}
+                            author={author}
+                        />
+                    ))}
+                </div>
+            )}
 
-            {!showRest && (
-                <div className='hidden mt-4'>
-                    <Button radius='full' size='sm' startContent={<PlusRegular />}>
-                        Ver todos los resultados
-                    </Button>
+            {largeResults && (
+                <div className={cn('flex flex-row flex-wrap gap-4')}>
+                    {authors.map(author => (
+                        <AuthorChip
+                            key={`primary-author-${keyCase(author.name)}`}
+                            author={author}
+                        />
+                    ))}
                 </div>
             )}
         </div>

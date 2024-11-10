@@ -2,9 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root,
+html,
 body {
     color: var(--foreground);
-    background: #fafafa;
+    background-color: #fafafa;
     font-family: Arial, Helvetica, sans-serif;
 }
 
