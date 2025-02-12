@@ -1,5 +1,5 @@
-import { redirect, RedirectType } from 'next/navigation';
+import { redirect } from 'next/navigation';
 
-export default async function Home() {
+export default async function NotFound() {
     return redirect('/');
 }
