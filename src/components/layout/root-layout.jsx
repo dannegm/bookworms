@@ -9,7 +9,7 @@ const noto = Noto_Sans({
     subsets: ['latin'],
 });
 
-const UNABLED = true;
+const UNABLED = false;
 
 export default function RootLayout({ environmentInfo, children }) {
     return (
