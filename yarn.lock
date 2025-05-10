@@ -3103,6 +3103,11 @@
   resolved "https://registry.yarnpkg.com/@uidotdev/usehooks/-/usehooks-2.4.1.tgz#4b733eaeae09a7be143c6c9ca158b56cc1ea75bf"
   integrity sha512-1I+RwWyS+kdv3Mv0Vmc+p0dPYH0DTRAo04HLyXReYBL9AeseDWUJyi4THuksBJcu9F0Pih69Ak150VDnqbVnXg==
 
+"@umami/node@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@umami/node/-/node-0.4.0.tgz#bbed7c5fed3ffb1863afbbdac29a03bdf024951f"
+  integrity sha512-pyphprbiF7KiDSc+SWZ4/rVM8B5vU27zIiFfEPj2lEqczpI4xAKSp+dM3tlzyRAWJL32fcbCfAaLGhJZQV13Rg==
+
 "@upstash/redis@^1.34.3":
   version "1.34.3"
   resolved "https://registry.yarnpkg.com/@upstash/redis/-/redis-1.34.3.tgz#df0338f4983bba5141878e851be4fced494b44a0"
