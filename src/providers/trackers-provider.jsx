@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
-import { umami } from '@/modules/core/services/umami';
+import { umami } from '@/services/umami';
 
 export const TrackersProvider = ({ children }) => {
     const pathname = usePathname();
