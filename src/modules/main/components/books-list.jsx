@@ -1,0 +1,16 @@
+import { cn } from '@/modules/core/helpers/utils';
+import { BookPreview } from '@/modules/main/components/book-preview';
+
+export const BooksList = ({ className, books = [] }) => {
+    return (
+        <div className={cn(className)}>
+            {!Boolean(books.length) && <p className='text-gray-500'>No se encontraron autores.</p>}
+
+            <div className={cn('grid grid-cols-3 gap-8', className)}>
+                {books.map(book => (
+                    <BookPreview key={`book-${book.libid}`} book={book} />
+                ))}
+            </div>
+        </div>
+    );
+};
