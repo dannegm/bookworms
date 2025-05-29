@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useDataLoader } from '@/modules/core/hooks/use-data-loader';
 
 export const DataLoader = ({
     query,
@@ -12,17 +12,14 @@ export const DataLoader = ({
     onError,
     children = () => null,
 } = {}) => {
-    const { data, error, isLoading, isFetching } = useQuery({
-        queryKey: tags,
-        queryFn: () => {
-            return query();
-        },
+    const { data, error, isLoading, isFetching } = useDataLoader({
+        query,
+        tags,
+        preventRefetch,
         retry,
-        refetchOnWindowFocus: realtime || !preventRefetch,
-        refetchOnReconnect: realtime || !preventRefetch,
-        refetchOnMount: realtime || !preventRefetch,
-        refetchInterval: !realtime ? !preventRefetch : realtimeWindow,
-        refetchIntervalInBackground: !preventRefetch,
+        realtime,
+        realtimeWindow,
+        onError,
     });
 
     useEffect(() => {
@@ -31,7 +28,7 @@ export const DataLoader = ({
         }
     }, [isFetching, error]);
 
-    if (isLoading) {
+    if (isLoading || isFetching) {
         return loader || <div>Loading...</div>;
     }
 

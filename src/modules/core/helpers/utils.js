@@ -1,6 +1,12 @@
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+export const getId = () => Math.random().toString(36).slice(2);
+
+export const getKey = prefix => {
+    return `${prefix}__${getId()}`;
+};
+
 export const cn = (...inputs) => {
     return twMerge(clsx(inputs));
 };

@@ -15,6 +15,12 @@ export const capCase = str => {
 
 export const keyCase = pipe([toString, trim, lowerCase, deburr, kebabCase]);
 
+export const toAcronym = str =>
+    keyCase(str)
+        .split('-')
+        .map(w => w[0].toUpperCase())
+        .join('');
+
 export const formatBytes = (bytes, decimals = 2) => {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;

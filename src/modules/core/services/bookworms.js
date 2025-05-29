@@ -46,3 +46,24 @@ export const getSerie = serieName => async () => {
     const { data } = await bookwormsApi.get(`/serie/${serieKey}`);
     return data;
 };
+
+export const requestBookFile = async filename => {
+    await bookwormsApi.get(`request?filename=${filename}`);
+};
+
+export const validateBookFile = async filename => {
+    try {
+        const { data } = await bookwormsApi.get(`validate?filename=${filename}`);
+        return data?.downloadUrl;
+    } catch (err) {
+        return false;
+    }
+};
+
+export const downloadBookFile = async filename => {
+    const { data } = await bookwormsApi.get(`download?filename=${filename}`, {
+        responseType: 'blob',
+    });
+    const blob = new Blob([data], { type: 'application/epub+zip' });
+    return blob;
+};

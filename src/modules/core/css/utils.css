@@ -38,3 +38,12 @@
         background-position: center;
     }
 }
+
+@theme {
+    --aspect-book: 340 / 510;
+}
+
+.debug,
+.debug * {
+    outline: 1px pink dashed;
+}
