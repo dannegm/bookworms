@@ -37,7 +37,7 @@ const Loader = ({ entity }) => {
 
 const ResultsList = ({ entity, data }) => {
     return match({ entity })
-        .with({ entity: 'author' }, () => <AuthorsList authors={data?.data} limit={10} />)
+        .with({ entity: 'author' }, () => <AuthorsList authors={data?.data} limit={12} />)
         .with({ entity: 'serie' }, () => <SeriesList series={data?.data} />)
         .with({ entity: 'books' }, () => <BooksList books={data?.data} />)
         .run();

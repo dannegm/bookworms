@@ -55,7 +55,7 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
 
     const views = {
         [DownloadStates.UNINITIALIZED]: (
-            <TrackClick name='book:request' data={{ book }}>
+            <TrackClick className={cn(className)} name='book:request' data={{ book }}>
                 <Button
                     size={size}
                     className={cn('bg-blue-400 hover:bg-blue-500 text-white', className)}
@@ -77,7 +77,7 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
             </Button>
         ),
         [DownloadStates.AVAILABLE]: (
-            <TrackClick name='book:download' data={{ book }}>
+            <TrackClick className={cn(className)} name='book:download' data={{ book }}>
                 <Button
                     size={size}
                     className={cn('bg-green-400 hover:bg-green-500 text-white', className)}

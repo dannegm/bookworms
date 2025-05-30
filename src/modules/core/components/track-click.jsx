@@ -1,8 +1,9 @@
-import { cloneElement, isValidElement } from 'react';
+import { isValidElement } from 'react';
+import { cn } from '@/modules/core/helpers/utils';
 
 import { umami } from '@/modules/core/services/umami';
 
-export const TrackClick = ({ name = 'click', data = {}, children }) => {
+export const TrackClick = ({ className, name = 'click', data = {}, children, ...props }) => {
     if (!isValidElement(children)) return children;
 
     const handleClick = () => {
@@ -13,5 +14,9 @@ export const TrackClick = ({ name = 'click', data = {}, children }) => {
         });
     };
 
-    return <div onClick={handleClick}>{children}</div>;
+    return (
+        <div className={cn(className)} onClick={handleClick} {...props}>
+            {children}
+        </div>
+    );
 };
