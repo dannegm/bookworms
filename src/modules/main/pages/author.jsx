@@ -32,6 +32,7 @@ export const Author = ({ params: { key } }) => {
                         <AuthorDetailsLoading />
                     </Section>
                 }
+                preventRefetch
             >
                 {({ data, error }) =>
                     data && (

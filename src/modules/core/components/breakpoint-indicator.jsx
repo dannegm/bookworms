@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { useSettings } from '@/modules/core/hooks/use-settings';
 import { useResize } from '@/modules/core/hooks/use-resize';
+import { useBreakpoint } from '@/modules/core/hooks/use-breakpoint';
 
 import { cn } from '@/modules/core/helpers/utils';
 
@@ -27,6 +28,8 @@ export const BreakpointIndicator = ({ position = undefined }) => {
         setSize(window.innerWidth);
     });
 
+    const breakpoint = useBreakpoint('xs');
+
     if (!showIndicator) return null;
 
     return (
@@ -36,14 +39,9 @@ export const BreakpointIndicator = ({ position = undefined }) => {
                 positionClassName,
             )}
         >
-            <span className='block sm:hidden'>XS</span>
-            <span className='hidden sm:block md:hidden'>SM</span>
-            <span className='hidden md:block lg:hidden'>MD</span>
-            <span className='hidden lg:block xl:hidden'>LG</span>
-            <span className='hidden xl:block 2xl:hidden'>XL</span>
-            <span className='hidden 2xl:block'>2XL</span>
-            <span className='block'>{`•`}</span>
-            <span className='block'>{`${size}px`}</span>
+            <span className='uppercase'>{breakpoint}</span>
+            <span>{`•`}</span>
+            <span>{`${size}px`}</span>
         </div>
     );
 };

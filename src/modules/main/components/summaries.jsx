@@ -50,6 +50,7 @@ export const Summaries = ({ className }) => {
             query={getSummaries()}
             tags={['summaries']}
             loader={<SummariesSkeleton className={className} />}
+            preventRefetch
         >
             {({ data, error }) => !error && <SummariesSuccess data={data} className={className} />}
         </DataLoader>

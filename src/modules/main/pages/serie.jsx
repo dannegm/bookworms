@@ -31,6 +31,7 @@ export const Serie = ({ params: { key } }) => {
                         <SerieDetailsLoading />
                     </Section>
                 }
+                preventRefetch
             >
                 {({ data, error }) =>
                     data && (

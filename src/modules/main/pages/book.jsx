@@ -34,6 +34,7 @@ export const Book = ({ params: { libid } }) => {
                         <BookDetailsLoading />
                     </Section>
                 }
+                preventRefetch
             >
                 {({ data, error }) =>
                     data && (

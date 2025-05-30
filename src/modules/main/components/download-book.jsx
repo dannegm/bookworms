@@ -1,5 +1,5 @@
 import { TrackClick } from '@/modules/core/components/track-click';
-import { cn, downloadBlob } from '@/modules/core/helpers/utils';
+import { cn, downloadBlob, match } from '@/modules/core/helpers/utils';
 import { useDelayedEffect } from '@/modules/core/hooks/use-delayed-effect';
 import {
     downloadBookFile,
@@ -53,8 +53,8 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
         5 * 1000,
     );
 
-    const views = {
-        [DownloadStates.UNINITIALIZED]: (
+    return match({ state: downloadState })
+        .with({ state: DownloadStates.UNINITIALIZED }, () => (
             <TrackClick className={cn(className)} name='book:request' data={{ book }}>
                 <Button
                     size={size}
@@ -65,8 +65,8 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
                     Solicitar
                 </Button>
             </TrackClick>
-        ),
-        [DownloadStates.REQUESTED]: (
+        ))
+        .with({ state: DownloadStates.REQUESTED }, () => (
             <Button
                 size={size}
                 className={cn('bg-blue-400 hover:bg-blue-500 text-white', className)}
@@ -75,8 +75,8 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
                 <Loader2 className='animate-spin' />
                 Solicitando
             </Button>
-        ),
-        [DownloadStates.AVAILABLE]: (
+        ))
+        .with({ state: DownloadStates.AVAILABLE }, () => (
             <TrackClick className={cn(className)} name='book:download' data={{ book }}>
                 <Button
                     size={size}
@@ -87,8 +87,8 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
                     Descargar
                 </Button>
             </TrackClick>
-        ),
-        [DownloadStates.DOWNLOADING]: (
+        ))
+        .with({ state: DownloadStates.DOWNLOADING }, () => (
             <Button
                 size={size}
                 className={cn('bg-green-400 hover:bg-green-500 text-white', className)}
@@ -97,8 +97,8 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
                 <Loader2 className='animate-spin' />
                 Descargando
             </Button>
-        ),
-        [DownloadStates.REJECTED]: (
+        ))
+        .with({ state: DownloadStates.REJECTED }, () => (
             <Button
                 size={size}
                 className={cn('bg-red-400 hover:bg-red-500 text-white', className)}
@@ -107,8 +107,6 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
                 <Frown />
                 No disponible
             </Button>
-        ),
-    };
-
-    return views[downloadState] || <></>;
+        ))
+        .run();
 };

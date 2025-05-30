@@ -3,7 +3,6 @@ import { BookCover } from './book-cover';
 import { Tooltip } from '@/modules/shadcn/ui/tooltip-simple';
 import { DownloadBook } from './download-book';
 import { Download, Eye } from 'lucide-react';
-import { Separator } from '@radix-ui/react-separator';
 import { keyCase } from '@/modules/core/helpers/strings';
 
 export const BookPreview = ({ className, book }) => {
@@ -36,7 +35,9 @@ export const BookPreview = ({ className, book }) => {
                 </div>
             </div>
 
-            <DownloadBook className='mt-4 w-full' book={book} />
+            <div className='mt-4 w-full'>
+                <DownloadBook className='w-full' book={book} />
+            </div>
         </a>
     );
 };

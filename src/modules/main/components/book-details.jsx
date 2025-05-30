@@ -7,6 +7,7 @@ import { BookCover } from '@/modules/main/components/book-cover';
 import { AuthorPreview } from '@/modules/main/components/author-preview';
 import { AuthorChip } from '@/modules/main/components/author-chip';
 import { DownloadBook } from '@/modules/main/components/download-book';
+import { SendToKindle } from '@/modules/main/components/send-to-kindle';
 
 export const BookDetails = ({ className, book }) => {
     return (
@@ -91,9 +92,13 @@ export const BookDetails = ({ className, book }) => {
 
                         <div className='flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full mt-8'>
                             <DownloadBook size='lg' className='w-full sm:w-56' book={book} />
-                            <span className='text-sm text-slate-600 dark:text-slate-400'>
+                            <span className='hidden sm:block text-sm text-slate-600 dark:text-slate-400'>
                                 <b>{`${formatBytes(book.size)}`}</b> Tamaño del archivo
                             </span>
+                        </div>
+
+                        <div className='flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full'>
+                            <SendToKindle size='lg' className='w-full sm:w-56' book={book} />
                         </div>
                     </footer>
                 </article>

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { keyCase } from '@/modules/core/helpers/strings';
 import { buildQueryParams } from '../helpers/utils';
 
-const baseURL = 'https://endpoints.hckr.mx/bookworms/';
+const baseURL = 'https://endpoints.hckr.mx/bookworms';
 const API_KEY = import.meta.env.NEXT_PUBLIC_BOOKWORMS_API_KEY;
 
 const bookwormsApi = axios.create({
@@ -47,13 +47,13 @@ export const getSerie = serieName => async () => {
     return data;
 };
 
-export const requestBookFile = async filename => {
-    await bookwormsApi.get(`request?filename=${filename}`);
+export const requestBookFile = async (filename, format = 'epub') => {
+    await bookwormsApi.get(`/request?filename=${filename}&format=${format}`);
 };
 
 export const validateBookFile = async filename => {
     try {
-        const { data } = await bookwormsApi.get(`validate?filename=${filename}`);
+        const { data } = await bookwormsApi.get(`/validate?filename=${filename}`);
         return data?.downloadUrl;
     } catch (err) {
         return false;
@@ -61,9 +61,17 @@ export const validateBookFile = async filename => {
 };
 
 export const downloadBookFile = async filename => {
-    const { data } = await bookwormsApi.get(`download?filename=${filename}`, {
+    const { data } = await bookwormsApi.get(`/download?filename=${filename}`, {
         responseType: 'blob',
     });
     const blob = new Blob([data], { type: 'application/epub+zip' });
     return blob;
+};
+
+export const sendBookToKindle = async ({ filename, email }) => {
+    const { data } = await bookwormsApi.post(`/sendto-kindle`, {
+        filename,
+        email,
+    });
+    return data;
 };
