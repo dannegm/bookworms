@@ -11,7 +11,7 @@ import { Summaries } from '@/modules/main/components/summaries';
 export const Home = () => {
     return (
         <Layout hideLogo>
-            <Section className='flex flex-col pt-16 md:pt-32'>
+            <Section className='flex flex-col pt-32'>
                 <form className='flex flex-col gap-4' action='/search' method='get'>
                     <Logo className='text-4xl' />
                     <Input
