@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet';
 import { Link } from 'wouter';
 
 import { useDocumentClassNames } from '@/modules/core/hooks/use-document-class-names';
+import { useSettings } from '@/modules/core/hooks/use-settings';
 
 import { BreakpointIndicator } from '@/modules/core/components/breakpoint-indicator';
 import { DarkModeToggle } from '@/modules/core/components/dark-mode-toggle';
@@ -12,6 +13,8 @@ import { Logo } from '@/modules/main/components/logo';
 import { BucketStatus } from '@/modules/main/components/bucket-status';
 
 export const Layout = ({ title, hideLogo = false, children }) => {
+    const [secrets] = useSettings('settings:secrets:show', false);
+
     useDocumentClassNames({
         root: 'light',
         body: 'antialiased',
@@ -27,7 +30,7 @@ export const Layout = ({ title, hideLogo = false, children }) => {
             <div className='relative bg-background'>
                 <Section
                     className='flex flex-row items-center'
-                    classNames={{ wrapper: 'sticky top-0 z-1 bg-background' }}
+                    classNames={{ wrapper: 'sticky top-0 z-10 bg-background' }}
                 >
                     {!hideLogo && (
                         <Link className='flex flex-row items-center gap-2' href='/'>
@@ -38,7 +41,7 @@ export const Layout = ({ title, hideLogo = false, children }) => {
                     <div className='flex-1' />
 
                     <div className='-m-2 ml-0 flex gap-2'>
-                        <DebugModeToggle />
+                        {secrets && <DebugModeToggle />}
                         <DarkModeToggle />
                     </div>
                 </Section>

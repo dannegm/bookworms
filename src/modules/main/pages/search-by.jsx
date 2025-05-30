@@ -18,6 +18,9 @@ import { BooksListLoading } from '@/modules/main/components/books-list-loading';
 import { AuthorsList } from '@/modules/main/components/authors-list';
 import { SeriesList } from '@/modules/main/components/series-list';
 import { BooksList } from '@/modules/main/components/books-list';
+import { Redirect } from 'wouter';
+
+const validEntities = ['author', 'serie', 'books'];
 
 const Loader = ({ entity }) => {
     return match({ entity })
@@ -38,6 +41,10 @@ const ResultsList = ({ entity, data }) => {
 export const SearchBy = ({ params: { entity } }) => {
     const [query] = useQueryState('q', { defaultValue: '' });
     const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1));
+
+    if (!validEntities.includes(entity)) {
+        return <Redirect to='/404' />;
+    }
 
     return (
         <Layout key={page}>

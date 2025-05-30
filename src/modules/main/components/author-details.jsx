@@ -13,7 +13,7 @@ export const AuthorDetails = ({ className, author }) => {
 
                 <div
                     className={cn(
-                        'grid grid-cols-2 gap-2 text-sm [&_svg]:size-4 bg-neutral-100 px-4 py-2 rounded-md',
+                        'grid grid-cols-2 gap-2 text-sm [&_svg]:size-4 bg-neutral-100 dark:bg-neutral-800 px-4 py-2 rounded-md',
                     )}
                 >
                     <span className='flex flex-row gap-2 items-center'>

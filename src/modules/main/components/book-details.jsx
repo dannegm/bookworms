@@ -77,7 +77,7 @@ export const BookDetails = ({ className, book }) => {
                             </a>
                         )}
 
-                        <div className='flex flex-row gap-1'>
+                        <div className='flex flex-row flex-wrap gap-1'>
                             {book.labels.map(category => (
                                 <Badge
                                     key={`category-${category}`}
