@@ -27,90 +27,112 @@ export const Search = () => {
         <Layout>
             <SearchBox />
 
+            <Section>
+                <h1 className='font-merriweather text-xl'>
+                    Resultados de <b>{query}</b>
+                </h1>
+            </Section>
+
             <Section className='flex flex-col gap-4'>
-                <header>
-                    <h1 className='font-merriweather text-xl'>
-                        Resultados de <b>{query}</b>
-                    </h1>
-                </header>
-
-                <div className='flex flex-col gap-4'>
-                    <h2 className='font-bold'>Autores</h2>
-                    <DataLoader
-                        query={searchEntity({ query, entity: 'author', limit: 6 })}
-                        tags={['search:author']}
-                        loader={<AuthorsListLoading />}
-                    >
-                        {({ data, error }) => (
-                            <>
-                                {error && <Debugger name='error' data={error} simple />}
-                                <Debugger name='authors' data={data} simple />
-
-                                <AuthorsList authors={data?.data} />
-
-                                {Boolean(data?.data?.length) && (
-                                    <Button className='self-start' asChild>
-                                        <Link href={`/search/author?q=${query}`}>
-                                            Ver todos los autores
-                                        </Link>
-                                    </Button>
+                <h2 className='font-bold'>Autores</h2>
+                <DataLoader
+                    query={searchEntity({ query, entity: 'author', limit: 6 })}
+                    tags={['search:author']}
+                    loader={<AuthorsListLoading />}
+                >
+                    {({ data, error }) => (
+                        <>
+                            {Boolean(data?.pagination.found) &&
+                                data?.pagination.found > data?.pagination.count && (
+                                    <h3 className='text-sm text-muted-foreground -mt-4'>
+                                        Mostrando {data?.pagination.count} de{' '}
+                                        {data?.pagination.found} encontrados
+                                    </h3>
                                 )}
-                            </>
-                        )}
-                    </DataLoader>
-                </div>
 
-                <div className='flex flex-col gap-4'>
-                    <h2 className='font-bold'>Series</h2>
-                    <DataLoader
-                        query={searchEntity({ query, entity: 'serie', limit: 8 })}
-                        tags={['search:serie']}
-                        loader={<SeriesListLoading />}
-                    >
-                        {({ data, error }) => (
-                            <>
-                                {error && <Debugger name='error' data={error} simple />}
-                                <Debugger name='series' data={data} simple />
+                            {error && <Debugger name='error' data={error} simple />}
+                            <Debugger name='authors' data={data} simple />
 
-                                <SeriesList series={data?.data} />
+                            <AuthorsList authors={data?.data} />
 
-                                {Boolean(data?.data?.length) && (
-                                    <Button className='self-start' asChild>
-                                        <Link href={`/search/serie?q=${query}`}>
-                                            Ver todas las series
-                                        </Link>
-                                    </Button>
+                            {Boolean(data?.data?.length) && (
+                                <Button className='self-start' asChild>
+                                    <Link href={`/search/author?q=${query}`}>
+                                        Ver todos los autores
+                                    </Link>
+                                </Button>
+                            )}
+                        </>
+                    )}
+                </DataLoader>
+            </Section>
+
+            <Section className='flex flex-col gap-4'>
+                <h2 className='font-bold'>Series</h2>
+                <DataLoader
+                    query={searchEntity({ query, entity: 'serie', limit: 8 })}
+                    tags={['search:serie']}
+                    loader={<SeriesListLoading />}
+                >
+                    {({ data, error }) => (
+                        <>
+                            {Boolean(data?.pagination.found) &&
+                                data?.pagination.found > data?.pagination.count && (
+                                    <h3 className='text-sm text-muted-foreground -mt-4'>
+                                        Mostrando {data?.pagination.count} de{' '}
+                                        {data?.pagination.found} encontrados
+                                    </h3>
                                 )}
-                            </>
-                        )}
-                    </DataLoader>
-                </div>
 
-                <div className='flex flex-col gap-8'>
-                    <h2 className='font-bold'>Libros</h2>
-                    <DataLoader
-                        query={searchEntity({ query, entity: 'books', limit: 6 })}
-                        tags={['search:books']}
-                        loader={<BooksListLoading />}
-                    >
-                        {({ data, error }) => (
-                            <>
-                                {error && <Debugger name='error' data={error} simple />}
-                                <Debugger name='books' data={data} simple />
+                            {error && <Debugger name='error' data={error} simple />}
+                            <Debugger name='series' data={data} simple />
 
-                                <BooksList books={data?.data} />
+                            <SeriesList series={data?.data} />
 
-                                {Boolean(data?.data?.length) && (
-                                    <Button className='self-start' asChild>
-                                        <Link href={`/search/books?q=${query}`}>
-                                            Ver todos los libros
-                                        </Link>
-                                    </Button>
+                            {Boolean(data?.data?.length) && (
+                                <Button className='self-start' asChild>
+                                    <Link href={`/search/serie?q=${query}`}>
+                                        Ver todas las series
+                                    </Link>
+                                </Button>
+                            )}
+                        </>
+                    )}
+                </DataLoader>
+            </Section>
+
+            <Section className='flex flex-col gap-8'>
+                <h2 className='font-bold'>Libros</h2>
+                <DataLoader
+                    query={searchEntity({ query, entity: 'books', limit: 6 })}
+                    tags={['search:books']}
+                    loader={<BooksListLoading />}
+                >
+                    {({ data, error }) => (
+                        <>
+                            {Boolean(data?.pagination.found) &&
+                                data?.pagination.found > data?.pagination.count && (
+                                    <h3 className='text-sm text-muted-foreground -mt-8'>
+                                        Mostrando {data?.pagination.count} de{' '}
+                                        {data?.pagination.found} encontrados
+                                    </h3>
                                 )}
-                            </>
-                        )}
-                    </DataLoader>
-                </div>
+
+                            {error && <Debugger name='error' data={error} simple />}
+                            <Debugger name='books' data={data} simple />
+
+                            <BooksList books={data?.data} />
+
+                            {Boolean(data?.data?.length) && (
+                                <Button className='self-start' asChild>
+                                    <Link href={`/search/books?q=${query}`}>
+                                        Ver todos los libros
+                                    </Link>
+                                </Button>
+                            )}
+                        </>
+                    )}
+                </DataLoader>
             </Section>
         </Layout>
     );

@@ -21,6 +21,11 @@ import { BooksList } from '@/modules/main/components/books-list';
 import { Redirect } from 'wouter';
 
 const validEntities = ['author', 'serie', 'books'];
+const entitiesTitles = {
+    author: 'Autores',
+    serie: 'Series',
+    books: 'Libros',
+};
 
 const Loader = ({ entity }) => {
     return match({ entity })
@@ -50,26 +55,41 @@ export const SearchBy = ({ params: { entity } }) => {
         <Layout key={page}>
             <SearchBox />
 
-            <Section className='flex flex-col gap-4'>
-                <header>
-                    <h1 className='font-merriweather text-xl'>
-                        Resultados de <b>{query}</b>
-                    </h1>
-                </header>
+            <Section>
+                <h1 className='font-merriweather text-xl'>
+                    Resultados de <b>{query}</b>
+                </h1>
+            </Section>
+            <DataLoader
+                query={searchEntity({ entity, query, page, limit: 12 })}
+                tags={[`search:${entity}`]}
+                loader={
+                    <Section className='flex flex-col gap-4'>
+                        <Loader entity={entity} />
+                    </Section>
+                }
+            >
+                {({ data, error }) => (
+                    <>
+                        <Section className='flex flex-col gap-4'>
+                            <h2 className='font-bold'>{entitiesTitles[entity]}</h2>
 
-                <DataLoader
-                    query={searchEntity({ entity, query, page, limit: 10 })}
-                    tags={[`search:${entity}`]}
-                    loader={<Loader entity={entity} />}
-                >
-                    {({ data, error }) => (
-                        <>
+                            <h3 className='text-sm text-muted-foreground -mt-4'>
+                                Mostrando resultados del {data?.pagination.from} al{' '}
+                                {Math.min(data?.pagination.to, data?.pagination.found)} de{' '}
+                                {data?.pagination.found} encontrados
+                            </h3>
+                        </Section>
+
+                        <Section className='flex flex-col gap-4 pb-8'>
                             <Debugger name={entity} data={data} expanded simple />
                             {error && <Debugger name='error' data={error} simple />}
 
                             <ResultsList entity={entity} data={data} />
+                        </Section>
 
-                            {data?.pagination.pages > 1 && (
+                        {data?.pagination.pages > 1 && (
+                            <Section>
                                 <Pagination
                                     currentPage={page}
                                     totalPages={data?.pagination.pages || 0}
@@ -77,11 +97,11 @@ export const SearchBy = ({ params: { entity } }) => {
                                     onNext={() => setPage(page + 1)}
                                     onPrev={() => setPage(page - 1)}
                                 />
-                            )}
-                        </>
-                    )}
-                </DataLoader>
-            </Section>
+                            </Section>
+                        )}
+                    </>
+                )}
+            </DataLoader>
         </Layout>
     );
 };
