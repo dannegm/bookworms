@@ -10,9 +10,9 @@ import { Skeleton } from '@/modules/shadcn/ui/skeleton';
 export const SummariesSkeleton = ({ className }) => {
     return (
         <div className={cn('flex flex-row gap-2 items-start', className)}>
-            <Skeleton className='w-[115px] h-6' />
-            <Skeleton className='w-[100px] h-6' />
-            <Skeleton className='w-[125px] h-6' />
+            <Skeleton className='w-[72px] sm:w-[115px] h-6' />
+            <Skeleton className='w-[48px] sm:w-[100px] h-6' />
+            <Skeleton className='w-[64px] sm:w-[125px] h-6' />
         </div>
     );
 };

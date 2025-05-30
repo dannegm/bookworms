@@ -14,7 +14,7 @@ export const AuthorsList = ({ className, authors = [], limit = 6 }) => {
             )}
 
             {!largeResults && (
-                <div className={cn('flex flex-row flex-wrap gap-4')}>
+                <div className={cn('flex flex-row flex-wrap gap-2 sm:gap-4')}>
                     {authors.map(author => (
                         <AuthorPreview key={`author-${keyCase(author.name)}`} author={author} />
                     ))}
@@ -22,7 +22,7 @@ export const AuthorsList = ({ className, authors = [], limit = 6 }) => {
             )}
 
             {largeResults && (
-                <div className={cn('flex flex-row flex-wrap gap-4')}>
+                <div className={cn('flex flex-row flex-wrap gap-2 sm:gap-4')}>
                     {authors.map(author => (
                         <AuthorChip key={`author-${keyCase(author.name)}`} author={author} />
                     ))}

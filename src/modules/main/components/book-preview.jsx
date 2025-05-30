@@ -24,13 +24,11 @@ export const BookPreview = ({ className, book }) => {
                 <p className='text-center text-sm line-clamp-1'>{book.authors[0].name}</p>
             )}
 
-            <div className='flex h-5 items-center gap-2 text-sm text-slate-500 dark:text-slate-300'>
+            <div className='flex h-5 items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-300'>
                 <div className='flex flex-row gap-1 items-center'>
                     <Download className='size-4' />
                     <b>{book.downloads}</b> descargas
                 </div>
-
-                <Separator orientation='vertical' />
 
                 <div className='flex flex-row gap-1 items-center'>
                     <Eye className='size-4' />

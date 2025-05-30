@@ -17,7 +17,7 @@ const DownloadStates = {
     REJECTED: 'REJECTED',
 };
 
-export const DownloadBook = ({ className, book }) => {
+export const DownloadBook = ({ className, book, size = 'default' }) => {
     const [downloadState, setDownloadState] = useState(DownloadStates.UNINITIALIZED);
 
     const handleRequest = async event => {
@@ -55,6 +55,7 @@ export const DownloadBook = ({ className, book }) => {
     const views = {
         [DownloadStates.UNINITIALIZED]: (
             <Button
+                size={size}
                 className={cn('bg-blue-400 hover:bg-blue-500 text-white', className)}
                 onClick={handleRequest}
             >
@@ -63,13 +64,18 @@ export const DownloadBook = ({ className, book }) => {
             </Button>
         ),
         [DownloadStates.REQUESTED]: (
-            <Button className={cn('bg-blue-400 hover:bg-blue-500 text-white', className)} disabled>
+            <Button
+                size={size}
+                className={cn('bg-blue-400 hover:bg-blue-500 text-white', className)}
+                disabled
+            >
                 <Loader2 className='animate-spin' />
                 Solicitando
             </Button>
         ),
         [DownloadStates.AVAILABLE]: (
             <Button
+                size={size}
                 className={cn('bg-green-400 hover:bg-green-500 text-white', className)}
                 onClick={handleDownload}
             >
@@ -79,6 +85,7 @@ export const DownloadBook = ({ className, book }) => {
         ),
         [DownloadStates.DOWNLOADING]: (
             <Button
+                size={size}
                 className={cn('bg-green-400 hover:bg-green-500 text-white', className)}
                 disabled
             >
@@ -87,7 +94,7 @@ export const DownloadBook = ({ className, book }) => {
             </Button>
         ),
         [DownloadStates.REJECTED]: (
-            <Button className={cn('bg-red-400 hover:bg-red-500 text-white', className)}>
+            <Button size={size} className={cn('bg-red-400 hover:bg-red-500 text-white', className)}>
                 <Frown />
                 No disponible
             </Button>

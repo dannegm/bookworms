@@ -10,12 +10,12 @@ export const SeriesListLoading = ({ className, items = 8 }) => {
     }));
 
     return (
-        <div className={cn('flex flex-row flex-wrap gap-4', className)}>
+        <div className={cn('flex flex-row flex-wrap gap-2 sm:gap-4', className)}>
             {skeletonItems.map(item => (
                 <Skeleton
                     key={item.key}
-                    className='h-8 rounded-full'
-                    style={{ width: `${item.width}px` }}
+                    className={cn('h-8 rounded-full', 'w-[calc(var(--width)*0.8)] sm:w-(--width)')}
+                    style={{ '--width': `${item.width}px` }}
                 />
             ))}
         </div>

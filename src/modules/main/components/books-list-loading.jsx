@@ -9,7 +9,7 @@ export const BooksListLoading = ({ className, items = 6 }) => {
     }));
 
     return (
-        <div className={cn('grid grid-cols-3 gap-8', className)}>
+        <div className={cn('grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-8', className)}>
             {skeletonItems.map(item => (
                 <BookPreviewLoading key={item.key} />
             ))}

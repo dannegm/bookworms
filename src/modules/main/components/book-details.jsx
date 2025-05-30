@@ -10,9 +10,9 @@ import { DownloadBook } from '@/modules/main/components/download-book';
 
 export const BookDetails = ({ className, book }) => {
     return (
-        <div className={cn('overflow-hidden', className)}>
-            <div className='flex gap-8'>
-                <figure>
+        <div className={cn(className)}>
+            <div className='flex flex-col sm:flex-row items-start gap-8'>
+                <figure className='flex w-full justify-center sm:justify-start'>
                     <BookCover book={book} width={200} />
                 </figure>
 
@@ -32,7 +32,7 @@ export const BookDetails = ({ className, book }) => {
 
                         <div
                             className={cn(
-                                'grid grid-cols-2 gap-2 text-sm [&_svg]:size-4 bg-neutral-100 px-6 py-4 rounded-md',
+                                'grid grid-cols-2 gap-2 text-sm [&_svg]:size-4 bg-neutral-100 dark:bg-neutral-800 px-6 py-4 rounded-md',
                             )}
                         >
                             <span className='flex flex-row gap-2 items-center'>
@@ -64,7 +64,10 @@ export const BookDetails = ({ className, book }) => {
                     <footer className='flex flex-col items-start gap-4 mt-8'>
                         {book.serie_name && (
                             <a
-                                className='flex flex-row gap-2 items-center px-4 py-2 pr-6 bg-gray-200 hover:bg-gray-300 rounded-full [&_svg]:size-4'
+                                className={cn(
+                                    'flex flex-row gap-2 items-center px-4 py-2 pr-6 bg-gray-200 hover:bg-gray-300 rounded-full [&_svg]:size-4',
+                                    'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600',
+                                )}
                                 href={`/serie/${keyCase(book.serie_name)}`}
                             >
                                 <LibraryBig />
@@ -79,16 +82,16 @@ export const BookDetails = ({ className, book }) => {
                                 <Badge
                                     key={`category-${category}`}
                                     variant='outline'
-                                    className='bg-cyan-300'
+                                    className='bg-cyan-300 dark:bg-cyan-800 text-cyan-900 dark:text-cyan-100'
                                 >
                                     <Tag /> {category}
                                 </Badge>
                             ))}
                         </div>
 
-                        <div className='flex flex-row gap-4 items-center w-full mt-8'>
-                            <DownloadBook className='w-56' book={book} />
-                            <span className='text-sm text-slate-600'>
+                        <div className='flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full mt-8'>
+                            <DownloadBook size='lg' className='w-full sm:w-56' book={book} />
+                            <span className='text-sm text-slate-600 dark:text-slate-400'>
                                 <b>{`${formatBytes(book.size)}`}</b> Tamaño del archivo
                             </span>
                         </div>
