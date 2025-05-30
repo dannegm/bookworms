@@ -11,9 +11,12 @@ import { DebugModeToggle } from '@/modules/core/components/debug-mode-toggle';
 import { Section } from '@/modules/main/components/section';
 import { Logo } from '@/modules/main/components/logo';
 import { BucketStatus } from '@/modules/main/components/bucket-status';
+import { TrackClick } from '@/modules/core/components/track-click';
+import { useDarkMode } from '@/modules/core/hooks/use-dark-mode';
 
 export const Layout = ({ title, hideLogo = false, children }) => {
     const [secrets] = useSettings('settings:secrets:show', false);
+    const [theme] = useDarkMode();
 
     useDocumentClassNames({
         root: 'light',
@@ -25,6 +28,7 @@ export const Layout = ({ title, hideLogo = false, children }) => {
             <Helmet defaultTitle='Bookworms' titleTemplate='%s | Bookworms'>
                 {title && <title>{title}</title>}
             </Helmet>
+
             <BreakpointIndicator />
 
             <div className='relative bg-background'>
@@ -41,8 +45,15 @@ export const Layout = ({ title, hideLogo = false, children }) => {
                     <div className='flex-1' />
 
                     <div className='-m-2 ml-0 flex gap-2'>
-                        {secrets && <DebugModeToggle />}
-                        <DarkModeToggle />
+                        {secrets && (
+                            <TrackClick eventName='debug:toggle'>
+                                <DebugModeToggle />
+                            </TrackClick>
+                        )}
+
+                        <TrackClick eventName='dark-mode:toggle' data={{ theme }}>
+                            <DarkModeToggle />
+                        </TrackClick>
                     </div>
                 </Section>
 

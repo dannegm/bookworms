@@ -1,3 +1,4 @@
+import { TrackClick } from '@/modules/core/components/track-click';
 import { cn, downloadBlob } from '@/modules/core/helpers/utils';
 import { useDelayedEffect } from '@/modules/core/hooks/use-delayed-effect';
 import {
@@ -54,14 +55,16 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
 
     const views = {
         [DownloadStates.UNINITIALIZED]: (
-            <Button
-                size={size}
-                className={cn('bg-blue-400 hover:bg-blue-500 text-white', className)}
-                onClick={handleRequest}
-            >
-                <DownloadCloud />
-                Solicitar
-            </Button>
+            <TrackClick name='book:request' data={{ book }}>
+                <Button
+                    size={size}
+                    className={cn('bg-blue-400 hover:bg-blue-500 text-white', className)}
+                    onClick={handleRequest}
+                >
+                    <DownloadCloud />
+                    Solicitar
+                </Button>
+            </TrackClick>
         ),
         [DownloadStates.REQUESTED]: (
             <Button
@@ -74,14 +77,16 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
             </Button>
         ),
         [DownloadStates.AVAILABLE]: (
-            <Button
-                size={size}
-                className={cn('bg-green-400 hover:bg-green-500 text-white', className)}
-                onClick={handleDownload}
-            >
-                <Download />
-                Descargar
-            </Button>
+            <TrackClick name='book:download' data={{ book }}>
+                <Button
+                    size={size}
+                    className={cn('bg-green-400 hover:bg-green-500 text-white', className)}
+                    onClick={handleDownload}
+                >
+                    <Download />
+                    Descargar
+                </Button>
+            </TrackClick>
         ),
         [DownloadStates.DOWNLOADING]: (
             <Button
@@ -94,7 +99,11 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
             </Button>
         ),
         [DownloadStates.REJECTED]: (
-            <Button size={size} className={cn('bg-red-400 hover:bg-red-500 text-white', className)}>
+            <Button
+                size={size}
+                className={cn('bg-red-400 hover:bg-red-500 text-white', className)}
+                disabled
+            >
                 <Frown />
                 No disponible
             </Button>
