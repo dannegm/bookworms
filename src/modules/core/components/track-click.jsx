@@ -13,5 +13,5 @@ export const TrackClick = ({ name = 'click', data = {}, children }) => {
         });
     };
 
-    return cloneElement(children, { onClick: handleClick });
+    return <div onClick={handleClick}>{children}</div>;
 };
