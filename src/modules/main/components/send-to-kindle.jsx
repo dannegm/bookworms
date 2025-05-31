@@ -161,9 +161,10 @@ export const SendToKindle = ({ className, book, size = 'default' }) => {
         <ResponsivePopover
             open={open}
             onOpenChange={setOpen}
+            className='mt-0 pt-0'
             classNames={{
                 content:
-                    'sm:bg-popover sm:p-4 sm:w-80 sm:border sm:border-accent-200 sm:dark:border-accent-700 sm:rounded-md sm:shadow-lg',
+                    'mt-0 pt-0 sm:bg-popover sm:p-4 sm:w-80 sm:border sm:border-accent-200 sm:dark:border-accent-700 sm:rounded-md sm:shadow-lg',
             }}
             trigger={
                 <Button
@@ -182,7 +183,7 @@ export const SendToKindle = ({ className, book, size = 'default' }) => {
                 },
             }}
         >
-            <form className='flex flex-col gap-4' onSubmit={onSubmit}>
+            <form className='flex flex-col gap-4 py-8 sm:py-0' onSubmit={onSubmit}>
                 <h1 className='text-sm font-bold'>Enviar a Kindle</h1>
 
                 <div className='flex flex-col gap-2'>

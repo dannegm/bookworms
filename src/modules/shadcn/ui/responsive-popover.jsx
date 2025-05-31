@@ -19,7 +19,7 @@ export const ResponsivePopover = ({
                 <DrawerTrigger className={cn(classNames?.trigger)} {...props?.trigger} asChild>
                     {trigger}
                 </DrawerTrigger>
-                <DrawerContent className={cn('w-full p-16', classNames?.content)} {...props?.content}>
+                <DrawerContent className={cn('w-full px-8 py-16', classNames?.content)} {...props?.content}>
                     {children}
                 </DrawerContent>
             </Drawer>
