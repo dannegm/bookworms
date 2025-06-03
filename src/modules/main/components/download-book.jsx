@@ -1,14 +1,17 @@
-import { TrackClick } from '@/modules/core/components/track-click';
+import { useState } from 'react';
+import { Download, DownloadCloud, Frown, Loader2 } from 'lucide-react';
+
 import { cn, downloadBlob, match } from '@/modules/core/helpers/utils';
 import { useDelayedEffect } from '@/modules/core/hooks/use-delayed-effect';
+
+import { TrackClick } from '@/modules/core/components/track-click';
+import { Button } from '@/modules/shadcn/ui/button';
+
 import {
     downloadBookFile,
     requestBookFile,
     validateBookFile,
 } from '@/modules/core/services/bookworms';
-import { Button } from '@/modules/shadcn/ui/button';
-import { Download, DownloadCloud, Frown, Loader2 } from 'lucide-react';
-import { useState } from 'react';
 
 const DownloadStates = {
     UNINITIALIZED: 'UNINITIALIZED',
@@ -62,7 +65,7 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
                     onClick={handleRequest}
                 >
                     <DownloadCloud />
-                    Solicitar
+                    Descargar
                 </Button>
             </TrackClick>
         ))

@@ -1,3 +1,4 @@
+import { useQueryState, parseAsBoolean } from 'nuqs';
 import { BookOpenText, CalendarDays, Download, Eye, LibraryBig, Tag } from 'lucide-react';
 import { cn } from '@/modules/core/helpers/utils';
 import { formatBytes, keyCase } from '@/modules/core/helpers/strings';
@@ -8,14 +9,25 @@ import { AuthorPreview } from '@/modules/main/components/author-preview';
 import { AuthorChip } from '@/modules/main/components/author-chip';
 import { DownloadBook } from '@/modules/main/components/download-book';
 import { SendToKindle } from '@/modules/main/components/send-to-kindle';
+import { BookViewer } from '@/modules/main/components/book-viewer';
+import { Button } from '@/modules/shadcn/ui/button';
 
 export const BookDetails = ({ className, book }) => {
+    const [viewer, setViewer] = useQueryState('viewer', parseAsBoolean.withDefault(false));
+
     return (
         <div className={cn(className)}>
             <div className='flex flex-col sm:flex-row items-start gap-8'>
-                <figure className='flex w-full justify-center sm:justify-start'>
+                <figure className='flex flex-col gap-4 w-full items-center sm:justify-start'>
                     <BookCover book={book} width={200} />
+
+                    <Button onClick={() => setViewer(!viewer)} size='lg' className='w-full'>
+                        <BookOpenText />
+                        Leer en línea
+                    </Button>
                 </figure>
+
+                {viewer && <BookViewer size='lg' className='w-full sm:w-56' book={book} />}
 
                 <article className='flex flex-col gap-4'>
                     <header className='flex flex-col gap-4 items-start'>
@@ -78,7 +90,7 @@ export const BookDetails = ({ className, book }) => {
                             </a>
                         )}
 
-                        <div className='flex flex-row flex-wrap gap-1'>
+                        <div className='flex flex-row flex-wrap gap-1 mb-8'>
                             {book.labels.map(category => (
                                 <Badge
                                     key={`category-${category}`}
@@ -90,7 +102,7 @@ export const BookDetails = ({ className, book }) => {
                             ))}
                         </div>
 
-                        <div className='flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full mt-8'>
+                        <div className='flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full'>
                             <DownloadBook size='lg' className='w-full sm:w-56' book={book} />
                             <span className='hidden sm:block text-sm text-slate-600 dark:text-slate-400'>
                                 <b>{`${formatBytes(book.size)}`}</b> Tamaño del archivo

@@ -75,3 +75,12 @@ export const sendBookToKindle = async ({ filename, email }) => {
     });
     return data;
 };
+
+export const getFileUrl = async filename => {
+    try {
+        const { data } = await bookwormsApi.get(`/file?filename=${filename}`);
+        return data?.publicUrl;
+    } catch (err) {
+        return false;
+    }
+};

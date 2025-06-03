@@ -1,7 +1,7 @@
 import { cn } from '@/modules/core/helpers/utils';
 import { useBreakpoint } from '@/modules/core/hooks/use-breakpoint';
-import { Drawer, DrawerContent, DrawerTrigger } from './drawer';
-import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover';
+import { Drawer, DrawerContent, DrawerTrigger } from '@/modules/shadcn/ui/drawer';
+import { Popover, PopoverContent, PopoverTrigger } from '@/modules/shadcn/ui/popover';
 
 export const ResponsivePopover = ({
     classNames,
@@ -19,7 +19,10 @@ export const ResponsivePopover = ({
                 <DrawerTrigger className={cn(classNames?.trigger)} {...props?.trigger} asChild>
                     {trigger}
                 </DrawerTrigger>
-                <DrawerContent className={cn('w-full px-8 py-16', classNames?.content)} {...props?.content}>
+                <DrawerContent
+                    className={cn('w-full px-8 py-16', classNames?.content)}
+                    {...props?.content}
+                >
                     {children}
                 </DrawerContent>
             </Drawer>
