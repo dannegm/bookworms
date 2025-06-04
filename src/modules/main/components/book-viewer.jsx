@@ -208,7 +208,10 @@ export const BookViewer = ({ className, book }) => {
                 const validateRequest = async () => {
                     const isValid = await validateBookFile(book.filename);
                     setDownloadState(isValid ? DownloadStates.AVAILABLE : DownloadStates.REJECTED);
-                    await handleLoad();
+
+                    if (isValid) {
+                        await handleLoad();
+                    }
                 };
                 validateRequest();
             }
