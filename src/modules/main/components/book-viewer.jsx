@@ -136,7 +136,7 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
 
     return (
         <div className='relative flex flex-col gap-0 sm:gap-4 h-full'>
-            <div className='flex flex-row items-center justify-between mt-4 sm:mt-0 border-b border-neutral-200 dark:border-neutral-700 pb-2 sm:pb-0'>
+            <div className='flex flex-row items-center justify-between mt-4 sm:mt-0 pb-2 sm:pb-0'>
                 <div className='flex flex-row items-center gap-1'>
                     <TableOfContents toc={toc} onSelect={({ href }) => handleLocChange(href)} />
                     <h1 className='text-lg font-bold'>{book.title}</h1>
