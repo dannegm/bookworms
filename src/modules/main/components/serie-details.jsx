@@ -16,7 +16,7 @@ export const SerieDetails = ({ className, serie }) => {
                 >
                     <span className='flex flex-row gap-2 items-center'>
                         <LibraryBig />
-                        <b>{serie.books.length}</b> páginas
+                        <b>{serie.books.length}</b> libros
                     </span>
 
                     <span className='flex flex-row gap-2 items-center'>

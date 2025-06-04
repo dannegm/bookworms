@@ -18,7 +18,7 @@ export const AuthorDetails = ({ className, author }) => {
                 >
                     <span className='flex flex-row gap-2 items-center'>
                         <LibraryBig />
-                        <b>{author.books.length}</b> páginas
+                        <b>{author.books.length}</b> libros
                     </span>
 
                     <span className='flex flex-row gap-2 items-center'>
