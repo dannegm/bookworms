@@ -217,7 +217,7 @@ export const BookViewer = ({ className, book }) => {
             }
         },
         [downloadState],
-        100,
+        3 * 1000,
     );
 
     return (
