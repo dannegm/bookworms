@@ -132,7 +132,7 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                 themes.override('color', '#000');
             }
         }
-    }, [theme]);
+    }, [theme, $rendition.current]);
 
     return (
         <div className='relative flex flex-col gap-0 sm:gap-4 h-full'>
