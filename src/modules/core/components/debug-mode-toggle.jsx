@@ -1,5 +1,3 @@
-'use client';
-
 import { Bug, BugOff } from 'lucide-react';
 import { useSettings } from '@/modules/core/hooks/use-settings';
 import { Tooltip } from '@/modules/shadcn/ui/tooltip-simple';

@@ -1,4 +1,3 @@
-'use client';
 import { useState } from 'react';
 
 import { useSettings } from '@/modules/core/hooks/use-settings';
