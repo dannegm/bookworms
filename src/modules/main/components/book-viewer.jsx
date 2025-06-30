@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQueryState, parseAsBoolean } from 'nuqs';
 import { ReactReader, ReactReaderStyle } from 'react-reader';
-import { BookDashed, Dot, TableOfContentsIcon, X } from 'lucide-react';
+import { BookDashed, ChevronLeft, ChevronRight, Dot, TableOfContentsIcon, X } from 'lucide-react';
 
 import { cn } from '@/modules/core/helpers/utils';
 import { useDelayedEffect } from '@/modules/core/hooks/use-delayed-effect';
@@ -35,6 +35,7 @@ const readerDefaultStyles = {
     arrow: {
         ...ReactReaderStyle.arrow,
         color: 'var(--foreground)',
+        display: 'none',
     },
     arrowHover: {
         ...ReactReaderStyle.arrowHover,
@@ -47,6 +48,13 @@ const readerDefaultStyles = {
     titleArea: {
         ...ReactReaderStyle.titleArea,
         color: 'var(--foreground)',
+    },
+    reader: {
+        ...ReactReaderStyle.reader,
+        right: 0,
+        left: 0,
+        top: 0,
+        bottom: 20,
     },
 };
 
@@ -61,6 +69,7 @@ export const TableOfContents = ({ toc, onSelect }) => {
     return (
         <ResponsivePopover
             open={open}
+            modal={true}
             onOpenChange={setOpen}
             classNames={{
                 content: 'p-0',
@@ -122,6 +131,14 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
         setToc(toc);
     };
 
+    const handleNext = () => {
+        $rendition.current?.next();
+    };
+
+    const handlePrev = () => {
+        $rendition.current?.prev();
+    };
+
     useEffect(() => {
         if ($rendition.current) {
             const themes = $rendition.current.themes;
@@ -159,7 +176,22 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                 Página {page} de {totalPages}
             </div>
 
-            <div className='relative w-full h-full pb-6'>
+            <div
+                data-layer='prev'
+                className='absolute z-max top-16 bottom-0 left-0 h-full w-16 flex-center select-none'
+                onClick={handlePrev}
+            >
+                <ChevronLeft className='hidden xl:block' />
+            </div>
+            <div
+                data-layer='next'
+                className='absolute z-max top-16 bottom-0 right-0 h-full w-16 flex-center select-none'
+                onClick={handleNext}
+            >
+                <ChevronRight className='hidden xl:block' />
+            </div>
+
+            <div className='relative w-full h-full'>
                 <ReactReader
                     url={filename}
                     location={location}
@@ -168,7 +200,6 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                     showToc={false}
                     getRendition={rendition => ($rendition.current = rendition)}
                     readerStyles={readerDefaultStyles}
-                    swipeable
                 />
             </div>
         </div>
@@ -179,6 +210,7 @@ export const BookViewer = ({ className, book }) => {
     const [open, setOpen] = useQueryState('viewer', parseAsBoolean.withDefault(false));
 
     const [downloadState, setDownloadState] = useState(DownloadStates.UNINITIALIZED);
+    const [cachedUrl, setCachedUrl] = useLocalStorage(`book:viewer:${book.id}:url`, '');
 
     const [filename, setFilename] = useState();
 
@@ -191,6 +223,7 @@ export const BookViewer = ({ className, book }) => {
     const handleLoad = async () => {
         try {
             const publicUrl = await getFileUrl(book.filename);
+            setCachedUrl(publicUrl);
             setFilename(publicUrl);
             setDownloadState(DownloadStates.READY);
         } catch (err) {
@@ -199,7 +232,12 @@ export const BookViewer = ({ className, book }) => {
     };
 
     useEffect(() => {
-        handleRequest();
+        if (!cachedUrl) {
+            handleRequest();
+        } else {
+            setDownloadState(DownloadStates.READY);
+            setFilename(cachedUrl);
+        }
     }, []);
 
     useDelayedEffect(
@@ -224,6 +262,7 @@ export const BookViewer = ({ className, book }) => {
         <div className={cn(className)}>
             <ResponsiveDialog open={open} onOpenChange={setOpen}>
                 <ResponsiveDialogContent
+                    title={book?.title || 'Book Viewer'}
                     className={cn('sm:max-w-[calc(100%-2rem)] p-2 h-[90svh] overflow-hidden', {
                         'h-auto pb-32 sm:pb-2': downloadState === DownloadStates.REJECTED,
                     })}

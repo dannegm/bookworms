@@ -46,12 +46,12 @@ export const Layout = ({ title, hideLogo = false, children }) => {
 
                     <div className='-m-2 ml-0 flex gap-2'>
                         {secrets && (
-                            <TrackClick eventName='debug:toggle'>
+                            <TrackClick name='debug:toggle'>
                                 <DebugModeToggle />
                             </TrackClick>
                         )}
 
-                        <TrackClick eventName='dark-mode:toggle' data={{ theme }}>
+                        <TrackClick name='dark-mode:toggle' data={{ theme }}>
                             <DarkModeToggle />
                         </TrackClick>
                     </div>

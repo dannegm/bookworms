@@ -2,7 +2,8 @@ import { cn } from '@/modules/core/helpers/utils';
 
 import { useBreakpoint } from '@/modules/core/hooks/use-breakpoint';
 import { Drawer, DrawerContent } from '@/modules/shadcn/ui/drawer';
-import { Dialog, DialogContent } from '@/modules/shadcn/ui/dialog';
+import { Dialog, DialogTitle, DialogContent } from '@/modules/shadcn/ui/dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 export const ResponsiveDialog = ({ className, breakpoint = 'xs', children, ...props }) => {
     const currentBreakpoint = useBreakpoint('xs');
@@ -22,19 +23,29 @@ export const ResponsiveDialog = ({ className, breakpoint = 'xs', children, ...pr
     );
 };
 
-export const ResponsiveDialogContent = ({ className, breakpoint = 'xs', children, ...props }) => {
+export const ResponsiveDialogContent = ({
+    title,
+    className,
+    breakpoint = 'xs',
+    children,
+    showCloseButton,
+    ...props
+}) => {
     const currentBreakpoint = useBreakpoint('xs');
 
     if (currentBreakpoint === breakpoint) {
         return (
-            <DrawerContent className={cn(className)} {...props}>
+            <DrawerContent className={cn('!h-full !max-h-[calc(100%)]', className)} {...props}>
                 {children}
             </DrawerContent>
         );
     }
 
     return (
-        <DialogContent className={cn(className)} {...props}>
+        <DialogContent className={cn(className)} showCloseButton={showCloseButton} {...props}>
+            <VisuallyHidden>
+                <DialogTitle>{title}</DialogTitle>
+            </VisuallyHidden>
             {children}
         </DialogContent>
     );
