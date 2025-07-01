@@ -15,18 +15,18 @@ import {
 import { cn } from '@/modules/core/helpers/utils';
 import { useDelayedEffect } from '@/modules/core/hooks/use-delayed-effect';
 import { useLocalStorage } from '@/modules/core/hooks/use-local-storage';
+import { useDarkMode } from '@/modules/core/hooks/use-dark-mode';
 
 import { getFileUrl, requestBookFile, validateBookFile } from '@/modules/core/services/bookworms';
 
 import { Button } from '@/modules/shadcn/ui/button';
 import { ScrollArea } from '@/modules/shadcn/ui/scroll-area';
-import { ResponsivePopover } from '@/modules/shadcn/ui/responsive-popover';
-import { ResponsiveDialog, ResponsiveDialogContent } from '@/modules/shadcn/ui/responsive-dialog';
-import { useDarkMode } from '@/modules/core/hooks/use-dark-mode';
 import { Loader } from '@/modules/core/components/loader';
-import { Alert, AlertDescription, AlertTitle } from '@/modules/shadcn/ui/alert';
 import { Progress } from '@/modules/shadcn/ui/progress';
 import { Separator } from '@/modules/shadcn/ui/separator';
+import { ResponsivePopover } from '@/modules/shadcn/ui/responsive-popover';
+import { ResponsiveDialog, ResponsiveDialogContent } from '@/modules/shadcn/ui/responsive-dialog';
+import { Alert, AlertDescription, AlertTitle } from '@/modules/shadcn/ui/alert';
 
 const DownloadStates = {
     UNINITIALIZED: 'UNINITIALIZED',
@@ -207,7 +207,6 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
 
     const handleTocChange = toc => {
         setToc(toc);
-        console.log('Table of contents updated:', toc);
     };
 
     const handleNext = () => {
@@ -220,7 +219,6 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
 
     useEffect(() => {
         if ($rendition.current) {
-            console.log('Rendition updated:', $rendition.current);
             const themes = $rendition.current.themes;
 
             if (theme === 'dark') {
