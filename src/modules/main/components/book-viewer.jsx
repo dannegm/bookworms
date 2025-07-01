@@ -198,7 +198,7 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
         0,
     );
 
-    const [swipeable, setSwipeable] = useLocalStorage(`book:viewer:${book.id}:swipeable`, false);
+    const [swipeable, setSwipeable] = useLocalStorage(`book:viewer:swipeable`, false);
 
     const handleLocChange = async loc => {
         setLocation(loc);
