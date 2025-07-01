@@ -272,14 +272,14 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                     <div
                         data-layer='prev'
                         className={cn(
-                            'absolute z-max top-16 bottom-0 left-0 h-full w-16 select-none cursor-pointer',
+                            'absolute z-max top-16 sm:top-12 bottom-0 left-0 h-[calc(100%-4rem)] w-16 select-none cursor-pointer',
                         )}
                         onClick={handlePrev}
                     >
-                        <div className='absolute w-full h-[calc(100%-8rem)] flex-center rounded-2xl bg-neutral-100/60 dark:bg-neutral-900/60 backdrop-blur-sm animate-blink-out delay-300'>
+                        <div className='absolute w-full h-[80%] top-1/2 -translate-y-1/2 flex-center rounded-2xl bg-neutral-100/60 dark:bg-neutral-900/60 backdrop-blur-sm animate-blink-out delay-300'>
                             <ChevronLeft className='block xl:hidden' />
                         </div>
-                        <div className='hidden xl:flex absolute w-full h-full pb-16 flex-center'>
+                        <div className='hidden xl:flex absolute w-full h-full flex-center'>
                             <ChevronLeft />
                         </div>
                     </div>
@@ -287,14 +287,14 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                     <div
                         data-layer='next'
                         className={cn(
-                            'absolute z-max top-16 bottom-0 right-0 h-full w-16 select-none cursor-pointer',
+                            'absolute z-max top-16 sm:top-12 bottom-0 right-0 h-[calc(100%-4rem)] w-16 select-none cursor-pointer',
                         )}
                         onClick={handleNext}
                     >
-                        <div className='absolute w-full h-[calc(100%-8rem)] flex-center rounded-2xl bg-neutral-100/60 dark:bg-neutral-900/60 backdrop-blur-sm animate-blink-out delay-300'>
+                        <div className='absolute w-full h-[80%] top-1/2 -translate-y-1/2 flex-center rounded-2xl bg-neutral-100/60 dark:bg-neutral-900/60 backdrop-blur-sm animate-blink-out delay-300'>
                             <ChevronRight className='block xl:hidden' />
                         </div>
-                        <div className='hidden xl:flex absolute w-full h-full pb-16 flex-center'>
+                        <div className='hidden xl:flex absolute w-full h-full flex-center'>
                             <ChevronRight />
                         </div>
                     </div>
