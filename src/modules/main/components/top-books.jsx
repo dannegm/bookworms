@@ -14,6 +14,7 @@ export const TopBooks = ({ title = 'Top Books', category = 'views', limit = 6 })
                 query={getTop('books', category, limit)}
                 tags={[`top:books:${category}`]}
                 loader={<BooksListLoading />}
+                preventRefetch
             >
                 {({ data, error }) => (
                     <>
