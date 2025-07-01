@@ -93,7 +93,9 @@ export const SwipeableButton = ({ swipeable, setSwipeable }) => {
         >
             <div className='flex flex-col p-2 gap-2'>
                 <Button
-                    className={cn('h-auto w-full flex flex-row gap-2 items-start justify-start')}
+                    className={cn('h-auto w-full flex flex-row gap-2 items-start justify-start', {
+                        'bg-gray-800': swipeable,
+                    })}
                     variant={!swipeable ? 'ghost' : 'secondary'}
                     onClick={() => {
                         setSwipeable(true);
@@ -112,7 +114,9 @@ export const SwipeableButton = ({ swipeable, setSwipeable }) => {
                 <Separator />
 
                 <Button
-                    className={cn('h-auto w-full flex flex-row gap-2 items-start justify-start')}
+                    className={cn('h-auto w-full flex flex-row gap-2 items-start justify-start', {
+                        'bg-gray-800': !swipeable,
+                    })}
                     variant={swipeable ? 'ghost' : 'secondary'}
                     onClick={() => {
                         setSwipeable(false);
