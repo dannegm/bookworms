@@ -274,7 +274,9 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                 )}
                 onClick={handlePrev}
             >
-                <div className='absolute w-full h-[calc(100%-8rem)] flex-center rounded-2xl bg-neutral-100 dark:bg-neutral-900 animate-blink-out delay-300' />
+                <div className='absolute w-full h-[calc(100%-8rem)] flex-center rounded-2xl bg-neutral-100/60 dark:bg-neutral-900/60 backdrop-blur-sm animate-blink-out delay-300'>
+                    <ChevronLeft className='block xl:hidden' />
+                </div>
                 <div className='hidden xl:flex absolute w-full h-full pb-16 flex-center'>
                     <ChevronLeft />
                 </div>
@@ -287,7 +289,9 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                 )}
                 onClick={handleNext}
             >
-                <div className='absolute w-full h-[calc(100%-8rem)] flex-center rounded-2xl bg-neutral-100 dark:bg-neutral-900 animate-blink-out delay-300' />
+                <div className='absolute w-full h-[calc(100%-8rem)] flex-center rounded-2xl bg-neutral-100/60 dark:bg-neutral-900/60 backdrop-blur-sm animate-blink-out delay-300'>
+                    <ChevronRight className='block xl:hidden' />
+                </div>
                 <div className='hidden xl:flex absolute w-full h-full pb-16 flex-center'>
                     <ChevronRight />
                 </div>
@@ -380,9 +384,12 @@ export const BookViewer = ({ className, book }) => {
             <ResponsiveDialog open={open} onOpenChange={setOpen}>
                 <ResponsiveDialogContent
                     title={book?.title || 'Book Viewer'}
-                    className={cn('sm:max-w-[calc(100%-2rem)] p-2 pt-0 sm:pt-2 h-[90svh] overflow-hidden', {
-                        'h-auto pb-32 sm:pb-2': downloadState === DownloadStates.REJECTED,
-                    })}
+                    className={cn(
+                        'sm:max-w-[calc(100%-2rem)] p-2 pt-0 sm:pt-2 h-[90svh] overflow-hidden',
+                        {
+                            'h-auto pb-32 sm:pb-2': downloadState === DownloadStates.REJECTED,
+                        },
+                    )}
                     showCloseButton={false}
                 >
                     {(downloadState === DownloadStates.REQUESTED ||

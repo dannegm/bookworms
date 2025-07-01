@@ -42,7 +42,12 @@ export const ResponsiveDialogContent = ({
     }
 
     return (
-        <DialogContent className={cn(className)} showCloseButton={showCloseButton} {...props}>
+        <DialogContent
+            className={cn(className)}
+            showCloseButton={showCloseButton}
+            onOpenAutoFocus={ev => ev.preventDefault()}
+            {...props}
+        >
             <VisuallyHidden>
                 <DialogTitle>{title}</DialogTitle>
             </VisuallyHidden>
