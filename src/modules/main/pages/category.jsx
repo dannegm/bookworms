@@ -21,9 +21,9 @@ import { Button } from '@/modules/shadcn/ui/button';
 
 const getCategoryName = (key, data = []) => {
     if (data.length === 0) return 'Sin categoría';
-    const labels = data.slice(0, 5).flatMap(item => item.labels || []);
+    const labels = data.flatMap(item => item.labels || []);
     const found = labels.find(label => keyCase(label) === key);
-    return found || 'Sin categoría';
+    return found || data[0].labels?.[0].split(' ')[0] || 'Sin categoría';
 };
 
 export const Category = ({ params: { key } }) => {
