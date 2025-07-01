@@ -67,7 +67,7 @@ const faqsData = [
         ],
     },
     {
-        question: '¿Puedo enviar leer estos libros en mi Kindle?',
+        question: '¿Puedo leer estos libros en mi Kindle?',
         answer: [
             'Sí, puedes enviar libros a tu Kindle utilizando la opción de envío por correo electrónico.',
             'Para ello, debes proporcionar tu dirección de correo electrónico de Kindle en el formulario de envío.',
