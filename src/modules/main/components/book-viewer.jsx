@@ -327,6 +327,17 @@ export const BookViewer = ({ className, book }) => {
         setDownloadState(DownloadStates.REQUESTED);
     };
 
+    const handleFirstLoad = async filename => {
+        const isValid = await validateBookFile(filename);
+
+        if (!isValid) {
+            setDownloadState(DownloadStates.READY);
+            setFilename(cachedUrl);
+        } else {
+            handleRequest();
+        }
+    };
+
     const handleLoad = async () => {
         try {
             const publicUrl = await getFileUrl(book.filename);
@@ -342,8 +353,7 @@ export const BookViewer = ({ className, book }) => {
         if (!cachedUrl) {
             handleRequest();
         } else {
-            setDownloadState(DownloadStates.READY);
-            setFilename(cachedUrl);
+            handleFirstLoad();
         }
     }, []);
 
@@ -370,7 +380,7 @@ export const BookViewer = ({ className, book }) => {
             <ResponsiveDialog open={open} onOpenChange={setOpen}>
                 <ResponsiveDialogContent
                     title={book?.title || 'Book Viewer'}
-                    className={cn('sm:max-w-[calc(100%-2rem)] p-2 pt-0 h-[90svh] overflow-hidden', {
+                    className={cn('sm:max-w-[calc(100%-2rem)] p-2 pt-0 sm:pt-2 h-[90svh] overflow-hidden', {
                         'h-auto pb-32 sm:pb-2': downloadState === DownloadStates.REJECTED,
                     })}
                     showCloseButton={false}
