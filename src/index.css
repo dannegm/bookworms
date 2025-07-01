@@ -3,4 +3,5 @@
 
 @import './modules/core/css/fonts.css';
 @import './modules/core/css/utils.css';
+@import './modules/core/css/animations.css';
 @import './modules/core/css/shadcn.css';

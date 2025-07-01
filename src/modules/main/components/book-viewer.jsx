@@ -1,7 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQueryState, parseAsBoolean } from 'nuqs';
 import { ReactReader, ReactReaderStyle } from 'react-reader';
-import { BookDashed, ChevronLeft, ChevronRight, Dot, TableOfContentsIcon, X } from 'lucide-react';
+import {
+    BookDashed,
+    ChevronLeft,
+    ChevronRight,
+    Dot,
+    Pointer,
+    PointerOff,
+    TableOfContentsIcon,
+    X,
+} from 'lucide-react';
 
 import { cn } from '@/modules/core/helpers/utils';
 import { useDelayedEffect } from '@/modules/core/hooks/use-delayed-effect';
@@ -16,6 +25,8 @@ import { ResponsiveDialog, ResponsiveDialogContent } from '@/modules/shadcn/ui/r
 import { useDarkMode } from '@/modules/core/hooks/use-dark-mode';
 import { Loader } from '@/modules/core/components/loader';
 import { Alert, AlertDescription, AlertTitle } from '@/modules/shadcn/ui/alert';
+import { Progress } from '@/modules/shadcn/ui/progress';
+import { Separator } from '@/modules/shadcn/ui/separator';
 
 const DownloadStates = {
     UNINITIALIZED: 'UNINITIALIZED',
@@ -56,6 +67,66 @@ const readerDefaultStyles = {
         top: 0,
         bottom: 20,
     },
+};
+
+export const SwipeableButton = ({ swipeable, setSwipeable }) => {
+    const [open, setOpen] = useState(false);
+    return (
+        <ResponsivePopover
+            modal={true}
+            open={open}
+            onOpenChange={setOpen}
+            classNames={{
+                content: 'p-0 w-auto',
+            }}
+            props={{
+                content: { side: 'bottom', align: 'end' },
+            }}
+            trigger={
+                <Button size='icon' variant='ghost'>
+                    {!swipeable ? <PointerOff /> : <Pointer />}
+                </Button>
+            }
+        >
+            <div className='flex flex-col p-2 pb-16 sm:pb-2 gap-2'>
+                <Button
+                    className={cn('h-auto w-full flex flex-row gap-2 items-start justify-start')}
+                    variant={!swipeable ? 'ghost' : 'secondary'}
+                    onClick={() => {
+                        setSwipeable(true);
+                        setOpen(false);
+                    }}
+                >
+                    <Pointer />
+                    <div className='w-full flex flex-col items-start overflow-hidden'>
+                        <span>Cambiar de página deslizando el dedo</span>
+                        <span className='text-xs text-muted-foreground'>
+                            No se puede seleccionar texto en este modo.
+                        </span>
+                    </div>
+                </Button>
+
+                <Separator />
+
+                <Button
+                    className={cn('h-auto w-full flex flex-row gap-2 items-start justify-start')}
+                    variant={swipeable ? 'ghost' : 'secondary'}
+                    onClick={() => {
+                        setSwipeable(false);
+                        setOpen(false);
+                    }}
+                >
+                    <PointerOff />
+                    <div className='w-full flex flex-col items-start overflow-hidden'>
+                        <span>Activar selección de texto</span>
+                        <span className='text-xs text-muted-foreground'>
+                            Presiona los laterales para cambiar de página
+                        </span>
+                    </div>
+                </Button>
+            </div>
+        </ResponsivePopover>
+    );
 };
 
 export const TableOfContents = ({ toc, onSelect }) => {
@@ -110,25 +181,33 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
     const [toc, setToc] = useState([]);
 
     const [location, setLocation] = useLocalStorage(`book:viewer:${book.id}:location`, 0);
-    const [page, setPage] = useLocalStorage(`book:viewer:${book.id}:page`, 0);
-    const [totalPages, setTotalPages] = useLocalStorage(`book:viewer:${book.id}:totalPages`, 0);
-    const [chapter, setChapter] = useLocalStorage(`book:viewer:${book.id}:chapter`, '');
 
-    const handleLocChange = loc => {
+    const [chapter, setChapter] = useLocalStorage(`book:viewer:${book.id}:chapter`, '');
+    const [chapterPage, setChapterPage] = useLocalStorage(`book:viewer:${book.id}:chapterPage`, 0);
+    const [chapterTotalPages, setChapterTotalPages] = useLocalStorage(
+        `book:viewer:${book.id}:chapterTotalPages`,
+        0,
+    );
+
+    const [swipeable, setSwipeable] = useLocalStorage(`book:viewer:${book.id}:swipeable`, false);
+
+    const handleLocChange = async loc => {
         setLocation(loc);
 
-        if ($rendition.current && toc) {
-            const { displayed, href } = $rendition.current.location.start;
-            const chapter = toc.find(item => item.href === href);
+        if (!$rendition.current || !toc) return;
 
-            setPage(displayed.page);
-            setTotalPages(displayed.total);
-            setChapter(sanitizeLabel(chapter?.label) || null);
-        }
+        const { displayed, href, cfi } = $rendition.current.location.start;
+        const chapter = toc.find(item => item.href === href);
+        const sanitized = sanitizeLabel(chapter?.label) || null;
+
+        setChapterPage(displayed.page);
+        setChapterTotalPages(displayed.total);
+        setChapter(sanitized);
     };
 
     const handleTocChange = toc => {
         setToc(toc);
+        console.log('Table of contents updated:', toc);
     };
 
     const handleNext = () => {
@@ -141,6 +220,7 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
 
     useEffect(() => {
         if ($rendition.current) {
+            console.log('Rendition updated:', $rendition.current);
             const themes = $rendition.current.themes;
 
             if (theme === 'dark') {
@@ -165,30 +245,47 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                     )}
                 </div>
 
-                <div className='hidden sm:flex flex-row'>
-                    <Button size='icon' variant='ghost' onClick={() => onOpenChange?.(false)}>
+                <div className='flex flex-row gap-2'>
+                    <SwipeableButton swipeable={swipeable} setSwipeable={setSwipeable} />
+
+                    <Button
+                        className='hidden sm:flex'
+                        size='icon'
+                        variant='ghost'
+                        onClick={() => onOpenChange?.(false)}
+                    >
                         <X />
                     </Button>
                 </div>
             </div>
 
             <div className='absolute z-max bottom-4 left-1/2 -translate-x-1/2 text-sm'>
-                Página {page} de {totalPages}
+                Página {chapterPage} de {chapterTotalPages}
             </div>
 
             <div
                 data-layer='prev'
-                className='absolute z-max top-16 bottom-0 left-0 h-full w-16 flex-center select-none'
+                className={cn(
+                    'absolute z-max top-16 bottom-0 left-0 h-full w-16 select-none cursor-pointer',
+                )}
                 onClick={handlePrev}
             >
-                <ChevronLeft className='hidden xl:block' />
+                <div className='absolute w-full h-[80%] flex-center rounded-2xl bg-gray-100 animate-blink-out delay-300' />
+                <div className='hidden xl:flex absolute w-full h-[calc(100%-8rem)] flex-center'>
+                    <ChevronLeft />
+                </div>
             </div>
             <div
                 data-layer='next'
-                className='absolute z-max top-16 bottom-0 right-0 h-full w-16 flex-center select-none'
+                className={cn(
+                    'absolute z-max top-16 bottom-0 right-0 h-full w-16 flex-center select-none cursor-pointer',
+                )}
                 onClick={handleNext}
             >
-                <ChevronRight className='hidden xl:block' />
+                <div className='absolute w-full h-[80%] flex-center rounded-2xl bg-gray-100 animate-blink-out delay-300' />
+                <div className='hidden xl:flex absolute w-full h-[calc(100%-8rem)] flex-center'>
+                    <ChevronRight />
+                </div>
             </div>
 
             <div className='relative w-full h-full'>
@@ -200,7 +297,12 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                     showToc={false}
                     getRendition={rendition => ($rendition.current = rendition)}
                     readerStyles={readerDefaultStyles}
+                    swipeable={swipeable}
                 />
+            </div>
+
+            <div className='absolute z-max bottom-0 left-0 right-0'>
+                <Progress value={chapterPage} max={chapterTotalPages} />
             </div>
         </div>
     );

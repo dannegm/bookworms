@@ -1,0 +1,30 @@
+@theme {
+    --animate-blink-out: blink-out 2s both;
+
+    @keyframes blink-out {
+        0% {
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        30% {
+            opacity: 0;
+        }
+        40% {
+            opacity: 1;
+        }
+        60% {
+            opacity: 0;
+        }
+        70% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+}

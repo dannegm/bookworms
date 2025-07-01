@@ -52,6 +52,13 @@ const faqsData = [
         ],
     },
     {
+        question: '¿El lector integrado guarda mi progreso de lectura?',
+        answer: [
+            'Sí, el lector integrado guarda tu progreso de lectura automáticamente. Puedes continuar leyendo desde donde lo dejaste en cualquier momento.',
+            'Se guarda por dispositivo, por lo que si cambias de dispositivo, no podrás continuar desde donde lo dejaste.',
+        ],
+    },
+    {
         question: 'El sitio muestra una alerta que dice que el servicio no está disponible',
         answer: [
             'Si ves un mensaje que indica que el servicio no está disponible, es posible que el repositorio esté temporalmente fuera de servicio para mantenimiento o actualización.',
