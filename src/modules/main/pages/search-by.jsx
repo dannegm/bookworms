@@ -68,6 +68,7 @@ export const SearchBy = ({ params: { entity } }) => {
                         <Loader entity={entity} />
                     </Section>
                 }
+                preventRefetch
             >
                 {({ data, error }) => (
                     <>

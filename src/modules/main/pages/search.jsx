@@ -39,6 +39,7 @@ export const Search = () => {
                     query={searchEntity({ query, entity: 'author', limit: 6 })}
                     tags={['search:author']}
                     loader={<AuthorsListLoading />}
+                    preventRefetch
                 >
                     {({ data, error }) => (
                         <>
@@ -73,6 +74,7 @@ export const Search = () => {
                     query={searchEntity({ query, entity: 'serie', limit: 8 })}
                     tags={['search:serie']}
                     loader={<SeriesListLoading />}
+                    preventRefetch
                 >
                     {({ data, error }) => (
                         <>
@@ -107,6 +109,7 @@ export const Search = () => {
                     query={searchEntity({ query, entity: 'books', limit: 6 })}
                     tags={['search:books']}
                     loader={<BooksListLoading />}
+                    preventRefetch
                 >
                     {({ data, error }) => (
                         <>

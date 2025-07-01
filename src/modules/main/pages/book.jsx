@@ -59,6 +59,7 @@ export const Book = ({ params: { libid } }) => {
                                             <BooksListLoading />
                                         </Section>
                                     }
+                                    preventRefetch
                                 >
                                     {({ data: serieData }) => (
                                         <Section className='flex flex-col gap-8'>
