@@ -7,6 +7,8 @@ import { Layout } from '@/modules/main/components/layout';
 import { Section } from '@/modules/main/components/section';
 import { Logo } from '@/modules/main/components/logo';
 import { Summaries } from '@/modules/main/components/summaries';
+import { Faqs } from '../components/faqs';
+import { TopBooks } from '../components/top-books';
 
 export const Home = () => {
     return (
@@ -34,6 +36,14 @@ export const Home = () => {
                         </Button>
                     </div>
                 </form>
+            </Section>
+
+            <Section>
+                <TopBooks title='Libros más buscados' category='views' />
+            </Section>
+
+            <Section>
+                <Faqs />
             </Section>
         </Layout>
     );

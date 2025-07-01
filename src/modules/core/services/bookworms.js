@@ -30,6 +30,14 @@ export const searchEntity =
         return data;
     };
 
+export const getTop =
+    (entity, category = 'views', limit = 10) =>
+    async () => {
+        const params = buildQueryParams({ entity, category, limit });
+        const { data } = await bookwormsApi.get(`/top${params}`);
+        return data;
+    };
+
 export const getBook = libid => async () => {
     const { data } = await bookwormsApi.get(`/book/${libid}`);
     return data;
