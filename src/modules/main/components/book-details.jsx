@@ -99,7 +99,7 @@ export const BookDetails = ({ className, book }) => {
                                 >
                                     <Badge
                                         variant='outline'
-                                        className='bg-cyan-300 dark:bg-cyan-800 text-cyan-900 dark:text-cyan-100'
+                                        className='bg-cyan-300 dark:bg-cyan-900 text-black dark:text-white hover:bg-cyan-400 dark:hover:bg-cyan-800 transition-all'
                                     >
                                         <Tag /> {category}
                                     </Badge>

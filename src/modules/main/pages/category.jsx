@@ -1,10 +1,9 @@
 import { Helmet } from 'react-helmet';
-import { useLocation } from 'wouter';
 import { useQueryState, parseAsInteger } from 'nuqs';
 
-import { LibraryBig, Tag } from 'lucide-react';
+import { AlertCircleIcon, LibraryBig, Tag } from 'lucide-react';
 
-import { keyCase } from '@/modules/core/helpers/strings';
+import { keyCase, thousands } from '@/modules/core/helpers/strings';
 import { getCategory } from '@/modules/core/services/bookworms';
 
 import { Debugger } from '@/modules/core/components/debugger';
@@ -17,16 +16,17 @@ import { Pagination } from '@/modules/main/components/pagination';
 
 import { CategoryDetails } from '@/modules/main/components/category-details';
 import { CategoryDetailsLoading } from '@/modules/main/components/category-details-loading';
+import { Alert, AlertDescription, AlertTitle } from '@/modules/shadcn/ui/alert';
+import { Button } from '@/modules/shadcn/ui/button';
 
 const getCategoryName = (key, data = []) => {
     if (data.length === 0) return 'Sin categoría';
-
-    const found = data[0]?.labels.find(label => keyCase(label) === key);
+    const labels = data.slice(0, 5).flatMap(item => item.labels || []);
+    const found = labels.find(label => keyCase(label) === key);
     return found || 'Sin categoría';
 };
 
 export const Category = ({ params: { key } }) => {
-    const [, navigate] = useLocation();
     const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1));
 
     return (
@@ -35,11 +35,8 @@ export const Category = ({ params: { key } }) => {
 
             <DataLoader
                 query={getCategory({ categoryName: key, page, limit: 12 })}
-                tags={[`category`]}
-                retry={0}
-                onError={error => {
-                    navigate('/404');
-                }}
+                tags={['category', key, `p${page}`]}
+                retry={5}
                 loader={
                     <Section className='flex flex-col gap-4'>
                         <CategoryDetailsLoading />
@@ -48,7 +45,40 @@ export const Category = ({ params: { key } }) => {
                 preventRefetch
             >
                 {({ data, error }) => {
-                    if (!data) return null;
+                    if (!data || error) {
+                        return (
+                            <>
+                                <Helmet>
+                                    <title>Ups, algo salió mal...</title>
+                                </Helmet>
+
+                                <Debugger name='error' data={error} expanded />
+
+                                <Section className='flex flex-col gap-4'>
+                                    <Alert variant='destructive'>
+                                        <AlertCircleIcon />
+                                        <AlertTitle>Ups, algo salió mal.</AlertTitle>
+                                        <AlertDescription>
+                                            <p>
+                                                Consultar categorías suele ser un proceso lento y a
+                                                veces puede fallar.
+                                                <br />
+                                                Por favor, inténtalos de nuevo.
+                                            </p>
+                                            <Button
+                                                className='mt-4 mb-2 border border-red-400'
+                                                variant='ghost'
+                                                asChild
+                                            >
+                                                <a href={`/category/${key}`}>Repetir búsqueda</a>
+                                            </Button>
+                                        </AlertDescription>
+                                    </Alert>
+                                </Section>
+                            </>
+                        );
+                    }
+
                     if (data) {
                         const categoryName = getCategoryName(key, data.data);
                         return (
@@ -58,18 +88,17 @@ export const Category = ({ params: { key } }) => {
                                 </Helmet>
 
                                 <Debugger name='category' data={data} expanded />
-                                {error && <Debugger name='error' data={error} />}
 
                                 <Section>
                                     <header className='flex flex-row gap-4 items-center justify-between'>
-                                        <h1 className='py-2 px-4 flex gap-2 items-center text-lg font-bold font-merriweather bg-blue-200 rounded-xl'>
+                                        <h1 className='flex-center h-10 pl-3 pr-4 flex gap-2 items-center text-md font-bold font-merriweather bg-cyan-200 dark:bg-cyan-900 rounded-xl'>
                                             <Tag className='size-4' /> {categoryName}
                                         </h1>
 
                                         <div className='flex-center text-sm [&_svg]:size-4 bg-neutral-100 dark:bg-neutral-800 px-4 py-2 rounded-md'>
                                             <span className='flex flex-row gap-2 items-center'>
                                                 <LibraryBig />
-                                                <b>{data?.data.length}</b> libros
+                                                <b>{thousands(data?.pagination.found)}</b> libros
                                             </span>
                                         </div>
                                     </header>
