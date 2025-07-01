@@ -267,35 +267,39 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                 Página {chapterPage} de {chapterTotalPages}
             </div>
 
-            <div
-                data-layer='prev'
-                className={cn(
-                    'absolute z-max top-16 bottom-0 left-0 h-full w-16 select-none cursor-pointer',
-                )}
-                onClick={handlePrev}
-            >
-                <div className='absolute w-full h-[calc(100%-8rem)] flex-center rounded-2xl bg-neutral-100/60 dark:bg-neutral-900/60 backdrop-blur-sm animate-blink-out delay-300'>
-                    <ChevronLeft className='block xl:hidden' />
-                </div>
-                <div className='hidden xl:flex absolute w-full h-full pb-16 flex-center'>
-                    <ChevronLeft />
-                </div>
-            </div>
+            {!swipeable && (
+                <>
+                    <div
+                        data-layer='prev'
+                        className={cn(
+                            'absolute z-max top-16 bottom-0 left-0 h-full w-16 select-none cursor-pointer',
+                        )}
+                        onClick={handlePrev}
+                    >
+                        <div className='absolute w-full h-[calc(100%-8rem)] flex-center rounded-2xl bg-neutral-100/60 dark:bg-neutral-900/60 backdrop-blur-sm animate-blink-out delay-300'>
+                            <ChevronLeft className='block xl:hidden' />
+                        </div>
+                        <div className='hidden xl:flex absolute w-full h-full pb-16 flex-center'>
+                            <ChevronLeft />
+                        </div>
+                    </div>
 
-            <div
-                data-layer='next'
-                className={cn(
-                    'absolute z-max top-16 bottom-0 right-0 h-full w-16 select-none cursor-pointer',
-                )}
-                onClick={handleNext}
-            >
-                <div className='absolute w-full h-[calc(100%-8rem)] flex-center rounded-2xl bg-neutral-100/60 dark:bg-neutral-900/60 backdrop-blur-sm animate-blink-out delay-300'>
-                    <ChevronRight className='block xl:hidden' />
-                </div>
-                <div className='hidden xl:flex absolute w-full h-full pb-16 flex-center'>
-                    <ChevronRight />
-                </div>
-            </div>
+                    <div
+                        data-layer='next'
+                        className={cn(
+                            'absolute z-max top-16 bottom-0 right-0 h-full w-16 select-none cursor-pointer',
+                        )}
+                        onClick={handleNext}
+                    >
+                        <div className='absolute w-full h-[calc(100%-8rem)] flex-center rounded-2xl bg-neutral-100/60 dark:bg-neutral-900/60 backdrop-blur-sm animate-blink-out delay-300'>
+                            <ChevronRight className='block xl:hidden' />
+                        </div>
+                        <div className='hidden xl:flex absolute w-full h-full pb-16 flex-center'>
+                            <ChevronRight />
+                        </div>
+                    </div>
+                </>
+            )}
 
             <div className='relative w-full h-full'>
                 <ReactReader
