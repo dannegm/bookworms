@@ -19,6 +19,8 @@ import { useDarkMode } from '@/modules/core/hooks/use-dark-mode';
 
 import { getFileUrl, requestBookFile, validateBookFile } from '@/modules/core/services/bookworms';
 
+import { DarkModeToggle } from '@/modules/core/components/dark-mode-toggle';
+
 import { Button } from '@/modules/shadcn/ui/button';
 import { ScrollArea } from '@/modules/shadcn/ui/scroll-area';
 import { Loader } from '@/modules/core/components/loader';
@@ -27,6 +29,7 @@ import { Separator } from '@/modules/shadcn/ui/separator';
 import { ResponsivePopover } from '@/modules/shadcn/ui/responsive-popover';
 import { ResponsiveDialog, ResponsiveDialogContent } from '@/modules/shadcn/ui/responsive-dialog';
 import { Alert, AlertDescription, AlertTitle } from '@/modules/shadcn/ui/alert';
+import { Tooltip } from '@/modules/shadcn/ui/tooltip-simple';
 
 const DownloadStates = {
     UNINITIALIZED: 'UNINITIALIZED',
@@ -88,7 +91,7 @@ export const SwipeableButton = ({ swipeable, setSwipeable }) => {
                 </Button>
             }
         >
-            <div className='flex flex-col p-2 pb-16 sm:pb-2 gap-2'>
+            <div className='flex flex-col p-2 gap-2'>
                 <Button
                     className={cn('h-auto w-full flex flex-row gap-2 items-start justify-start')}
                     variant={!swipeable ? 'ghost' : 'secondary'}
@@ -149,9 +152,11 @@ export const TableOfContents = ({ toc, onSelect }) => {
                 content: { side: 'bottom', align: 'start' },
             }}
             trigger={
-                <Button size='icon' variant='ghost'>
-                    <TableOfContentsIcon />
-                </Button>
+                <Tooltip content='Tabla de contenidos' align='start'>
+                    <Button size='icon' variant='ghost' onClick={() => setOpen(!open)}>
+                        <TableOfContentsIcon />
+                    </Button>
+                </Tooltip>
             }
         >
             <ScrollArea className='h-[40svh]'>
@@ -161,7 +166,7 @@ export const TableOfContents = ({ toc, onSelect }) => {
                         <Button
                             key={item.id}
                             variant='ghost'
-                            className='w-full justify-start text-left'
+                            className='w-full justify-start text-left line-clamp-1'
                             onClick={() => handleSelect(item)}
                         >
                             {sanitizeLabel(item.label)}
@@ -234,7 +239,11 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
             <div className='flex flex-row items-center justify-between mt-4 sm:mt-0 pb-2 sm:pb-0'>
                 <div className='flex flex-row items-center gap-1'>
                     <TableOfContents toc={toc} onSelect={({ href }) => handleLocChange(href)} />
-                    <h1 className='text-lg font-bold'>{book.title}</h1>
+
+                    <Tooltip content={book.title} align='start'>
+                        <h1 className='text-lg font-bold line-clamp-1'>{book.title}</h1>
+                    </Tooltip>
+
                     {chapter && (
                         <>
                             <Dot className='hidden sm:block text-md' />
@@ -246,18 +255,15 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                 <div className='flex flex-row gap-2'>
                     <SwipeableButton swipeable={swipeable} setSwipeable={setSwipeable} />
 
-                    <Button
-                        className='hidden sm:flex'
-                        size='icon'
-                        variant='ghost'
-                        onClick={() => onOpenChange?.(false)}
-                    >
+                    <DarkModeToggle className='bg-transparent dark:bg-transparent' />
+
+                    <Button size='icon' variant='ghost' onClick={() => onOpenChange?.(false)}>
                         <X />
                     </Button>
                 </div>
             </div>
 
-            <div className='absolute z-max bottom-4 left-1/2 -translate-x-1/2 text-sm'>
+            <div className='absolute z-max bottom-4 left-1/2 -translate-x-1/2 text-xs'>
                 Página {chapterPage} de {chapterTotalPages}
             </div>
 
@@ -268,20 +274,21 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                 )}
                 onClick={handlePrev}
             >
-                <div className='absolute w-full h-[80%] flex-center rounded-2xl bg-gray-100 animate-blink-out delay-300' />
-                <div className='hidden xl:flex absolute w-full h-[calc(100%-8rem)] flex-center'>
+                <div className='absolute w-full h-[calc(100%-8rem)] flex-center rounded-2xl bg-neutral-100 dark:bg-neutral-900 animate-blink-out delay-300' />
+                <div className='hidden xl:flex absolute w-full h-full pb-16 flex-center'>
                     <ChevronLeft />
                 </div>
             </div>
+
             <div
                 data-layer='next'
                 className={cn(
-                    'absolute z-max top-16 bottom-0 right-0 h-full w-16 flex-center select-none cursor-pointer',
+                    'absolute z-max top-16 bottom-0 right-0 h-full w-16 select-none cursor-pointer',
                 )}
                 onClick={handleNext}
             >
-                <div className='absolute w-full h-[80%] flex-center rounded-2xl bg-gray-100 animate-blink-out delay-300' />
-                <div className='hidden xl:flex absolute w-full h-[calc(100%-8rem)] flex-center'>
+                <div className='absolute w-full h-[calc(100%-8rem)] flex-center rounded-2xl bg-neutral-100 dark:bg-neutral-900 animate-blink-out delay-300' />
+                <div className='hidden xl:flex absolute w-full h-full pb-16 flex-center'>
                     <ChevronRight />
                 </div>
             </div>
@@ -300,7 +307,7 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
             </div>
 
             <div className='absolute z-max bottom-0 left-0 right-0'>
-                <Progress value={chapterPage} max={chapterTotalPages} />
+                <Progress className='h-1' value={chapterPage} max={chapterTotalPages} />
             </div>
         </div>
     );
@@ -363,7 +370,7 @@ export const BookViewer = ({ className, book }) => {
             <ResponsiveDialog open={open} onOpenChange={setOpen}>
                 <ResponsiveDialogContent
                     title={book?.title || 'Book Viewer'}
-                    className={cn('sm:max-w-[calc(100%-2rem)] p-2 h-[90svh] overflow-hidden', {
+                    className={cn('sm:max-w-[calc(100%-2rem)] p-2 pt-0 h-[90svh] overflow-hidden', {
                         'h-auto pb-32 sm:pb-2': downloadState === DownloadStates.REJECTED,
                     })}
                     showCloseButton={false}
