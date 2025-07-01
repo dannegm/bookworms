@@ -150,17 +150,15 @@ export const TableOfContents = ({ toc, onSelect }) => {
             modal={true}
             onOpenChange={setOpen}
             classNames={{
-                content: 'p-0',
+                content: 'p-0 z-max',
             }}
             props={{
                 content: { side: 'bottom', align: 'start' },
             }}
             trigger={
-                <Tooltip content='Tabla de contenidos' align='start'>
-                    <Button size='icon' variant='ghost' onClick={() => setOpen(!open)}>
-                        <TableOfContentsIcon />
-                    </Button>
-                </Tooltip>
+                <Button size='icon' variant='ghost' onClick={() => setOpen(!open)}>
+                    <TableOfContentsIcon />
+                </Button>
             }
         >
             <ScrollArea className='h-[40svh]'>
@@ -280,7 +278,7 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                         )}
                         onClick={handlePrev}
                     >
-                        <div className='absolute w-full h-[80%] top-1/2 -translate-y-1/2 flex-center rounded-2xl bg-neutral-100/60 dark:bg-neutral-900/60 backdrop-blur-sm animate-blink-out delay-300'>
+                        <div className='absolute w-full h-[80%] top-1/2 -translate-y-1/2 flex-center rounded-2xl bg-neutral-500/40 backdrop-blur-sm animate-blink-out delay-300'>
                             <ChevronLeft className='block xl:hidden' />
                         </div>
                         <div className='hidden xl:flex absolute w-full h-full flex-center'>
@@ -295,7 +293,7 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                         )}
                         onClick={handleNext}
                     >
-                        <div className='absolute w-full h-[80%] top-1/2 -translate-y-1/2 flex-center rounded-2xl bg-neutral-100/60 dark:bg-neutral-900/60 backdrop-blur-sm animate-blink-out delay-300'>
+                        <div className='absolute w-full h-[80%] top-1/2 -translate-y-1/2 flex-center rounded-2xl bg-neutral-500/40 backdrop-blur-sm animate-blink-out delay-300'>
                             <ChevronRight className='block xl:hidden' />
                         </div>
                         <div className='hidden xl:flex absolute w-full h-full flex-center'>
