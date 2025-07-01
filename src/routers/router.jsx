@@ -9,6 +9,7 @@ import { Serie } from '@/modules/main/pages/serie';
 
 import { SearchBy } from '@/modules/main/pages/search-by';
 import { Search } from '@/modules/main/pages/search';
+import { Category } from '@/modules/main/pages/category';
 
 export const Router = () => (
     <Switch>
@@ -17,6 +18,7 @@ export const Router = () => (
         <Route path='/book/:libid/:title?' component={Book} />
         <Route path='/author/:key' component={Author} />
         <Route path='/serie/:key' component={Serie} />
+        <Route path='/category/:key' component={Category} />
 
         <Route path='/search/:entity' component={SearchBy} />
         <Route path='/search' component={Search} />

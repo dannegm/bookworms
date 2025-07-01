@@ -55,6 +55,15 @@ export const getSerie = serieName => async () => {
     return data;
 };
 
+export const getCategory =
+    ({ categoryName, page = 1, limit = 10 }) =>
+    async () => {
+        const categoryKey = keyCase(categoryName);
+        const params = buildQueryParams({ page, limit });
+        const { data } = await bookwormsApi.get(`/category/${categoryKey}${params}`);
+        return data;
+    };
+
 export const requestBookFile = async (filename, format = 'epub') => {
     await bookwormsApi.get(`/request?filename=${filename}&format=${format}`);
 };

@@ -11,6 +11,7 @@ import { DownloadBook } from '@/modules/main/components/download-book';
 import { SendToKindle } from '@/modules/main/components/send-to-kindle';
 import { BookViewer } from '@/modules/main/components/book-viewer';
 import { Button } from '@/modules/shadcn/ui/button';
+import { Link } from 'wouter';
 
 export const BookDetails = ({ className, book }) => {
     const [viewer, setViewer] = useQueryState('viewer', parseAsBoolean.withDefault(false));
@@ -92,13 +93,17 @@ export const BookDetails = ({ className, book }) => {
 
                         <div className='flex flex-row flex-wrap gap-1 mb-8'>
                             {book.labels.map(category => (
-                                <Badge
+                                <Link
                                     key={`category-${category}`}
-                                    variant='outline'
-                                    className='bg-cyan-300 dark:bg-cyan-800 text-cyan-900 dark:text-cyan-100'
+                                    href={`/category/${keyCase(category)}`}
                                 >
-                                    <Tag /> {category}
-                                </Badge>
+                                    <Badge
+                                        variant='outline'
+                                        className='bg-cyan-300 dark:bg-cyan-800 text-cyan-900 dark:text-cyan-100'
+                                    >
+                                        <Tag /> {category}
+                                    </Badge>
+                                </Link>
                             ))}
                         </div>
 
