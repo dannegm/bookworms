@@ -24,7 +24,7 @@ export const BucketStatus = ({ className }) => {
 
                                 <AlertTitle>Servicio no disponible</AlertTitle>
                                 <AlertDescription className='text-yellow-700 dark:text-yellow-200'>
-                                    El servicio de descarga no está disponible
+                                    El servicio de descarga y lectura en línea no está disponible
                                 </AlertDescription>
 
                                 {data?.['bucket.offline_until'] && (
