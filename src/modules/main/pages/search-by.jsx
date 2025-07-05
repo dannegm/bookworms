@@ -62,7 +62,7 @@ export const SearchBy = ({ params: { entity } }) => {
             </Section>
             <DataLoader
                 query={searchEntity({ entity, query, page, limit: 12 })}
-                tags={[`search:${entity}`]}
+                tags={['search', entity, query, page]}
                 loader={
                     <Section className='flex flex-col gap-4'>
                         <Loader entity={entity} />

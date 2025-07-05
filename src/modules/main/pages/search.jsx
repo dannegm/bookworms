@@ -37,7 +37,7 @@ export const Search = () => {
                 <h2 className='font-bold'>Autores</h2>
                 <DataLoader
                     query={searchEntity({ query, entity: 'author', limit: 6 })}
-                    tags={['search:author']}
+                    tags={['search:author', query]}
                     loader={<AuthorsListLoading />}
                     preventRefetch
                 >
@@ -72,7 +72,7 @@ export const Search = () => {
                 <h2 className='font-bold'>Series</h2>
                 <DataLoader
                     query={searchEntity({ query, entity: 'serie', limit: 8 })}
-                    tags={['search:serie']}
+                    tags={['search:serie', query]}
                     loader={<SeriesListLoading />}
                     preventRefetch
                 >
@@ -107,7 +107,7 @@ export const Search = () => {
                 <h2 className='font-bold'>Libros</h2>
                 <DataLoader
                     query={searchEntity({ query, entity: 'books', limit: 6 })}
-                    tags={['search:books']}
+                    tags={['search:books', query]}
                     loader={<BooksListLoading />}
                     preventRefetch
                 >
