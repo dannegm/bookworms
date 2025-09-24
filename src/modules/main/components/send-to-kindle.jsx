@@ -34,7 +34,7 @@ const SendButton = ({ className, book, size, email, onSent }) => {
 
     const handleRequest = async event => {
         event.preventDefault();
-        await requestBookFile(book.filename, 'mobi');
+        await requestBookFile(book.filename);
         setDownloadState(DownloadStates.REQUESTED);
     };
 
@@ -55,7 +55,7 @@ const SendButton = ({ className, book, size, email, onSent }) => {
         () => {
             if (downloadState === DownloadStates.REQUESTED) {
                 const validateRequest = async () => {
-                    const filename = book.filename.replace(/\.epub$/i, '.mobi');
+                    const filename = book.filename; //.replace(/\.epub$/i, '.mobi');
                     const isValid = await validateBookFile(filename);
                     setDownloadState(isValid ? DownloadStates.AVAILABLE : DownloadStates.REJECTED);
                 };
