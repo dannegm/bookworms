@@ -42,7 +42,7 @@ const SendButton = ({ className, book, size, email, onSent }) => {
         event.preventDefault();
         setDownloadState(DownloadStates.SENDING);
         try {
-            const filename = book.filename.replace(/\.epub$/i, '.mobi');
+            const filename = book.filename; //.replace(/\.epub$/i, '.mobi');
             await sendBookToKindle({ filename, email });
             setDownloadState(DownloadStates.UNINITIALIZED);
             onSent?.();
