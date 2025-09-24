@@ -22,10 +22,18 @@ export const BookDetails = ({ className, book }) => {
                 <figure className='flex flex-col gap-4 w-full items-center sm:justify-start'>
                     <BookCover book={book} width={200} />
 
-                    <Button onClick={() => setViewer(!viewer)} size='lg' className='w-full'>
-                        <BookOpenText />
-                        Leer en línea
-                    </Button>
+                    <div className='flex flex-col gap-2 w-full items-center sm:justify-start'>
+                        <Button onClick={() => setViewer(!viewer)} size='lg' className='w-full'>
+                            <BookOpenText />
+                            Leer en línea
+                        </Button>
+
+                        <div className='w-full my-2 hidden sm:block border-b border-dashed border-neutral-200 dark:border-neutral-700' />
+
+                        <DownloadBook size='lg' className='w-full hidden sm:flex' book={book} />
+
+                        <SendToKindle size='lg' className='w-full hidden sm:flex' book={book} />
+                    </div>
                 </figure>
 
                 {viewer && <BookViewer size='lg' className='w-full sm:w-56' book={book} />}
