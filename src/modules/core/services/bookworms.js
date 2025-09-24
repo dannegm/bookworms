@@ -2,7 +2,7 @@ import axios from 'axios';
 import { keyCase } from '@/modules/core/helpers/strings';
 import { buildQueryParams } from '../helpers/utils';
 
-const baseURL = 'http://localhost:3030/bookworms'; // 'https://endpoints.hckr.mx/bookworms';
+const baseURL = 'https://endpoints.hckr.mx/bookworms';
 const API_KEY = import.meta.env.NEXT_PUBLIC_BOOKWORMS_API_KEY;
 
 const bookwormsApi = axios.create({
