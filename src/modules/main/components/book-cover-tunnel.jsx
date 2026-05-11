@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { cn } from '@/modules/core/helpers/utils';
 import { Skeleton } from '@/modules/shadcn/ui/skeleton';
 
-const BUCKET_URL = process.env.NEXT_PUBLIC_BUCKET_URL;
+const BUCKET_URL = import.meta.env.NEXT_PUBLIC_BUCKET_URL;
 
 const DEFAULT_WIDTH = 340;
 const DEFAULT_HEIGHT = 510;
