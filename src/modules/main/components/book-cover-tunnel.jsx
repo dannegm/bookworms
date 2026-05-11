@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { cn } from '@/modules/core/helpers/utils';
 import { Skeleton } from '@/modules/shadcn/ui/skeleton';
 
-const BUCKET_URL = import.meta.env.NEXT_PUBLIC_BUCKET_URL;
+const BUCKET_URL = process.env.NEXT_PUBLIC_BUCKET_URL;
 
 const DEFAULT_WIDTH = 340;
 const DEFAULT_HEIGHT = 510;
@@ -42,6 +42,14 @@ const getDefaultCover = (book, width = DEFAULT_WIDTH) => {
     };
 };
 
+const imageExists = url =>
+    new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+    });
+
 const getCoverStyles =
     (book, width = DEFAULT_WIDTH) =>
     async () => {
@@ -53,9 +61,7 @@ const getCoverStyles =
         const imageNumber = (book.cover_id / (spriteWidth * spriteHeight)) | 0;
         const coverUrl = `${BUCKET_URL}/bucket/${imageNumber}.webp`;
 
-        const ok = await fetch(coverUrl, { method: 'HEAD' })
-            .then(r => r.ok)
-            .catch(() => false);
+        const ok = await imageExists(coverUrl);
         if (!ok) return getDefaultCover(book, width);
 
         const imageX = book.cover_id % spriteWidth;

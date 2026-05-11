@@ -4,6 +4,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import mime from 'mime';
+import cors from 'cors';
+import morgan from 'morgan';
 
 dotenv.config();
 
@@ -27,13 +29,24 @@ if (IS_DEV) {
     console.log(`Bucket dir: ${BUCKET_DIR}`);
 }
 
-app.get('/bucket/:filename', (req, res) => {
-    if (!IS_DEV) {
-        const origin = req.headers['origin'] ?? req.headers['referer'] ?? '';
-        const allowed = ALLOWED_ORIGINS.some(o => origin.includes(o));
-        if (!allowed) return res.status(403).json({ error: 'Forbidden' });
-    }
+app.use(
+    cors({
+        origin: (origin, callback) => {
+            if (IS_DEV || !origin) return callback(null, true);
+            const allowed = ALLOWED_ORIGINS.some(o => origin.includes(o));
+            allowed ? callback(null, true) : callback(new Error('Forbidden'));
+        },
+    }),
+);
 
+app.use(morgan('tiny'));
+
+app.use((req, res, next) => {
+    console.log('origin:', req.headers['origin']);
+    next();
+});
+
+app.get('/bucket/:filename', (req, res) => {
     const { filename } = req.params;
 
     if (!/^[\w\-. ]+$/.test(filename)) {
