@@ -25,9 +25,7 @@ const ALLOWED_EXTENSIONS = (process.env.ALLOWED_EXTENSIONS ?? 'webp')
     .map(e => e.trim().toLowerCase())
     .filter(Boolean);
 
-if (IS_DEV) {
-    console.log(`Bucket dir: ${BUCKET_DIR}`);
-}
+console.log(`Bucket dir: ${BUCKET_DIR}`);
 
 app.use(
     cors({
