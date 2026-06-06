@@ -53,7 +53,7 @@ const imageExists = url =>
 const getCoverStyles =
     (book, width = DEFAULT_WIDTH) =>
     async () => {
-        const spriteWidth = 3;
+        const spriteWidth = 4;
         const spriteHeight = 3;
 
         if (!book.cover_id) return getDefaultCover(book, width);
