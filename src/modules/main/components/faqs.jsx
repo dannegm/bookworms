@@ -23,7 +23,7 @@ const faqsData = [
     {
         question: '¿Existen libros que se hayan publicado recientemente?',
         answer: [
-            'El repositorio ha sido actualizado por última vez e **1 de enero del 2026**, por lo que los libros publicados después de esa fecha pueden no estar disponibles.',
+            'El repositorio ha sido actualizado por última vez el d(library.last_update), por lo que los libros publicados después de esa fecha pueden no estar disponibles.',
         ],
     },
     {

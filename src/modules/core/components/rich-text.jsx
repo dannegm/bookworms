@@ -1,6 +1,9 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getSettings } from '../services/bookworms';
+import { formatDate } from '../helpers/date';
 
-export const defaultElements = [
+export const buildDefaultElements = ({ settings = {} } = {}) => [
     // Italic
     { pattern: /\/\/(.*?)\/\//g, parser: text => <i>{text}</i> },
     // Bold
@@ -25,6 +28,12 @@ export const defaultElements = [
                 {label}
             </a>
         ),
+    },
+    {
+        pattern: /d\((.*?)\)/g,
+        parser: date => {
+            return <span className='font-bold'>{formatDate(new Date(settings?.[date]))}</span>;
+        },
     },
 ];
 
@@ -57,8 +66,17 @@ export const parseText = (text, elements) => {
     );
 };
 
-export default function RichText({ children, elements = defaultElements }) {
-    return parseText(children, elements).map((element, index) => (
+export default function RichText({ children, elements = buildDefaultElements }) {
+    const { data: resolvedElements } = useQuery({
+        queryKey: ['rich-text:elements'],
+        queryFn: async () => {
+            const settings = await getSettings()();
+            console.log('Fetched settings for RichText:', settings);
+            return elements({ settings });
+        },
+    });
+
+    return parseText(children, resolvedElements || elements()).map((element, index) => (
         <React.Fragment key={index}>{element}</React.Fragment>
     ));
 }
