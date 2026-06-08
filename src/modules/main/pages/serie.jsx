@@ -1,10 +1,11 @@
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams, useNavigate } from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
 
 import { getSerie } from '@/modules/core/services/bookworms';
 
 import { Debugger } from '@/modules/core/components/debugger';
-import { DataLoader } from '@/modules/core/components/data-loader';
 
 import { Layout } from '@/modules/main/components/layout';
 import { Section } from '@/modules/main/components/section';
@@ -16,41 +17,37 @@ export const Serie = () => {
     const { key } = useParams({ strict: false });
     const navigate = useNavigate();
 
+    const { data, isLoading, isError, error } = useQuery(getSerie(key, { retry: 0 }));
+
+    useEffect(() => {
+        if (isError) navigate({ to: '/404' });
+    }, [isError]);
+
+    if (isLoading) return (
+        <Layout>
+            <SearchBox />
+            <Section className='flex flex-col gap-4'>
+                <SerieDetailsLoading />
+            </Section>
+        </Layout>
+    );
+
+    if (!data) return null;
+
     return (
         <Layout>
             <SearchBox />
 
-            <DataLoader
-                query={getSerie(key)}
-                tags={[`serie`]}
-                retry={0}
-                onError={error => {
-                    navigate({ to: '/404' });
-                }}
-                loader={
-                    <Section className='flex flex-col gap-4'>
-                        <SerieDetailsLoading />
-                    </Section>
-                }
-                preventRefetch
-            >
-                {({ data, error }) =>
-                    data && (
-                        <>
-                            <Helmet>
-                                <title>{data.name}</title>
-                            </Helmet>
+            <Helmet>
+                <title>{data.name}</title>
+            </Helmet>
 
-                            <Debugger name='serie' data={data} expanded />
-                            {error && <Debugger name='error' data={error} />}
+            <Debugger name='serie' data={data} expanded />
+            {error && <Debugger name='error' data={error} />}
 
-                            <Section className='flex flex-col gap-4'>
-                                <SerieDetails serie={data} />
-                            </Section>
-                        </>
-                    )
-                }
-            </DataLoader>
+            <Section className='flex flex-col gap-4'>
+                <SerieDetails serie={data} />
+            </Section>
         </Layout>
     );
 };

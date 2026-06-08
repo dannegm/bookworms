@@ -1,10 +1,10 @@
 import { BookOpen, CircleUserRound, LibraryBig } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 
 import { cn } from '@/modules/core/helpers/utils';
 import { thousands } from '@/modules/core/helpers/strings';
 import { getSummaries } from '@/modules/core/services/bookworms';
 
-import { DataLoader } from '@/modules/core/components/data-loader';
 import { Skeleton } from '@/modules/shadcn/ui/skeleton';
 
 export const SummariesSkeleton = ({ className }) => {
@@ -17,7 +17,12 @@ export const SummariesSkeleton = ({ className }) => {
     );
 };
 
-export const SummariesSuccess = ({ className, data }) => {
+export const Summaries = ({ className }) => {
+    const { data, isLoading } = useQuery(getSummaries());
+
+    if (isLoading) return <SummariesSkeleton className={className} />;
+    if (!data) return null;
+
     return (
         <div
             className={cn(
@@ -27,32 +32,19 @@ export const SummariesSuccess = ({ className, data }) => {
         >
             <div className='flex flex-row gap-1 items-center [&_svg]:size-4'>
                 <BookOpen />
-                <span className=''>{thousands(data.books)}</span>
+                <span>{thousands(data.books)}</span>
                 <span className='hidden sm:block'>Libros</span>
             </div>
             <div className='flex flex-row gap-1 items-center [&_svg]:size-4'>
                 <LibraryBig />
-                <span className=''>{thousands(data.series)}</span>
+                <span>{thousands(data.series)}</span>
                 <span className='hidden sm:block'>Series</span>
             </div>
             <div className='flex flex-row gap-1 items-center [&_svg]:size-4'>
                 <CircleUserRound />
-                <span className=''>{thousands(data.authors)}</span>
+                <span>{thousands(data.authors)}</span>
                 <span className='hidden sm:block'>Autores</span>
             </div>
         </div>
-    );
-};
-
-export const Summaries = ({ className }) => {
-    return (
-        <DataLoader
-            query={getSummaries()}
-            tags={['summaries']}
-            loader={<SummariesSkeleton className={className} />}
-            preventRefetch
-        >
-            {({ data, error }) => !error && <SummariesSuccess data={data} className={className} />}
-        </DataLoader>
     );
 };
