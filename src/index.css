@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-@import './modules/core/css/fonts.css';
-@import './modules/core/css/utils.css';
-@import './modules/core/css/animations.css';
-@import './modules/core/css/shadcn.css';
+@import './css/fonts.css';
+@import './css/utils.css';
+@import './css/animations.css';
+@import './css/shadcn.css';

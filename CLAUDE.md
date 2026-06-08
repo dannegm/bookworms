@@ -73,19 +73,23 @@ This is a **book discovery SPA** built with React 19 + Vite, deployed to Vercel.
 ```
 src/
 ├── main.jsx                  # Entry: renders <RouterProvider router={router} />
-├── routers/router.jsx         # TanStack Router — code-based routes (/, /book/$libid, /author/$key, /serie/$key, /category/$key, /search/$entity, /search, /404)
-├── modules/
-│   ├── core/                  # Shared infrastructure
-│   │   ├── providers/         # Context: HelmetProvider, DarkMode, Trackers (Umami), ReactQuery, NuqsAdapter
-│   │   ├── hooks/             # useBreakpoint, useDarkMode, useLocalStorage, etc.
-│   │   ├── services/          # API clients: bookworms.js, openlibrary.js, umami.js, firebase.js (legacy)
-│   │   └── helpers/           # Pure utilities: constants, arrays, maths, strings, date, image, utils
-│   ├── main/                  # Feature modules
-│   │   ├── pages/             # Route-level components (home, book, author, serie, category, search)
-│   │   ├── components/        # UI components (book-details, book-cover, books-list, download-book, etc.)
-│   │   └── hooks/             # Feature hooks (use-author-avatar)
-│   └── shadcn/                # Shadcn/UI components (style: "new-york", icons: Lucide)
-└── index.css                  # Global styles
+├── router.jsx                # TanStack Router — code-based routes (/, /book/$libid, /author/$key, /serie/$key, /category/$key, /search/$entity, /search, /404)
+├── css/                      # Global styles: fonts, animations, shadcn vars, utils
+├── helpers/                  # Pure utilities: constants, arrays, maths, strings, date, image, utils
+├── hooks/                    # All hooks: useBreakpoint, useDarkMode, useLocalStorage, useAuthorAvatar, etc.
+├── providers/                # Context providers: HelmetProvider, DarkMode, Trackers (Umami), ReactQuery, NuqsAdapter
+├── services/                 # API clients: bookworms.js, openlibrary.js, umami.js, firebase.js (legacy)
+├── pages/                    # Route-level components: home, book, author, serie, category, search, not-found
+├── components/
+│   ├── book/                 # BookCover, BookDetails, BookPreview, BookViewer, BooksList, etc.
+│   ├── author/               # AuthorAvatar, AuthorChip, AuthorDetails, AuthorsList, etc.
+│   ├── serie/                # SerieChip, SerieDetails, SerieSuggestions, SeriesList, etc.
+│   ├── category/             # CategoryChip, CategoryDetails, etc.
+│   ├── download/             # DownloadBook, SendToKindle
+│   ├── layout/               # Layout, Section, Logo, SearchBox, Summaries, TopBooks, Faqs, BucketStatus, Loader
+│   └── system/               # Debugger, JsonViewer, BreakpointIndicator, DarkModeToggle, DebugModeToggle, TrackClick
+├── ui/                       # Shadcn/UI primitives + RichText (Button, Input, Dialog, Drawer, etc.)
+└── index.css                 # CSS entry: imports from css/
 ```
 
 ### Provider Stack (outer → inner)
@@ -158,6 +162,6 @@ Bucket server vars: `PORT`, `ALLOWED_ORIGINS`, `ALLOWED_EXTENSIONS`, `COVERS_DIR
 ## Planned Refactors (in order)
 
 1. ~~Code style — paradigms and conventions cleanup~~ ✓
-2. Folder structure reorganization
+2. ~~Folder structure reorganization~~ ✓
 3. UI redesign
 4. New features (TBD)

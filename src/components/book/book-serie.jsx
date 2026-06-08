@@ -1,6 +1,6 @@
 import { cn } from '@/helpers/utils';
 
-export const {{pascalCase name}} = ({ className }) => {
+export const BookSerie = ({ className }) => {
     return (
         <div className={cn(className)}>
 
