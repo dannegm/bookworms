@@ -1,4 +1,4 @@
-import ReactJson from 'react-json-view';
+import ReactJson from '@microlink/react-json-view';
 import { cn } from '@/modules/core/helpers/utils';
 import { ScrollArea } from '@/modules/shadcn/ui/scroll-area';
 
