@@ -11,7 +11,7 @@ import { DownloadBook } from '@/modules/main/components/download-book';
 import { SendToKindle } from '@/modules/main/components/send-to-kindle';
 import { BookViewer } from '@/modules/main/components/book-viewer';
 import { Button } from '@/modules/shadcn/ui/button';
-import { Link } from 'wouter';
+import { Link } from '@tanstack/react-router';
 
 export const BookDetails = ({ className, book }) => {
     const [viewer, setViewer] = useQueryState('viewer', parseAsBoolean.withDefault(false));
@@ -85,25 +85,25 @@ export const BookDetails = ({ className, book }) => {
 
                     <footer className='flex flex-col items-start gap-4 mt-8'>
                         {book.serie_name && (
-                            <a
+                            <Link
                                 className={cn(
                                     'flex flex-row gap-2 items-center px-4 py-2 pr-6 bg-gray-200 hover:bg-gray-300 rounded-full [&_svg]:size-4',
                                     'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600',
                                 )}
-                                href={`/serie/${keyCase(book.serie_name)}`}
+                                to={`/serie/${keyCase(book.serie_name)}`}
                             >
                                 <LibraryBig />
                                 <span>
                                     {book.serie_name} <b>#{book.serie_sequence}</b>
                                 </span>
-                            </a>
+                            </Link>
                         )}
 
                         <div className='flex flex-row flex-wrap gap-1 mb-8'>
                             {book.labels.map(category => (
                                 <Link
                                     key={`category-${category}`}
-                                    href={`/category/${keyCase(category)}`}
+                                    to={`/category/${keyCase(category)}`}
                                 >
                                     <Badge
                                         variant='outline'

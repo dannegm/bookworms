@@ -1,5 +1,5 @@
 import { useQueryState } from 'nuqs';
-import { Link } from 'wouter';
+import { Link } from '@tanstack/react-router';
 
 import { searchEntity } from '@/modules/core/services/bookworms';
 
@@ -58,7 +58,7 @@ export const Search = () => {
 
                             {Boolean(data?.data?.length) && (
                                 <Button className='self-start' asChild>
-                                    <Link href={`/search/author?q=${query}`}>
+                                    <Link to='/search/author' search={{ q: query }}>
                                         Ver todos los autores
                                     </Link>
                                 </Button>
@@ -93,7 +93,7 @@ export const Search = () => {
 
                             {Boolean(data?.data?.length) && (
                                 <Button className='self-start' asChild>
-                                    <Link href={`/search/serie?q=${query}`}>
+                                    <Link to='/search/serie' search={{ q: query }}>
                                         Ver todas las series
                                     </Link>
                                 </Button>
@@ -128,7 +128,7 @@ export const Search = () => {
 
                             {Boolean(data?.data?.length) && (
                                 <Button className='self-start' asChild>
-                                    <Link href={`/search/books?q=${query}`}>
+                                    <Link to='/search/books' search={{ q: query }}>
                                         Ver todos los libros
                                     </Link>
                                 </Button>

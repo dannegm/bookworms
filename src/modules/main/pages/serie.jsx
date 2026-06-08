@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet';
-import { useLocation } from 'wouter';
+import { useParams, useNavigate } from '@tanstack/react-router';
 
 import { getSerie } from '@/modules/core/services/bookworms';
 
@@ -12,8 +12,9 @@ import { SearchBox } from '@/modules/main/components/search-box';
 import { SerieDetails } from '@/modules/main/components/serie-details';
 import { SerieDetailsLoading } from '@/modules/main/components/serie-details-loading';
 
-export const Serie = ({ params: { key } }) => {
-    const [, navigate] = useLocation();
+export const Serie = () => {
+    const { key } = useParams({ strict: false });
+    const navigate = useNavigate();
 
     return (
         <Layout>
@@ -24,7 +25,7 @@ export const Serie = ({ params: { key } }) => {
                 tags={[`serie`]}
                 retry={0}
                 onError={error => {
-                    navigate('/404');
+                    navigate({ to: '/404' });
                 }}
                 loader={
                     <Section className='flex flex-col gap-4'>

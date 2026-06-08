@@ -18,7 +18,7 @@ import { BooksListLoading } from '@/modules/main/components/books-list-loading';
 import { AuthorsList } from '@/modules/main/components/authors-list';
 import { SeriesList } from '@/modules/main/components/series-list';
 import { BooksList } from '@/modules/main/components/books-list';
-import { Redirect } from 'wouter';
+import { useParams, Navigate } from '@tanstack/react-router';
 
 const validEntities = ['author', 'serie', 'books'];
 const entitiesTitles = {
@@ -43,12 +43,13 @@ const ResultsList = ({ entity, data }) => {
         .run();
 };
 
-export const SearchBy = ({ params: { entity } }) => {
+export const SearchBy = () => {
+    const { entity } = useParams({ strict: false });
     const [query] = useQueryState('q', { defaultValue: '' });
     const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1));
 
     if (!validEntities.includes(entity)) {
-        return <Redirect to='/404' />;
+        return <Navigate to='/404' />;
     }
 
     return (

@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet';
-import { Link } from 'wouter';
+import { Link } from '@tanstack/react-router';
 
 import { useDocumentClassNames } from '@/modules/core/hooks/use-document-class-names';
 import { useSettings } from '@/modules/core/hooks/use-settings';
@@ -37,7 +37,7 @@ export const Layout = ({ title, hideLogo = false, children }) => {
                     classNames={{ wrapper: 'sticky top-0 z-10 bg-background' }}
                 >
                     {!hideLogo && (
-                        <Link className='flex flex-row items-center gap-2' href='/'>
+                        <Link className='flex flex-row items-center gap-2' to='/'>
                             <Logo />
                         </Link>
                     )}

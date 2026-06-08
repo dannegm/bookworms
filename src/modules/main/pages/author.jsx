@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet';
-import { useLocation } from 'wouter';
+import { useParams, useNavigate } from '@tanstack/react-router';
 
 import { getAuthor } from '@/modules/core/services/bookworms';
 
@@ -13,8 +13,9 @@ import { SearchBox } from '@/modules/main/components/search-box';
 import { AuthorDetails } from '@/modules/main/components/author-details';
 import { AuthorDetailsLoading } from '@/modules/main/components/author-details-loading';
 
-export const Author = ({ params: { key } }) => {
-    const [, navigate] = useLocation();
+export const Author = () => {
+    const { key } = useParams({ strict: false });
+    const navigate = useNavigate();
 
     return (
         <Layout>
@@ -25,7 +26,7 @@ export const Author = ({ params: { key } }) => {
                 tags={[`author`]}
                 retry={0}
                 onError={error => {
-                    navigate('/404');
+                    navigate({ to: '/404' });
                 }}
                 loader={
                     <Section className='flex flex-col gap-4'>

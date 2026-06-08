@@ -1,6 +1,8 @@
 import { Helmet } from 'react-helmet';
 import { useQueryState, parseAsInteger } from 'nuqs';
 
+import { useParams, Link } from '@tanstack/react-router';
+
 import { AlertCircleIcon, LibraryBig, Tag } from 'lucide-react';
 
 import { keyCase, thousands } from '@/modules/core/helpers/strings';
@@ -26,7 +28,8 @@ const getCategoryName = (key, data = []) => {
     return found || data[0].labels?.[0].split(' ')[0] || 'Sin categoría';
 };
 
-export const Category = ({ params: { key } }) => {
+export const Category = () => {
+    const { key } = useParams({ strict: false });
     const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1));
 
     return (
@@ -70,7 +73,7 @@ export const Category = ({ params: { key } }) => {
                                                 variant='ghost'
                                                 asChild
                                             >
-                                                <a href={`/category/${key}`}>Repetir búsqueda</a>
+                                                <Link to={`/category/${key}`}>Repetir búsqueda</Link>
                                             </Button>
                                         </AlertDescription>
                                     </Alert>

@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import { cn } from '@/modules/core/helpers/utils';
 import { BookCover } from './book-cover';
 import { Tooltip } from '@/modules/shadcn/ui/tooltip-simple';
@@ -7,9 +8,9 @@ import { keyCase } from '@/modules/core/helpers/strings';
 
 export const BookPreview = ({ className, book }) => {
     return (
-        <a
+        <Link
             className={cn('flex flex-col items-center cursor-pointer', className)}
-            href={`/book/${book.libid}/${keyCase(book.title)}`}
+            to={`/book/${book.libid}/${keyCase(book.title)}`}
         >
             <div className='relative mx-auto'>
                 <BookCover key={book.libid} book={book} width={140} />
@@ -38,6 +39,6 @@ export const BookPreview = ({ className, book }) => {
             <div className='mt-4 w-full'>
                 <DownloadBook className='w-full' book={book} />
             </div>
-        </a>
+        </Link>
     );
 };

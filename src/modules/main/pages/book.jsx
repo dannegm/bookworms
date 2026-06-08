@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet';
-import { useLocation } from 'wouter';
+import { useParams, useNavigate } from '@tanstack/react-router';
 
 import { getBook, getSerie } from '@/modules/core/services/bookworms';
 
@@ -15,8 +15,9 @@ import { BooksList } from '@/modules/main/components/books-list';
 import { BooksListLoading } from '@/modules/main/components/books-list-loading';
 import { BookDetailsLoading } from '@/modules/main/components/book-details-loading';
 
-export const Book = ({ params: { libid } }) => {
-    const [, navigate] = useLocation();
+export const Book = () => {
+    const { libid } = useParams({ strict: false });
+    const navigate = useNavigate();
 
     return (
         <Layout>
@@ -27,7 +28,7 @@ export const Book = ({ params: { libid } }) => {
                 tags={[`book`]}
                 retry={0}
                 onError={error => {
-                    navigate('/404');
+                    navigate({ to: '/404' });
                 }}
                 loader={
                     <Section className='flex flex-col gap-4'>
