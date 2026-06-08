@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 
-import { getBook, getSerie } from '@/modules/core/services/bookworms';
+import { getBook } from '@/modules/core/services/bookworms';
 
 import { Debugger } from '@/modules/core/components/debugger';
 
@@ -12,19 +12,14 @@ import { Section } from '@/modules/main/components/section';
 import { SearchBox } from '@/modules/main/components/search-box';
 
 import { BookDetails } from '@/modules/main/components/book-details';
-import { BooksList } from '@/modules/main/components/books-list';
-import { BooksListLoading } from '@/modules/main/components/books-list-loading';
 import { BookDetailsLoading } from '@/modules/main/components/book-details-loading';
+import { SerieSuggestions } from '@/modules/main/components/serie-suggestions';
 
 export const Book = () => {
     const { libid } = useParams({ strict: false });
     const navigate = useNavigate();
 
     const { data, isLoading, isError, error } = useQuery(getBook(libid, { retry: 0 }));
-    const { data: serieData, isLoading: serieLoading } = useQuery({
-        ...getSerie(data?.serie_name),
-        enabled: !!data?.serie_name,
-    });
 
     useEffect(() => {
         if (isError) navigate({ to: '/404' });
@@ -57,16 +52,7 @@ export const Book = () => {
             </Section>
 
             {data.serie_name && (
-                <Section className='flex flex-col gap-8'>
-                    {serieLoading ? (
-                        <BooksListLoading />
-                    ) : (
-                        <>
-                            <h2 className='font-bold'>Más libros que podrían interesarte</h2>
-                            <BooksList books={serieData?.books} />
-                        </>
-                    )}
-                </Section>
+                <SerieSuggestions serieName={data.serie_name} />
             )}
         </Layout>
     );

@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { NuqsAdapter } from 'nuqs/adapters/react';
 import { Toaster } from '@/modules/shadcn/ui/sonner';
@@ -10,6 +11,7 @@ const queryClient = new QueryClient();
 
 export const Providers = ({ children }) => {
     return (
+        <HelmetProvider>
         <NuqsAdapter>
             <TrackersProvider>
                 <QueryClientProvider client={queryClient}>
@@ -22,5 +24,6 @@ export const Providers = ({ children }) => {
                 </QueryClientProvider>
             </TrackersProvider>
         </NuqsAdapter>
+        </HelmetProvider>
     );
 };

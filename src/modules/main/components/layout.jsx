@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Link } from '@tanstack/react-router';
 
 import { useDocumentClassNames } from '@/modules/core/hooks/use-document-class-names';
