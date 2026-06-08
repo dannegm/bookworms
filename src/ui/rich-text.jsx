@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getSettings } from '../services/bookworms';
-import { formatDate } from '../helpers/date';
+import { getSettings } from '@/services/bookworms';
+import { formatDate } from '@/helpers/date';
 
 export const buildDefaultElements = ({ settings = {} } = {}) => [
     // Italic

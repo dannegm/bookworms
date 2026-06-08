@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { cn } from '@/helpers/utils';
-import { BookCover } from './book-cover';
+import { BookCover } from '@/components/book/book-cover';
 import { Tooltip } from '@/ui/tooltip-simple';
 import { DownloadBook } from '@/components/download/download-book';
 import { Download, Eye } from 'lucide-react';

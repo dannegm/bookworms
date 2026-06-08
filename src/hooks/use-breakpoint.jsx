@@ -1,6 +1,6 @@
 import { useResize } from '@/hooks/use-resize';
 import { useState } from 'react';
-import { sortBy } from '../helpers/arrays';
+import { sortBy } from '@/helpers/arrays';
 
 const DEFAULT = 'default';
 const DEFAULT_BREAKPOINTS = {

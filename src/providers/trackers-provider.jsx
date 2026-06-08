@@ -1,5 +1,5 @@
 import { umami } from '@/services/umami';
-import { useDelayedEffect } from '../hooks/use-delayed-effect';
+import { useDelayedEffect } from '@/hooks/use-delayed-effect';
 
 export const TrackersProvider = ({ children }) => {
     useDelayedEffect(

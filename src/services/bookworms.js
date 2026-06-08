@@ -1,5 +1,5 @@
 import { keyCase } from '@/helpers/strings';
-import { buildQueryParams } from '../helpers/utils';
+import { buildQueryParams } from '@/helpers/utils';
 
 const baseURL = 'https://endpoints.hckr.mx/bookworms';
 const API_KEY = import.meta.env.NEXT_PUBLIC_BOOKWORMS_API_KEY;

@@ -1,5 +1,5 @@
-import { BookCoverFirebase } from './book-cover-firebase.jsx';
-import { BookCoverTunnel } from './book-cover-tunnel.jsx';
+import { BookCoverFirebase } from '@/components/book/book-cover-firebase';
+import { BookCoverTunnel } from '@/components/book/book-cover-tunnel';
 
 const DEFAULT_VENDOR = import.meta.env.NEXT_PUBLIC_COVER_VENDOR ?? 'tunnel';
 

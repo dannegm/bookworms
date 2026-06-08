@@ -1,5 +1,5 @@
 import { camelCase, capitalize, snakeCase, trim, lowerCase, deburr, kebabCase } from 'lodash';
-import { pipe } from './utils';
+import { pipe } from '@/helpers/utils';
 
 const toString = str => str.toString();
 

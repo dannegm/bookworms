@@ -5,7 +5,7 @@ import { NuqsAdapter } from 'nuqs/adapters/react';
 import { Toaster } from '@/ui/sonner';
 
 import { DarkModeProvider } from '@/providers/dark-mode-provider';
-import { TrackersProvider } from './trackers-provider';
+import { TrackersProvider } from '@/providers/trackers-provider';
 
 const queryClient = new QueryClient();
 
