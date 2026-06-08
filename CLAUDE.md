@@ -72,13 +72,13 @@ This is a **book discovery SPA** built with React 19 + Vite, deployed to Vercel.
 
 ```
 src/
-├── main.jsx                  # Entry: renders <Providers><Router />
-├── routers/router.jsx         # Wouter routes (/, /book/:libid, /author/:key, /serie/:key, /category/:key, /search/:entity, /search)
+├── main.jsx                  # Entry: renders <RouterProvider router={router} />
+├── routers/router.jsx         # TanStack Router — code-based routes (/, /book/$libid, /author/$key, /serie/$key, /category/$key, /search/$entity, /search, /404)
 ├── modules/
 │   ├── core/                  # Shared infrastructure
-│   │   ├── providers/         # Context: DarkMode, Trackers (Umami), ReactQuery, NuqsAdapter
-│   │   ├── hooks/             # useBreakpoint, useDarkMode, useDataLoader, useLocalStorage, etc.
-│   │   ├── services/          # API clients: bookworms.js, firebase.js, openlibrary.js, umami.js
+│   │   ├── providers/         # Context: HelmetProvider, DarkMode, Trackers (Umami), ReactQuery, NuqsAdapter
+│   │   ├── hooks/             # useBreakpoint, useDarkMode, useLocalStorage, etc.
+│   │   ├── services/          # API clients: bookworms.js, openlibrary.js, umami.js, firebase.js (legacy)
 │   │   └── helpers/           # Pure utilities: constants, arrays, maths, strings, date, image, utils
 │   ├── main/                  # Feature modules
 │   │   ├── pages/             # Route-level components (home, book, author, serie, category, search)
@@ -95,7 +95,8 @@ src/
 ### Data Flow
 
 - **API layer**: All data fetches go through `src/modules/core/services/bookworms.js` → `https://endpoints.hckr.mx/bookworms`
-- **Data fetching**: TanStack React Query v5
+- **Data fetching**: TanStack React Query v5. Service functions follow a query factory pattern — they return `{ queryKey, queryFn, ...options }` objects and are passed directly to `useQuery()`. Example: `useQuery(getBook(libid, { retry: 0 }))`.
+- **Rendering pattern**: use if-block early returns instead of ternary conditional renders. Repeat the layout structure in loading/error states rather than nesting ternaries.
 - **Book covers**: `book-cover.jsx` (tunnel, production) and `book-cover-firebase.jsx` (legacy). Controlled by `NEXT_PUBLIC_COVER_VENDOR`.
 - **URL state**: `nuqs` manages search/filter state in query strings
 - **Download state machine**: `UNINITIALIZED → REQUESTED → (5s) → AVAILABLE → DOWNLOADING → UNINITIALIZED` (or `REJECTED` on failure — terminal, no retry). See `src/modules/main/components/download-book.jsx`.
@@ -106,7 +107,7 @@ src/
 
 ## Code Generation
 
-Use `npm run make` (Plop) to scaffold new files from templates:
+Use `yarn make` (Plop) to scaffold new files from templates:
 - `component` → `src/modules/main/components/{name}.jsx`
 - `hook` → `src/modules/main/hooks/use-{name}.jsx`
 
@@ -147,8 +148,7 @@ Bucket server vars: `PORT`, `ALLOWED_ORIGINS`, `ALLOWED_EXTENSIONS`, `COVERS_DIR
 - **Shadows**: always pair with an explicit color — `shadow-lg shadow-black/30`. Tailwind v4 shadows have no default color.
 
 **Other**
-- `match()` from `@/modules/core/helpers/utils` is a custom pattern-matching utility inspired by `ts-pattern`
-- `supabase` in `package.json` is unused in the frontend (used in the API only) — can be removed
+- `match()` from `@/modules/core/helpers/utils` is a custom pattern-matching utility inspired by `ts-pattern`. Always works with objects. Handlers can be functions `() => value` or raw values directly.
 
 ## Responsive Design
 
@@ -157,7 +157,7 @@ Bucket server vars: `PORT`, `ALLOWED_ORIGINS`, `ALLOWED_EXTENSIONS`, `COVERS_DIR
 
 ## Planned Refactors (in order)
 
-1. Code style — paradigms and conventions cleanup
+1. ~~Code style — paradigms and conventions cleanup~~ ✓
 2. Folder structure reorganization
 3. UI redesign
 4. New features (TBD)
