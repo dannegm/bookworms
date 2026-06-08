@@ -34,7 +34,7 @@ export const BreakpointIndicator = ({ position = undefined }) => {
     return (
         <div
             className={cn(
-                'fixed z-500 flex gap-1 bg-black text-white px-4 py-2 rounded-lg shadow-lg text-sm font-bold',
+                'fixed z-500 flex gap-1 bg-black text-white px-4 py-2 rounded-lg shadow-lg shadow-black/30 text-sm font-bold',
                 positionClassName,
             )}
         >

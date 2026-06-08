@@ -7,7 +7,7 @@ export const BookDetailsLoading = ({ className }) => {
         <div className={cn(className)}>
             <div className='flex flex-col sm:flex-row items-start gap-8'>
                 <figure className='flex w-full sm:w-auto justify-center sm:justify-start'>
-                    <Skeleton className='w-[200px] aspect-book' />
+                    <Skeleton className='w-50 aspect-book' />
                 </figure>
 
                 <div className='w-full flex flex-col gap-4'>

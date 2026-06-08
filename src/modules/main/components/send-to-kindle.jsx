@@ -164,7 +164,7 @@ export const SendToKindle = ({ className, book, size = 'default' }) => {
             className='mt-0 pt-0'
             classNames={{
                 content:
-                    'mt-0 pt-0 sm:bg-popover sm:p-4 sm:w-80 sm:border sm:border-accent-200 sm:dark:border-accent-700 sm:rounded-md sm:shadow-lg',
+                    'mt-0 pt-0 sm:bg-popover sm:p-4 sm:w-80 sm:border sm:border-accent-200 sm:dark:border-accent-700 sm:rounded-md sm:shadow-lg sm:shadow-black/30',
             }}
             trigger={
                 <Button
