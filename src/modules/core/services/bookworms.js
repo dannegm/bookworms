@@ -1,58 +1,55 @@
-import axios from 'axios';
 import { keyCase } from '@/modules/core/helpers/strings';
 import { buildQueryParams } from '../helpers/utils';
 
 const baseURL = 'https://endpoints.hckr.mx/bookworms';
 const API_KEY = import.meta.env.NEXT_PUBLIC_BOOKWORMS_API_KEY;
 
-const bookwormsApi = axios.create({
-    baseURL,
-    headers: {
-        'x-dnn-apikey': API_KEY,
-    },
-});
+const request = async (path, options = {}) => {
+    const res = await fetch(`${baseURL}${path}`, {
+        ...options,
+        headers: {
+            'x-dnn-apikey': API_KEY,
+            ...options.headers,
+        },
+    });
+    if (!res.ok) throw new Error(res.statusText);
+    return res;
+};
 
 export const getSettings = () => async () => {
-    const { data } = await bookwormsApi.get(`/settings`);
-    return data;
+    return (await request(`/settings`)).json();
 };
 
 export const getSummaries = () => async () => {
-    const { data } = await bookwormsApi.get(`/summaries`);
-    return data;
+    return (await request(`/summaries`)).json();
 };
 
 export const searchEntity =
     ({ entity, query, page = 1, limit = 10 }) =>
     async () => {
         const params = buildQueryParams({ entity, q: query, page, limit });
-        const { data } = await bookwormsApi.get(`/search/${entity}${params}`);
-        return data;
+        return (await request(`/search/${entity}${params}`)).json();
     };
 
 export const getTop =
     (entity, category = 'views', limit = 10) =>
     async () => {
         const params = buildQueryParams({ entity, category, limit });
-        const { data } = await bookwormsApi.get(`/top${params}`);
-        return data;
+        return (await request(`/top${params}`)).json();
     };
 
 export const getBook = libid => async () => {
-    const { data } = await bookwormsApi.get(`/book/${libid}`);
-    return data;
+    return (await request(`/book/${libid}`)).json();
 };
 
 export const getAuthor = authorName => async () => {
     const authorKey = keyCase(authorName);
-    const { data } = await bookwormsApi.get(`/author/${authorKey}`);
-    return data;
+    return (await request(`/author/${authorKey}`)).json();
 };
 
 export const getSerie = serieName => async () => {
     const serieKey = keyCase(serieName);
-    const { data } = await bookwormsApi.get(`/serie/${serieKey}`);
-    return data;
+    return (await request(`/serie/${serieKey}`)).json();
 };
 
 export const getCategory =
@@ -60,44 +57,41 @@ export const getCategory =
     async () => {
         const categoryKey = keyCase(categoryName);
         const params = buildQueryParams({ page, limit });
-        const { data } = await bookwormsApi.get(`/category/${categoryKey}${params}`);
-        return data;
+        return (await request(`/category/${categoryKey}${params}`)).json();
     };
 
 export const requestBookFile = async (filename, format = 'epub') => {
-    await bookwormsApi.get(`/request?filename=${filename}&format=${format}`);
+    await request(`/request?filename=${filename}&format=${format}`);
 };
 
 export const validateBookFile = async filename => {
     try {
-        const { data } = await bookwormsApi.get(`/validate?filename=${filename}`);
+        const data = await (await request(`/validate?filename=${filename}`)).json();
         return data?.downloadUrl;
-    } catch (err) {
+    } catch {
         return false;
     }
 };
 
 export const downloadBookFile = async filename => {
-    const { data } = await bookwormsApi.get(`/download?filename=${filename}`, {
-        responseType: 'blob',
-    });
-    const blob = new Blob([data], { type: 'application/epub+zip' });
-    return blob;
+    return (await request(`/download?filename=${filename}`)).blob();
 };
 
 export const sendBookToKindle = async ({ filename, email }) => {
-    const { data } = await bookwormsApi.post(`/sendto-kindle`, {
-        filename,
-        email,
-    });
-    return data;
+    return (
+        await request(`/sendto-kindle`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename, email }),
+        })
+    ).json();
 };
 
 export const getFileUrl = async filename => {
     try {
-        const { data } = await bookwormsApi.get(`/file?filename=${filename}`);
+        const data = await (await request(`/file?filename=${filename}`)).json();
         return data?.publicUrl;
-    } catch (err) {
+    } catch {
         return false;
     }
 };
