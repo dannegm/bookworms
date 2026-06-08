@@ -73,7 +73,7 @@ export function match(action) {
             return this;
         },
         run() {
-            return finalHandler?.(action) || finalHandler;
+            return typeof finalHandler === 'function' ? finalHandler(action) : finalHandler;
         },
     };
 }
