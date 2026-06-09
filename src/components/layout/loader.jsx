@@ -1,4 +1,4 @@
-import PuffLoader from 'react-spinners/PuffLoader';
+import { PuffLoader } from 'react-spinners';
 import { useDarkMode } from '@/hooks/use-dark-mode';
 
 export const Loader = () => {
