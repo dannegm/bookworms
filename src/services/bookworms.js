@@ -82,6 +82,21 @@ export const getCategory = ({ categoryName, page = 1, limit = 10, ...options }) 
     };
 };
 
+export const getTopics = ({ page = 1, limit = 50, ...options } = {}) => ({
+    queryKey: ['topics', page, limit],
+    queryFn: async () => {
+        const params = buildQueryParams({ page, limit });
+        return (await request(`/topics${params}`)).json();
+    },
+    ...options,
+});
+
+export const getLastCollection = (options = {}) => ({
+    queryKey: ['collections', 'last'],
+    queryFn: async () => (await request('/collections/last')).json(),
+    ...options,
+});
+
 export const requestBookFile = async (filename, format = 'epub') => {
     await request(`/request?filename=${filename}&format=${format}`);
 };

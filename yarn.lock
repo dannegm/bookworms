@@ -633,6 +633,11 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@lucide/lab@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@lucide/lab/-/lab-0.1.2.tgz#1408bb0063d5f94e944d4a3ba329874785c12a7a"
+  integrity sha512-VprF2BJa7ZuTGOhUd5cf8tHJXyL63wdxcGieAiVVoR9hO0YmPsnZO0AGqDiX2/br+/MC6n8BoJcmPilltOXIJA==
+
 "@microlink/react-json-view@^1.31.20":
   version "1.31.20"
   resolved "https://registry.yarnpkg.com/@microlink/react-json-view/-/react-json-view-1.31.20.tgz#208eed92fbd4d5869a0dd754c880060f945fcc6d"
@@ -2554,10 +2559,10 @@ loose-envify@^1.0.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-lucide-react@^0.511.0:
-  version "0.511.0"
-  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.511.0.tgz#1dfef3065c725ac83f5fe0a6f02d1e0b0c36e641"
-  integrity sha512-VK5a2ydJ7xm8GvBeKLS9mu1pVK6ucef9780JVUjw6bAjJL/QXnd4Y0p7SPeOUMC27YhzNCZvm5d/QX0Tp3rc0w==
+lucide-react@^1.17.0:
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-1.17.0.tgz#5b8ddd7d6975e3e45dc9d03025afc7674d78f8a8"
+  integrity sha512-9FA9evdox/JQL5PT57fdA1x/yg8T7knJ98+zjTL3UfKza6pflQUUh3XtaQIHKvnsJw1lmsEyHVlt5jchYxOQ5w==
 
 magic-string@^0.30.21:
   version "0.30.21"
