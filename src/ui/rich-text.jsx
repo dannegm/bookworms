@@ -70,7 +70,7 @@ export default function RichText({ children, elements = buildDefaultElements }) 
     const { data: resolvedElements } = useQuery({
         queryKey: ['rich-text:elements'],
         queryFn: async () => {
-            const settings = await getSettings()();
+            const settings = await getSettings()?.queryFn();
             console.log('Fetched settings for RichText:', settings);
             return elements({ settings });
         },
