@@ -32,3 +32,12 @@ export const formatBytes = (bytes, decimals = 2) => {
 };
 
 export const thousands = number => new Intl.NumberFormat('en-US').format(number);
+
+export const compact = (number, decimals = 1) => {
+    const abs = Math.abs(number);
+    const fmt = n => decimals > 0 ? +n.toFixed(decimals) : Math.floor(n);
+    if (abs >= 1_000_000_000) return `${fmt(abs / 1_000_000_000)}B`;
+    if (abs >= 1_000_000) return `${fmt(abs / 1_000_000)}M`;
+    if (abs >= 1_000) return `${fmt(abs / 1_000)}k`;
+    return `${abs}`;
+};

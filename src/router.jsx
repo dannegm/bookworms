@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router';
 
 import { Providers } from '@/providers/providers';
@@ -10,6 +11,17 @@ import { Serie } from '@/pages/serie';
 import { SearchBy } from '@/pages/search-by';
 import { Search } from '@/pages/search';
 import { Category } from '@/pages/category';
+import { Explore } from '@/pages/explore';
+import { Collection } from '@/pages/collection';
+import { Topic } from '@/pages/topic';
+import { About } from '@/pages/about';
+
+const redirect = ({ to }) => () => {
+    useEffect(() => {
+        window.location.replace(to);
+    }, []);
+    return null;
+};
 
 const rootRoute = createRootRoute({
     component: () => (
@@ -28,6 +40,13 @@ const serieRoute = createRoute({ getParentRoute: () => rootRoute, path: '/serie/
 const categoryRoute = createRoute({ getParentRoute: () => rootRoute, path: '/category/$key', component: Category });
 const searchByRoute = createRoute({ getParentRoute: () => rootRoute, path: '/search/$entity', component: SearchBy });
 const searchRoute = createRoute({ getParentRoute: () => rootRoute, path: '/search', component: Search });
+const exploreRoute = createRoute({ getParentRoute: () => rootRoute, path: '/explore', component: Explore });
+const collectionRoute = createRoute({ getParentRoute: () => rootRoute, path: '/collection/$id', component: Collection });
+const collectionWithHeadlineRoute = createRoute({ getParentRoute: () => rootRoute, path: '/collection/$id/$headline', component: Collection });
+const topicRoute = createRoute({ getParentRoute: () => rootRoute, path: '/topic/$id', component: Topic });
+const topicWithHintRoute = createRoute({ getParentRoute: () => rootRoute, path: '/topic/$id/$hint', component: Topic });
+const aboutRoute = createRoute({ getParentRoute: () => rootRoute, path: '/about', component: About });
+const issuesRoute = createRoute({ getParentRoute: () => rootRoute, path: '/issues', component: redirect({ to: 'https://github.com/dannegm/bookworms/issues' }) });
 const notFoundRoute = createRoute({ getParentRoute: () => rootRoute, path: '/404', component: NotFound });
 
 export const router = createRouter({
@@ -40,6 +59,13 @@ export const router = createRouter({
         categoryRoute,
         searchByRoute,
         searchRoute,
+        exploreRoute,
+        collectionRoute,
+        collectionWithHeadlineRoute,
+        topicRoute,
+        topicWithHintRoute,
+        aboutRoute,
+        issuesRoute,
         notFoundRoute,
     ]),
 });

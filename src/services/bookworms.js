@@ -16,15 +16,29 @@ const request = async (path, options = {}) => {
     return res;
 };
 
+// Unwraps { data } envelope and throws on { error }
+const unwrap = async (res) => {
+    const body = await res.json();
+    if (body.error) throw new Error(body.error);
+    return body.data ?? body;
+};
+
+// Returns full { data, pagination } for endpoints where callers need pagination info
+const paginated = async (res) => {
+    const body = await res.json();
+    if (body.error) throw new Error(body.error);
+    return body;
+};
+
 export const getSettings = (options = {}) => ({
     queryKey: ['settings'],
-    queryFn: async () => (await request('/settings')).json(),
+    queryFn: async () => unwrap(await request('/settings')),
     ...options,
 });
 
 export const getSummaries = (options = {}) => ({
     queryKey: ['summaries'],
-    queryFn: async () => (await request('/summaries')).json(),
+    queryFn: async () => unwrap(await request('/summaries')),
     ...options,
 });
 
@@ -32,14 +46,14 @@ export const searchEntity = ({ entity, query, page = 1, limit = 10, ...options }
     queryKey: ['search', entity, query, page, limit],
     queryFn: async () => {
         const params = buildQueryParams({ entity, q: query, page, limit });
-        return (await request(`/search/${entity}${params}`)).json();
+        return paginated(await request(`/search/${entity}${params}`));
     },
     ...options,
 });
 
 export const getBook = (libid, options = {}) => ({
     queryKey: ['book', libid],
-    queryFn: async () => (await request(`/book/${libid}`)).json(),
+    queryFn: async () => unwrap(await request(`/book/${libid}`)),
     ...options,
 });
 
@@ -47,7 +61,7 @@ export const getAuthor = (authorName, options = {}) => {
     const authorKey = keyCase(authorName);
     return {
         queryKey: ['author', authorKey],
-        queryFn: async () => (await request(`/author/${authorKey}`)).json(),
+        queryFn: async () => unwrap(await request(`/author/${authorKey}`)),
         ...options,
     };
 };
@@ -56,7 +70,7 @@ export const getSerie = (serieName, options = {}) => {
     const serieKey = keyCase(serieName ?? '');
     return {
         queryKey: ['serie', serieKey],
-        queryFn: async () => (await request(`/serie/${serieKey}`)).json(),
+        queryFn: async () => unwrap(await request(`/serie/${serieKey}`)),
         ...options,
     };
 };
@@ -67,7 +81,7 @@ export const getCategory = ({ categoryName, page = 1, limit = 10, ...options }) 
         queryKey: ['category', categoryKey, page, limit],
         queryFn: async () => {
             const params = buildQueryParams({ page, limit });
-            return (await request(`/category/${categoryKey}${params}`)).json();
+            return paginated(await request(`/category/${categoryKey}${params}`));
         },
         ...options,
     };
@@ -75,7 +89,7 @@ export const getCategory = ({ categoryName, page = 1, limit = 10, ...options }) 
 
 export const getSearchSuggestions = (options = {}) => ({
     queryKey: ['search', 'suggestions'],
-    queryFn: async () => (await request('/search/suggestions')).json(),
+    queryFn: async () => unwrap(await request('/search/suggestions')),
     ...options,
 });
 
@@ -83,14 +97,41 @@ export const getTopics = ({ page = 1, limit = 50, ...options } = {}) => ({
     queryKey: ['topics', page, limit],
     queryFn: async () => {
         const params = buildQueryParams({ page, limit });
-        return (await request(`/topics${params}`)).json();
+        return unwrap(await request(`/topics${params}`));
     },
+    ...options,
+});
+
+export const getCollections = ({ page = 1, limit = 50, ...options } = {}) => ({
+    queryKey: ['collections', page, limit],
+    queryFn: async () => {
+        const params = buildQueryParams({ page, limit });
+        return paginated(await request(`/collections${params}`));
+    },
+    ...options,
+});
+
+export const getCollection = (id, options = {}) => ({
+    queryKey: ['collection', id],
+    queryFn: async () => unwrap(await request(`/collections/${id}`)),
+    ...options,
+});
+
+export const getTopic = (id, options = {}) => ({
+    queryKey: ['topic', id],
+    queryFn: async () => unwrap(await request(`/topics/${id}`)),
+    ...options,
+});
+
+export const getTopicCollections = (id, options = {}) => ({
+    queryKey: ['topic', id, 'collections'],
+    queryFn: async () => unwrap(await request(`/topics/${id}/collections`)),
     ...options,
 });
 
 export const getLastCollection = (options = {}) => ({
     queryKey: ['collections', 'last'],
-    queryFn: async () => (await request('/collections/last')).json(),
+    queryFn: async () => unwrap(await request('/collections/last')),
     ...options,
 });
 

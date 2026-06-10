@@ -28,19 +28,19 @@ export const Footer = () => {
                     </span>
                     <nav className='flex gap-5 flex-wrap items-center'>
                         <a
-                            href='/search'
+                            href='/explore'
                             className='text-sm text-muted-foreground hover:text-brand transition-colors font-noto'
                         >
                             Explorar
                         </a>
                         <a
-                            href='#'
+                            href='/about'
                             className='text-sm text-muted-foreground hover:text-brand transition-colors font-noto'
                         >
                             Sobre el proyecto
                         </a>
                         <a
-                            href='https://github.com/dannegm/bookworms/issues'
+                            href='/issues'
                             target='_blank'
                             rel='noopener noreferrer'
                             className='text-sm text-muted-foreground hover:text-brand transition-colors font-noto'

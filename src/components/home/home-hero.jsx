@@ -1,11 +1,10 @@
-import { useState } from 'react';
-import { Search } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 
 import { cn } from '@/helpers/utils';
 import { thousands } from '@/helpers/strings';
 import { getSummaries, getSearchSuggestions } from '@/services/bookworms';
 import { Skeleton } from '@/ui/skeleton';
+import { SearchBox } from '@/components/layout/search-box';
 
 const HeroSubtitle = () => {
     const { data, isLoading } = useQuery(getSummaries());
@@ -106,23 +105,9 @@ export const HomeHero = () => {
 
             <HeroSubtitle />
 
-            <form action='/search' method='get' className='mb-3'>
-                <div className='flex items-center gap-2 border-[1.5px] border-border rounded-xl pl-[14px] pr-[6px] focus-within:border-brand transition-colors duration-150'>
-                    <Search className='text-muted-foreground size-[18px] shrink-0' />
-                    <input
-                        name='q'
-                        type='text'
-                        placeholder='Buscar por libro, autor o serie...'
-                        className='flex-1 min-w-0 bg-transparent border-none outline-none text-[15px] text-foreground placeholder:text-muted-foreground py-[14px] font-noto caret-brand'
-                    />
-                    <button
-                        type='submit'
-                        className='text-brand hover:text-brand/80 text-sm font-medium py-[9px] px-2 shrink-0 transition-colors font-noto rounded-lg'
-                    >
-                        Buscar
-                    </button>
-                </div>
-            </form>
+            <div className='mb-3'>
+                <SearchBox variant='hero' />
+            </div>
 
             <SearchChips />
 
