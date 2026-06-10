@@ -1,19 +1,17 @@
-import { CircleUserRound } from 'lucide-react';
 import { cn } from '@/helpers/utils';
 import { keyCase } from '@/helpers/strings';
+import { AuthorAvatar } from '@/components/author/author-avatar';
 
-export const AuthorChip = ({ className, author }) => {
-    return (
-        <a
-            className={cn(
-                'py-2 pl-3 pr-4 flex gap-2 items-center bg-neutral-200 hover:bg-neutral-300 rounded-full text-sm [&_svg]:size-4',
-                'dark:bg-neutral-800 dark:hover:bg-neutral-700',
-                className,
-            )}
-            href={`/author/${keyCase(author.name)}`}
-        >
-            <CircleUserRound />
-            {author.name}
-        </a>
-    );
-};
+export const AuthorChip = ({ className, author }) => (
+    <a
+        href={`/author/${keyCase(author.name)}`}
+        className={cn(
+            'inline-flex items-center gap-2 pl-1.5 pr-3 py-1 rounded-full bg-muted',
+            'hover:bg-brand/10 hover:text-brand transition-colors',
+            className,
+        )}
+    >
+        <AuthorAvatar className='size-6' name={author.name} />
+        <span className='text-xs font-noto text-foreground'>{author.name}</span>
+    </a>
+);

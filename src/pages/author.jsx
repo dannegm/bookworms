@@ -27,7 +27,7 @@ export const Author = () => {
     if (isLoading) return (
         <Layout>
             <SearchBoxContainer><SearchBox /></SearchBoxContainer>
-            <PageInner className='flex flex-col gap-4'>
+            <PageInner>
                 <AuthorDetailsLoading />
             </PageInner>
         </Layout>
@@ -46,7 +46,7 @@ export const Author = () => {
             <Debugger name='author' data={data} />
             {error && <Debugger name='error' data={error} />}
 
-            <PageInner className='flex flex-col gap-4'>
+            <PageInner>
                 <AuthorDetails author={data} />
             </PageInner>
         </Layout>

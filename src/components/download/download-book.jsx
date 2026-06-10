@@ -61,7 +61,7 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
             <TrackClick className={cn(className)} name='book:request' data={{ book }}>
                 <Button
                     size={size}
-                    className={cn('bg-blue-400 hover:bg-blue-500 text-white', className)}
+                    className={cn('bg-brand text-brand-foreground hover:bg-brand/90 font-noto', className)}
                     onClick={handleRequest}
                 >
                     <DownloadCloud />
@@ -72,7 +72,7 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
         .with({ state: DownloadStates.REQUESTED }, () => (
             <Button
                 size={size}
-                className={cn('bg-blue-400 hover:bg-blue-500 text-white', className)}
+                className={cn('bg-brand text-brand-foreground font-noto', className)}
                 disabled
             >
                 <Loader2 className='animate-spin' />
@@ -83,18 +83,18 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
             <TrackClick className={cn(className)} name='book:download' data={{ book }}>
                 <Button
                     size={size}
-                    className={cn('bg-green-400 hover:bg-green-500 text-white', className)}
+                    className={cn('bg-emerald-600 hover:bg-emerald-700 text-white font-noto', className)}
                     onClick={handleDownload}
                 >
                     <Download />
-                    Descargar
+                    Disponible
                 </Button>
             </TrackClick>
         ))
         .with({ state: DownloadStates.DOWNLOADING }, () => (
             <Button
                 size={size}
-                className={cn('bg-green-400 hover:bg-green-500 text-white', className)}
+                className={cn('bg-emerald-600 text-white font-noto', className)}
                 disabled
             >
                 <Loader2 className='animate-spin' />
@@ -104,7 +104,8 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
         .with({ state: DownloadStates.REJECTED }, () => (
             <Button
                 size={size}
-                className={cn('bg-red-400 hover:bg-red-500 text-white', className)}
+                variant='outline'
+                className={cn('font-noto text-muted-foreground', className)}
                 disabled
             >
                 <Frown />

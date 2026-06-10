@@ -2,7 +2,7 @@ import { SearchX } from 'lucide-react';
 
 import { cn } from '@/helpers/utils';
 
-import { CollectionBookItem } from '@/components/book/collection-book-item';
+import { BookCard } from '@/components/book/book-card';
 
 const BooksEmpty = () => (
     <div className='flex items-center gap-4 px-4 py-5 rounded-xl border border-dashed border-border'>
@@ -26,7 +26,7 @@ export const BooksList = ({ className, books = [] }) => {
     return (
         <div className={cn('grid grid-cols-2 sm:grid-cols-4 gap-2.5', className)}>
             {books.map(book => (
-                <CollectionBookItem key={`book-${book.libid}`} book={book} />
+                <BookCard key={`book-${book.libid}`} book={book} />
             ))}
         </div>
     );

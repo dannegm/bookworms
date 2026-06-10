@@ -8,7 +8,7 @@ import { Skeleton } from '@/ui/skeleton';
 
 import { Layout } from '@/components/layout/layout';
 import { SearchBox } from '@/components/layout/search-box';
-import { CollectionBookItem } from '@/components/book/collection-book-item';
+import { BookCard } from '@/components/book/book-card';
 import { Eyebrow, SectionTitle, SectionDesc, PageInner, SearchBoxContainer } from '@/components/layout/primitives';
 
 const CollectionSkeleton = () => (
@@ -62,7 +62,7 @@ export const Collection = () => {
 
                 <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3'>
                     {data.books?.map(book => (
-                        <CollectionBookItem key={book.libid} book={book} />
+                        <BookCard key={book.libid} book={book} />
                     ))}
                 </div>
             </PageInner>

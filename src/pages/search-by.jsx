@@ -19,7 +19,7 @@ import { AuthorsListLoading } from '@/components/author/authors-list-loading';
 import { SerieCard } from '@/components/serie/serie-card';
 import { SerieRow } from '@/components/serie/serie-row';
 import { SeriesListLoading } from '@/components/serie/series-list-loading';
-import { CollectionBookItem } from '@/components/book/collection-book-item';
+import { BookCard } from '@/components/book/book-card';
 import { BookRow } from '@/components/book/book-row';
 import { BooksListLoading } from '@/components/book/books-list-loading';
 
@@ -105,7 +105,7 @@ const BookResults = ({ books = [] }) => {
     return (
         <div className='flex flex-col gap-6'>
             <div className='grid grid-cols-2 sm:grid-cols-4 gap-2.5'>
-                {featured.map(book => <CollectionBookItem key={book.libid} book={book} />)}
+                {featured.map(book => <BookCard key={book.libid} book={book} />)}
             </div>
             {rows.length > 0 && (
                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-6'>

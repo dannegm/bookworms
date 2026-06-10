@@ -71,7 +71,7 @@ const SendButton = ({ className, book, size, email, onSent }) => {
             <TrackClick className={cn(className)} name='book:request' data={{ book }}>
                 <Button
                     size={size}
-                    className={cn('bg-fuchsia-400 hover:bg-fuchsia-500 text-white', className)}
+                    className={cn('border border-brand/40 text-brand hover:bg-brand/10 font-noto bg-transparent', className)}
                     onClick={handleRequest}
                     disabled={!email}
                 >
@@ -83,7 +83,7 @@ const SendButton = ({ className, book, size, email, onSent }) => {
         .with({ state: DownloadStates.REQUESTED }, () => (
             <Button
                 size={size}
-                className={cn('bg-fuchsia-400 hover:bg-fuchsia-500 text-white', className)}
+                className={cn('border border-brand/40 text-brand hover:bg-brand/10 font-noto bg-transparent', className)}
                 disabled
             >
                 <Loader2 className='animate-spin' />
@@ -94,7 +94,7 @@ const SendButton = ({ className, book, size, email, onSent }) => {
             <TrackClick className={cn(className)} name='book:send-to-kindle' data={{ book }}>
                 <Button
                     size={size}
-                    className={cn('bg-green-400 hover:bg-green-500 text-white', className)}
+                    className={cn('bg-emerald-600 hover:bg-emerald-700 text-white font-noto', className)}
                     onClick={handleSend}
                 >
                     <Send />
@@ -105,7 +105,7 @@ const SendButton = ({ className, book, size, email, onSent }) => {
         .with({ state: DownloadStates.SENDING }, () => (
             <Button
                 size={size}
-                className={cn('bg-green-400 hover:bg-green-500 text-white', className)}
+                className={cn('bg-emerald-600 hover:bg-emerald-700 text-white font-noto', className)}
                 disabled
             >
                 <Loader2 className='animate-spin' />
@@ -115,7 +115,8 @@ const SendButton = ({ className, book, size, email, onSent }) => {
         .with({ state: DownloadStates.REJECTED }, () => (
             <Button
                 size={size}
-                className={cn('bg-red-400 hover:bg-red-500 text-white', className)}
+                variant='outline'
+                className={cn('font-noto text-muted-foreground', className)}
                 disabled
             >
                 <Frown />
@@ -169,7 +170,7 @@ export const SendToKindle = ({ className, book, size = 'default' }) => {
             trigger={
                 <Button
                     size={size}
-                    className={cn('bg-fuchsia-400 hover:bg-fuchsia-500 text-white', className)}
+                    className={cn('border border-brand/40 text-brand hover:bg-brand/10 font-noto bg-transparent', className)}
                 >
                     <Send />
                     Enviar al Kindle

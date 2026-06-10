@@ -1,132 +1,151 @@
+import { Link } from '@tanstack/react-router';
 import { useQueryState, parseAsBoolean } from 'nuqs';
-import { BookOpenText, CalendarDays, Download, Eye, LibraryBig, Tag } from 'lucide-react';
+import { BookOpenText, CalendarDays, Download, Eye, LibraryBig } from 'lucide-react';
+
 import { cn } from '@/helpers/utils';
 import { formatBytes, keyCase } from '@/helpers/strings';
 
-import { Badge } from '@/ui/badge';
 import { BookCover } from '@/components/book/book-cover';
 import { AuthorPreview } from '@/components/author/author-preview';
 import { AuthorChip } from '@/components/author/author-chip';
 import { DownloadBook } from '@/components/download/download-book';
 import { SendToKindle } from '@/components/download/send-to-kindle';
 import { BookViewer } from '@/components/book/book-viewer';
+import { TrackClick } from '@/components/system/track-click';
 import { Button } from '@/ui/button';
-import { Link } from '@tanstack/react-router';
+import { Divider } from '@/components/layout/primitives';
+
+const Stat = ({ icon: Icon, value, label }) => (
+    <span className='flex items-center gap-1 text-xs text-muted-foreground font-noto'>
+        <Icon className='size-3 shrink-0' />
+        <span className='font-medium text-foreground'>{value}</span>
+        {label}
+    </span>
+);
+
+const Separator = () => <span className='text-border font-noto text-xs'>·</span>;
 
 export const BookDetails = ({ className, book }) => {
     const [viewer, setViewer] = useQueryState('viewer', parseAsBoolean.withDefault(false));
 
     return (
-        <div className={cn(className)}>
-            <div className='flex flex-col sm:flex-row items-start gap-8'>
-                <figure className='flex flex-col gap-4 w-full items-center sm:justify-start'>
-                    <BookCover book={book} width={200} />
+        <div className={cn('flex flex-col sm:flex-row gap-8 items-start', className)}>
 
-                    <div className='flex flex-col gap-2 w-full items-center sm:justify-start'>
-                        <Button onClick={() => setViewer(!viewer)} size='lg' className='w-full'>
+            {/* Left: cover + actions */}
+            <div className='flex flex-col gap-3 items-center sm:items-stretch w-full sm:w-56 shrink-0'>
+                <BookCover book={book} width={224} />
+
+                <div className='flex flex-col gap-2'>
+                    <DownloadBook className='w-full hidden sm:flex' book={book} />
+                    <SendToKindle className='w-full hidden sm:flex' book={book} />
+                    <TrackClick name='book:read' data={{ book }}>
+                        <Button
+                            variant='outline'
+                            className='w-full font-noto hidden sm:flex'
+                            onClick={() => setViewer(!viewer)}
+                        >
                             <BookOpenText />
                             Leer en línea
                         </Button>
+                    </TrackClick>
+                    {book.size && (
+                        <p className='hidden sm:block text-center text-[11px] text-muted-foreground font-noto mt-0.5'>
+                            Tamaño: <span className='text-foreground font-medium'>{formatBytes(book.size)}</span>
+                        </p>
+                    )}
+                </div>
+            </div>
 
-                        <div className='w-full my-2 hidden sm:block border-b border-dashed border-neutral-200 dark:border-neutral-700' />
+            {viewer && <BookViewer size='lg' className='w-full sm:w-56' book={book} />}
 
-                        <DownloadBook size='lg' className='w-full hidden sm:flex' book={book} />
+            {/* Right: content */}
+            <div className='flex flex-col gap-4 flex-1 min-w-0'>
 
-                        <SendToKindle size='lg' className='w-full hidden sm:flex' book={book} />
+                {/* Serie pill */}
+                {book.serie_name && (
+                    <Link
+                        to={`/serie/${keyCase(book.serie_name)}`}
+                        className='inline-flex items-center gap-1.5 w-fit text-xs font-noto text-brand bg-brand/10 hover:bg-brand/15 px-3 py-1.5 rounded-full transition-colors'
+                    >
+                        <LibraryBig className='size-3.5' />
+                        {book.serie_name}
+                        <span className='text-brand/50'>·</span>
+                        #{book.serie_sequence}
+                    </Link>
+                )}
+
+                {/* Title */}
+                <h1 className='font-merriweather font-normal text-[clamp(20px,5vw,32px)] leading-tight text-foreground text-pretty'>
+                    {book.title}
+                </h1>
+
+                {/* Authors */}
+                {book.authors.length > 1 ? (
+                    <div className='flex flex-wrap gap-1.5'>
+                        {book.authors.map(author => (
+                            <AuthorChip key={author.name} author={author} />
+                        ))}
                     </div>
-                </figure>
+                ) : (
+                    <AuthorPreview author={book.authors[0]} />
+                )}
 
-                {viewer && <BookViewer size='lg' className='w-full sm:w-56' book={book} />}
+                {/* Stats */}
+                <div className='flex items-center gap-2 flex-wrap'>
+                    {book.pagecount && <>
+                        <Stat icon={BookOpenText} value={book.pagecount} label='páginas' />
+                        <Separator />
+                    </>}
+                    {book.published && <>
+                        <Stat icon={CalendarDays} value={book.published} />
+                        <Separator />
+                    </>}
+                    <Stat icon={Download} value={book.downloads} label='descargas' />
+                    <Separator />
+                    <Stat icon={Eye} value={book.views} label='vistas' />
+                </div>
 
-                <article className='flex flex-col gap-4'>
-                    <header className='flex flex-col gap-4 items-start'>
-                        <h1 className='text-2xl font-bold font-merriweather'>{book.title}</h1>
+                <Divider />
 
-                        {book.authors.length > 1 ? (
-                            <div className='flex flex-row flex-wrap gap-2'>
-                                {book.authors.map(author => (
-                                    <AuthorChip key={`author-${author.name}`} author={author} />
-                                ))}
-                            </div>
-                        ) : (
-                            <AuthorPreview className='-ml-1' author={book.authors[0]} />
-                        )}
+                {/* Description */}
+                {book.description && (
+                    <p className='text-sm text-foreground/75 leading-relaxed text-pretty font-noto'>
+                        {book.description}
+                    </p>
+                )}
 
-                        <div
-                            className={cn(
-                                'grid grid-cols-2 gap-2 text-sm [&_svg]:size-4 bg-neutral-100 dark:bg-neutral-800 px-6 py-4 rounded-md',
-                            )}
-                        >
-                            <span className='flex flex-row gap-2 items-center'>
-                                <BookOpenText />
-                                <b>{book.pagecount}</b> páginas
-                            </span>
-
-                            <span className='flex flex-row gap-2 items-center'>
-                                <CalendarDays />
-                                Publicación <b>{book.published}</b>
-                            </span>
-
-                            <span className='flex flex-row gap-2 items-center'>
-                                <Download />
-                                <b>{book.downloads}</b> descargas
-                            </span>
-
-                            <span className='flex flex-row gap-2 items-center'>
-                                <Eye />
-                                <b>{book.views}</b> vistas
-                            </span>
-                        </div>
-                    </header>
-
-                    <section className='mt-4'>
-                        <p className='text-sm text-pretty'>{book.description}</p>
-                    </section>
-
-                    <footer className='flex flex-col items-start gap-4 mt-8'>
-                        {book.serie_name && (
-                            <Link
-                                className={cn(
-                                    'flex flex-row gap-2 items-center px-4 py-2 pr-6 bg-gray-200 hover:bg-gray-300 rounded-full [&_svg]:size-4',
-                                    'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600',
-                                )}
-                                to={`/serie/${keyCase(book.serie_name)}`}
+                {/* Categories */}
+                {book.labels?.length > 0 && (
+                    <div className='flex flex-wrap gap-1.5'>
+                        {book.labels.map(category => (
+                            <span
+                                key={category}
+                                className='text-[11px] font-noto px-2.5 py-1 rounded-full bg-muted text-muted-foreground'
                             >
-                                <LibraryBig />
-                                <span>
-                                    {book.serie_name} <b>#{book.serie_sequence}</b>
-                                </span>
-                            </Link>
-                        )}
-
-                        <div className='flex flex-row flex-wrap gap-1 mb-8'>
-                            {book.labels.map(category => (
-                                <Link
-                                    key={`category-${category}`}
-                                    to={`/category/${keyCase(category)}`}
-                                >
-                                    <Badge
-                                        variant='outline'
-                                        className='bg-cyan-300 dark:bg-cyan-900 text-black dark:text-white hover:bg-cyan-400 dark:hover:bg-cyan-800 transition-all'
-                                    >
-                                        <Tag /> {category}
-                                    </Badge>
-                                </Link>
-                            ))}
-                        </div>
-
-                        <div className='flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full'>
-                            <DownloadBook size='lg' className='w-full sm:w-56' book={book} />
-                            <span className='hidden sm:block text-sm text-slate-600 dark:text-slate-400'>
-                                <b>{`${formatBytes(book.size)}`}</b> Tamaño del archivo
+                                {category}
                             </span>
-                        </div>
+                        ))}
+                    </div>
+                )}
 
-                        <div className='flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full'>
-                            <SendToKindle size='lg' className='w-full sm:w-56' book={book} />
-                        </div>
-                    </footer>
-                </article>
+                {/* Mobile actions */}
+                <div className='flex flex-col gap-2 mt-2 sm:hidden'>
+                    <DownloadBook className='w-full' book={book} />
+                    <SendToKindle className='w-full' book={book} />
+                    <Button
+                        variant='outline'
+                        className='w-full font-noto'
+                        onClick={() => setViewer(!viewer)}
+                    >
+                        <BookOpenText />
+                        Leer en línea
+                    </Button>
+                    {book.size && (
+                        <p className='text-center text-[11px] text-muted-foreground font-noto'>
+                            Tamaño: <span className='text-foreground font-medium'>{formatBytes(book.size)}</span>
+                        </p>
+                    )}
+                </div>
             </div>
         </div>
     );

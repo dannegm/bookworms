@@ -26,7 +26,7 @@ export const Serie = () => {
     if (isLoading) return (
         <Layout>
             <SearchBoxContainer><SearchBox /></SearchBoxContainer>
-            <PageInner className='flex flex-col gap-4'>
+            <PageInner>
                 <SerieDetailsLoading />
             </PageInner>
         </Layout>
@@ -45,7 +45,7 @@ export const Serie = () => {
             <Debugger name='serie' data={data} expanded />
             {error && <Debugger name='error' data={error} />}
 
-            <PageInner className='flex flex-col gap-4'>
+            <PageInner>
                 <SerieDetails serie={data} />
             </PageInner>
         </Layout>

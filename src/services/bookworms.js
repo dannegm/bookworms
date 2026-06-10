@@ -141,7 +141,7 @@ export const requestBookFile = async (filename, format = 'epub') => {
 
 export const validateBookFile = async filename => {
     try {
-        const data = await (await request(`/validate?filename=${filename}`)).json();
+        const data = await unwrap(await request(`/validate?filename=${filename}`));
         return data?.downloadUrl;
     } catch {
         return false;
@@ -162,7 +162,7 @@ export const sendBookToKindle = async ({ filename, email }) => {
 
 export const getFileUrl = async filename => {
     try {
-        const data = await (await request(`/file?filename=${filename}`)).json();
+        const data = await unwrap(await request(`/file?filename=${filename}`));
         return data?.publicUrl;
     } catch {
         return false;

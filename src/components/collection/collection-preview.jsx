@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { keyCase } from '@/helpers/strings';
-import { CollectionBookItem } from '@/components/book/collection-book-item';
+import { BookCard } from '@/components/book/book-card';
 import { Eyebrow, SectionTitle, SectionDesc, PageInner } from '@/components/layout/primitives';
 
 const BOOKS_PER_COLLECTION = 4;
@@ -34,7 +34,7 @@ export const CollectionPreview = ({ collection, eyebrowLabel = 'Colección', sho
             )}
             <div className='grid grid-cols-4 gap-2.5 mb-3.5 max-[400px]:grid-cols-2'>
                 {books.map(book => (
-                    <CollectionBookItem key={book.libid} book={book} />
+                    <BookCard key={book.libid} book={book} />
                 ))}
             </div>
             <a

@@ -3,6 +3,7 @@ import { Link } from '@tanstack/react-router';
 import { cn } from '@/helpers/utils';
 import { keyCase } from '@/helpers/strings';
 import { BookCover } from '@/components/book/book-cover';
+import { Tooltip } from '@/ui/tooltip-simple';
 
 export const BookRow = ({ className, book }) => (
     <Link
@@ -19,9 +20,11 @@ export const BookRow = ({ className, book }) => (
         </div>
 
         <div className='flex-1 min-w-0'>
-            <p className='font-noto text-sm font-medium text-foreground leading-tight truncate'>
-                {book.title}
-            </p>
+            <Tooltip content={book.title} align='start'>
+                <p className='font-noto text-sm font-medium text-foreground leading-tight line-clamp-2 text-pretty'>
+                    {book.title}
+                </p>
+            </Tooltip>
             {book.authors?.length > 0 && (
                 <p className='text-xs text-muted-foreground font-noto mt-0.5 truncate'>
                     {book.authors.map(a => a?.name ?? a).join(', ')}

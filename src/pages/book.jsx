@@ -47,12 +47,12 @@ export const Book = () => {
             <Debugger name='book' data={data} />
             {error && <Debugger name='error' data={error} />}
 
-            <PageInner className='flex flex-col gap-4'>
+            <PageInner>
                 <BookDetails book={data} />
             </PageInner>
 
             {data.serie_name && (
-                <SerieSuggestions serieName={data.serie_name} />
+                <SerieSuggestions serieName={data.serie_name} currentLibid={data.libid} />
             )}
         </Layout>
     );
