@@ -24,7 +24,7 @@ const SerieRow = ({ serie, index }) => (
         href={`/serie/${keyCase(serie.name)}`}
         className='group flex items-center gap-4 py-3 border-b border-border/60 -mx-1 px-1 rounded-sm hover:bg-brand/5 transition-colors'
     >
-        <span className='font-merriweather text-xl leading-none text-foreground/20 w-7 shrink-0 tabular-nums select-none'>
+        <span className='font-merriweather text-xl leading-none text-brand/30 w-7 shrink-0 tabular-nums select-none'>
             {String(index + 1).padStart(2, '0')}
         </span>
 

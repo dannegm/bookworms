@@ -74,26 +74,37 @@ export const Search = () => {
     const booksFound = booksData?.pagination?.found ?? 0;
     const booksShown = booksData?.pagination?.count ?? 0;
 
+    const summary = [
+        authorsFound && `${authorsFound} autores`,
+        seriesFound && `${seriesFound} series`,
+        booksFound && `${booksFound} libros`,
+    ].filter(Boolean).join(' · ');
+
     return (
         <Layout>
             <SearchBoxContainer><SearchBox /></SearchBoxContainer>
 
-            <PageInner className='pb-4'>
+            <PageInner className='pb-5'>
                 <p className='text-xs uppercase tracking-widest text-brand font-noto mb-2'>
                     Resultados para
                 </p>
-                <h1 className='font-merriweather font-normal text-[clamp(24px,6vw,36px)] leading-[1.1] text-foreground'>
+                <h1 className='font-merriweather font-normal text-[clamp(24px,6vw,36px)] leading-[1.1] text-foreground mb-3'>
                     "{query}"
                 </h1>
+                {summary && (
+                    <p className='text-sm text-muted-foreground font-noto'>
+                        {summary}
+                    </p>
+                )}
             </PageInner>
 
             <Divider />
 
             <PageInner className='flex flex-col gap-3'>
-                <div className='flex items-baseline justify-between gap-4'>
+                <div className='flex items-center justify-between gap-4'>
                     <Eyebrow>Autores</Eyebrow>
                     {authorsFound > authorsShown && (
-                        <span className='text-[11px] text-muted-foreground font-noto'>
+                        <span className='text-[11px] text-muted-foreground font-noto bg-muted px-2 py-0.5 rounded-full'>
                             {authorsShown} de {authorsFound}
                         </span>
                     )}
@@ -104,12 +115,12 @@ export const Search = () => {
 
                 <AuthorsList authors={authorsData?.data} />
 
-                {Boolean(authorsData?.data?.length) && (
+                {authorsFound > authorsShown && (
                     <a
                         href={`/search/author?q=${encodeURIComponent(query)}`}
-                        className='text-sm text-brand hover:text-brand/75 font-noto inline-flex items-center gap-1 transition-colors self-start'
+                        className='text-sm text-brand hover:text-brand/75 font-noto inline-flex items-center gap-1.5 transition-colors self-start'
                     >
-                        Ver todos los autores <span aria-hidden='true'>→</span>
+                        Ver los {authorsFound} autores <span aria-hidden='true'>→</span>
                     </a>
                 )}
             </PageInner>
@@ -117,10 +128,10 @@ export const Search = () => {
             <Divider />
 
             <PageInner className='flex flex-col gap-4'>
-                <div className='flex items-baseline justify-between gap-4'>
+                <div className='flex items-center justify-between gap-4'>
                     <Eyebrow>Series</Eyebrow>
                     {seriesFound > seriesShown && (
-                        <span className='text-[11px] text-muted-foreground font-noto'>
+                        <span className='text-[11px] text-muted-foreground font-noto bg-muted px-2 py-0.5 rounded-full'>
                             {seriesShown} de {seriesFound}
                         </span>
                     )}
@@ -131,23 +142,23 @@ export const Search = () => {
 
                 <SeriesList series={seriesData?.data} />
 
-                {Boolean(seriesData?.data?.length) && (
+                {seriesFound > seriesShown && (
                     <a
                         href={`/search/serie?q=${encodeURIComponent(query)}`}
-                        className='text-sm text-brand hover:text-brand/75 font-noto inline-flex items-center gap-1 transition-colors self-start'
+                        className='text-sm text-brand hover:text-brand/75 font-noto inline-flex items-center gap-1.5 transition-colors self-start'
                     >
-                        Ver todas las series <span aria-hidden='true'>→</span>
+                        Ver las {seriesFound} series <span aria-hidden='true'>→</span>
                     </a>
                 )}
             </PageInner>
 
             <Divider />
 
-            <PageInner className='flex flex-col gap-8'>
-                <div className='flex items-baseline justify-between gap-4'>
+            <PageInner className='flex flex-col gap-4'>
+                <div className='flex items-center justify-between gap-4'>
                     <Eyebrow>Libros</Eyebrow>
                     {booksFound > booksShown && (
-                        <span className='text-[11px] text-muted-foreground font-noto'>
+                        <span className='text-[11px] text-muted-foreground font-noto bg-muted px-2 py-0.5 rounded-full'>
                             {booksShown} de {booksFound}
                         </span>
                     )}
@@ -158,12 +169,12 @@ export const Search = () => {
 
                 <BooksList books={booksData?.data} />
 
-                {Boolean(booksData?.data?.length) && (
+                {booksFound > booksShown && (
                     <a
                         href={`/search/books?q=${encodeURIComponent(query)}`}
-                        className='text-sm text-brand hover:text-brand/75 font-noto inline-flex items-center gap-1 transition-colors self-start'
+                        className='text-sm text-brand hover:text-brand/75 font-noto inline-flex items-center gap-1.5 transition-colors self-start'
                     >
-                        Ver todos los libros <span aria-hidden='true'>→</span>
+                        Ver los {booksFound} libros <span aria-hidden='true'>→</span>
                     </a>
                 )}
             </PageInner>

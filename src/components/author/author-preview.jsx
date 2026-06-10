@@ -8,7 +8,7 @@ export const AuthorPreview = ({ className, author }) => {
             href={`/author/${keyCase(author.name)}`}
             className={cn(
                 'group flex items-center gap-3 px-3 py-2.5 rounded-xl bg-card border border-border',
-                'hover:border-brand/35 hover:bg-brand/5 transition-colors',
+                'hover:border-brand/35 hover:bg-brand/5 hover:shadow-sm hover:shadow-brand/10 transition-all',
                 className,
             )}
         >
