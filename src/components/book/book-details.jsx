@@ -17,7 +17,7 @@ import { Divider } from '@/components/layout/primitives';
 
 const Stat = ({ icon: Icon, value, label }) => (
     <span className='flex items-center gap-1 text-xs text-muted-foreground font-noto'>
-        <Icon className='size-3 shrink-0' />
+        <Icon className='size-3 shrink-0 text-brand/40' />
         <span className='font-medium text-foreground'>{value}</span>
         {label}
     </span>
@@ -32,16 +32,16 @@ export const BookDetails = ({ className, book }) => {
         <div className={cn('flex flex-col sm:flex-row gap-8 items-start', className)}>
 
             {/* Left: cover + actions */}
-            <div className='flex flex-col gap-3 items-center sm:items-stretch w-full sm:w-56 shrink-0'>
+            <div className='flex flex-col gap-4 items-center sm:items-stretch w-full sm:w-56 shrink-0'>
                 <BookCover book={book} width={224} />
 
-                <div className='flex flex-col gap-2'>
-                    <DownloadBook className='w-full hidden sm:flex' book={book} />
-                    <SendToKindle className='w-full hidden sm:flex' book={book} />
+                <div className='flex flex-col gap-2 hidden sm:flex'>
+                    <DownloadBook className='w-full' book={book} />
+                    <SendToKindle className='w-full' book={book} />
                     <TrackClick name='book:read' data={{ book }}>
                         <Button
                             variant='outline'
-                            className='w-full font-noto hidden sm:flex'
+                            className='w-full font-noto'
                             onClick={() => setViewer(!viewer)}
                         >
                             <BookOpenText />
@@ -49,7 +49,7 @@ export const BookDetails = ({ className, book }) => {
                         </Button>
                     </TrackClick>
                     {book.size && (
-                        <p className='hidden sm:block text-center text-[11px] text-muted-foreground font-noto mt-0.5'>
+                        <p className='text-center text-[11px] text-muted-foreground font-noto mt-0.5'>
                             Tamaño: <span className='text-foreground font-medium'>{formatBytes(book.size)}</span>
                         </p>
                     )}
@@ -75,7 +75,7 @@ export const BookDetails = ({ className, book }) => {
                 )}
 
                 {/* Title */}
-                <h1 className='font-merriweather font-normal text-[clamp(20px,5vw,32px)] leading-tight text-foreground text-pretty'>
+                <h1 className='font-merriweather font-normal text-[clamp(20px,5vw,32px)] leading-[1.15] text-foreground text-pretty'>
                     {book.title}
                 </h1>
 
@@ -87,7 +87,7 @@ export const BookDetails = ({ className, book }) => {
                         ))}
                     </div>
                 ) : (
-                    <AuthorPreview author={book.authors[0]} />
+                    <AuthorPreview className='self-start' author={book.authors[0]} />
                 )}
 
                 {/* Stats */}
@@ -109,7 +109,7 @@ export const BookDetails = ({ className, book }) => {
 
                 {/* Description */}
                 {book.description && (
-                    <p className='text-sm text-foreground/75 leading-relaxed text-pretty font-noto'>
+                    <p className='text-[15px] text-foreground/75 leading-[1.8] text-pretty font-noto'>
                         {book.description}
                     </p>
                 )}
@@ -120,7 +120,7 @@ export const BookDetails = ({ className, book }) => {
                         {book.labels.map(category => (
                             <span
                                 key={category}
-                                className='text-[11px] font-noto px-2.5 py-1 rounded-full bg-muted text-muted-foreground'
+                                className='text-[11px] font-noto px-2.5 py-1 rounded-full bg-muted text-muted-foreground hover:bg-muted/70 hover:text-foreground transition-colors cursor-default'
                             >
                                 {category}
                             </span>
@@ -129,7 +129,7 @@ export const BookDetails = ({ className, book }) => {
                 )}
 
                 {/* Mobile actions */}
-                <div className='flex flex-col gap-2 mt-2 sm:hidden'>
+                <div className='flex flex-col gap-2 mt-2 pt-4 border-t border-border sm:hidden'>
                     <DownloadBook className='w-full' book={book} />
                     <SendToKindle className='w-full' book={book} />
                     <Button
@@ -140,11 +140,6 @@ export const BookDetails = ({ className, book }) => {
                         <BookOpenText />
                         Leer en línea
                     </Button>
-                    {book.size && (
-                        <p className='text-center text-[11px] text-muted-foreground font-noto'>
-                            Tamaño: <span className='text-foreground font-medium'>{formatBytes(book.size)}</span>
-                        </p>
-                    )}
                 </div>
             </div>
         </div>
