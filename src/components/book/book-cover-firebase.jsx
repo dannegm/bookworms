@@ -18,10 +18,10 @@ const GRADIENTS = [
     'linear-gradient(160deg, #180810, #6a1040)',
 ];
 
-const getGradient = (book) => GRADIENTS[book.libid % GRADIENTS.length];
+const getGradient = book => GRADIENTS[book.libid % GRADIENTS.length];
 
-const getCoverStyles = (book) => async () => {
-    const spriteWidth = 3;
+const getCoverStyles = book => async () => {
+    const spriteWidth = 4;
     const spriteHeight = 3;
 
     if (!book.cover_id) return { ok: false };
@@ -42,7 +42,13 @@ const getCoverStyles = (book) => async () => {
     };
 };
 
-export const BookCoverFirebase = ({ className, book, width = DEFAULT_WIDTH, fluid = false, glowing = false }) => {
+export const BookCoverFirebase = ({
+    className,
+    book,
+    width = DEFAULT_WIDTH,
+    fluid = false,
+    glowing = false,
+}) => {
     const { data, isLoading } = useQuery({
         queryKey: [`book:cover:${book.libid}`],
         queryFn: getCoverStyles(book),
@@ -51,12 +57,7 @@ export const BookCoverFirebase = ({ className, book, width = DEFAULT_WIDTH, flui
     const sizeStyle = fluid ? { width: '100%' } : { width: `${width}px` };
 
     if (!data || isLoading) {
-        return (
-            <Skeleton
-                className={cn('aspect-book rounded-lg', className)}
-                style={sizeStyle}
-            />
-        );
+        return <Skeleton className={cn('aspect-book rounded-lg', className)} style={sizeStyle} />;
     }
 
     if (!data.ok) {
@@ -83,16 +84,12 @@ export const BookCoverFirebase = ({ className, book, width = DEFAULT_WIDTH, flui
                 className={cn(
                     'rounded-lg bg-neutral-200 dark:bg-neutral-700',
                     'w-full h-full absolute z-1 inset-0',
-                    className,
                 )}
             />
             {glowing && (
                 <div
                     style={bgStyles}
-                    className={cn(
-                        'w-full h-full absolute z-0 inset-0 bg-inherit blur-xl',
-                        className,
-                    )}
+                    className={cn('w-full h-full absolute z-0 inset-0 bg-inherit blur-xl')}
                 />
             )}
         </div>

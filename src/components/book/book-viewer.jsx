@@ -16,6 +16,7 @@ import { cn } from '@/helpers/utils';
 import { useDelayedEffect } from '@/hooks/use-delayed-effect';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { useDarkMode } from '@/hooks/use-dark-mode';
+import { useReadingHistory } from '@/hooks/use-local-list';
 
 import { getFileUrl, requestBookFile, validateBookFile } from '@/services/bookworms';
 
@@ -323,11 +324,19 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
     );
 };
 
+const bookSnapshot = book => ({
+    libid: book.libid,
+    title: book.title,
+    authors: book.authors,
+    cover_id: book.cover_id,
+});
+
 export const BookViewer = ({ className, book }) => {
     const [open, setOpen] = useQueryState('viewer', parseAsBoolean.withDefault(false));
 
     const [downloadState, setDownloadState] = useState(DownloadStates.UNINITIALIZED);
     const [cachedUrl, setCachedUrl] = useLocalStorage(`book:viewer:${book.id}:url`, '');
+    const [, { upsert: upsertReading }] = useReadingHistory();
 
     const [filename, setFilename] = useState();
 
@@ -341,6 +350,7 @@ export const BookViewer = ({ className, book }) => {
         const isValid = await validateBookFile(book.filename);
 
         if (!isValid) {
+            upsertReading(bookSnapshot(book));
             setDownloadState(DownloadStates.READY);
             setFilename(cachedUrl);
         } else {
@@ -353,6 +363,7 @@ export const BookViewer = ({ className, book }) => {
             const publicUrl = await getFileUrl(book.filename);
             setCachedUrl(publicUrl);
             setFilename(publicUrl);
+            upsertReading(bookSnapshot(book));
             setDownloadState(DownloadStates.READY);
         } catch (err) {
             setDownloadState(DownloadStates.REJECTED);

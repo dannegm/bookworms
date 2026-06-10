@@ -1,9 +1,11 @@
 import { Link } from '@tanstack/react-router';
 import { useQueryState, parseAsBoolean } from 'nuqs';
-import { BookOpenText, CalendarDays, Download, Eye, LibraryBig } from 'lucide-react';
+import { trim } from 'lodash';
+import { BookOpenText, CalendarDays, Download, Eye, Heart, LibraryBig } from 'lucide-react';
 
 import { cn } from '@/helpers/utils';
 import { formatBytes, keyCase } from '@/helpers/strings';
+import { useFavorites } from '@/hooks/use-local-list';
 
 import { BookCover } from '@/components/book/book-cover';
 import { AuthorPreview } from '@/components/author/author-preview';
@@ -14,6 +16,13 @@ import { BookViewer } from '@/components/book/book-viewer';
 import { TrackClick } from '@/components/system/track-click';
 import { Button } from '@/ui/button';
 import { Divider } from '@/components/layout/primitives';
+
+const bookSnapshot = book => ({
+    libid: book.libid,
+    title: book.title,
+    authors: book.authors,
+    cover_id: book.cover_id,
+});
 
 const Stat = ({ icon: Icon, value, label }) => (
     <span className='flex items-center gap-1 text-xs text-muted-foreground font-noto'>
@@ -27,10 +36,11 @@ const Separator = () => <span className='text-border font-noto text-xs'>·</span
 
 export const BookDetails = ({ className, book }) => {
     const [viewer, setViewer] = useQueryState('viewer', parseAsBoolean.withDefault(false));
+    const [, { toggle: toggleFavorite, has: isFavorite }] = useFavorites();
+    const favorited = isFavorite(book.libid);
 
     return (
         <div className={cn('flex flex-col sm:flex-row gap-8 items-start', className)}>
-
             {/* Left: cover + actions */}
             <div className='flex flex-col gap-4 items-center sm:items-stretch w-full sm:w-56 shrink-0'>
                 <BookCover book={book} width={224} />
@@ -48,9 +58,24 @@ export const BookDetails = ({ className, book }) => {
                             Leer en línea
                         </Button>
                     </TrackClick>
+                    <Button
+                        variant='outline'
+                        className={cn(
+                            'w-full font-noto',
+                            favorited &&
+                                'border-rose-300 text-rose-500 hover:bg-rose-50 hover:text-rose-600 dark:border-rose-700 dark:text-rose-400 dark:hover:bg-rose-950/40',
+                        )}
+                        onClick={() => toggleFavorite(bookSnapshot(book))}
+                    >
+                        <Heart className={cn(favorited && 'fill-current')} />
+                        {favorited ? 'En favoritos' : 'Añadir a favoritos'}
+                    </Button>
                     {book.size && (
                         <p className='text-center text-[11px] text-muted-foreground font-noto mt-0.5'>
-                            Tamaño: <span className='text-foreground font-medium'>{formatBytes(book.size)}</span>
+                            Tamaño:{' '}
+                            <span className='text-foreground font-medium'>
+                                {formatBytes(book.size)}
+                            </span>
                         </p>
                     )}
                 </div>
@@ -60,7 +85,6 @@ export const BookDetails = ({ className, book }) => {
 
             {/* Right: content */}
             <div className='flex flex-col gap-4 flex-1 min-w-0'>
-
                 {/* Serie pill */}
                 {book.serie_name && (
                     <Link
@@ -69,8 +93,7 @@ export const BookDetails = ({ className, book }) => {
                     >
                         <LibraryBig className='size-3.5' />
                         {book.serie_name}
-                        <span className='text-brand/50'>·</span>
-                        #{book.serie_sequence}
+                        <span className='text-brand/50'>·</span>#{book.serie_sequence}
                     </Link>
                 )}
 
@@ -92,14 +115,18 @@ export const BookDetails = ({ className, book }) => {
 
                 {/* Stats */}
                 <div className='flex items-center gap-2 flex-wrap'>
-                    {book.pagecount && <>
-                        <Stat icon={BookOpenText} value={book.pagecount} label='páginas' />
-                        <Separator />
-                    </>}
-                    {book.published && <>
-                        <Stat icon={CalendarDays} value={book.published} />
-                        <Separator />
-                    </>}
+                    {book.pagecount && (
+                        <>
+                            <Stat icon={BookOpenText} value={book.pagecount} label='páginas' />
+                            <Separator />
+                        </>
+                    )}
+                    {book.published && (
+                        <>
+                            <Stat icon={CalendarDays} value={book.published} />
+                            <Separator />
+                        </>
+                    )}
                     <Stat icon={Download} value={book.downloads} label='descargas' />
                     <Separator />
                     <Stat icon={Eye} value={book.views} label='vistas' />
@@ -109,9 +136,13 @@ export const BookDetails = ({ className, book }) => {
 
                 {/* Description */}
                 {book.description && (
-                    <p className='text-[15px] text-foreground/75 leading-[1.8] text-pretty font-noto'>
-                        {book.description}
-                    </p>
+                    <div className='text-[15px] text-foreground/75 leading-[1.4] text-pretty font-noto'>
+                        {book.description.split('. ').map((sentence, i) => (
+                            <p key={i} className='mb-3 last:mb-0'>
+                                {trim(sentence.trim(), '.')}.
+                            </p>
+                        ))}
+                    </div>
                 )}
 
                 {/* Categories */}
@@ -139,6 +170,18 @@ export const BookDetails = ({ className, book }) => {
                     >
                         <BookOpenText />
                         Leer en línea
+                    </Button>
+                    <Button
+                        variant='outline'
+                        className={cn(
+                            'w-full font-noto',
+                            favorited &&
+                                'border-rose-300 text-rose-500 hover:bg-rose-50 hover:text-rose-600 dark:border-rose-700 dark:text-rose-400 dark:hover:bg-rose-950/40',
+                        )}
+                        onClick={() => toggleFavorite(bookSnapshot(book))}
+                    >
+                        <Heart className={cn(favorited && 'fill-current')} />
+                        {favorited ? 'En favoritos' : 'Añadir a favoritos'}
                     </Button>
                 </div>
             </div>

@@ -20,7 +20,7 @@ export const Footer = () => {
     const { bookCount, lastUpdate } = useCatalogMeta();
 
     return (
-        <footer className='border-t border-border mt-12'>
+        <footer className='border-t border-border'>
             <div className='w-main mx-auto px-5 pt-8 pb-7'>
                 <div className='flex justify-between items-start gap-6 flex-wrap mb-6'>
                     <span className='font-merriweather text-lg font-normal text-foreground'>

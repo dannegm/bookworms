@@ -3,6 +3,7 @@ import { Download, DownloadCloud, Frown, Loader2 } from 'lucide-react';
 
 import { cn, downloadBlob, match } from '@/helpers/utils';
 import { useDelayedEffect } from '@/hooks/use-delayed-effect';
+import { useDownloads } from '@/hooks/use-local-list';
 
 import { TrackClick } from '@/components/system/track-click';
 import { Button } from '@/ui/button';
@@ -21,8 +22,16 @@ const DownloadStates = {
     REJECTED: 'REJECTED',
 };
 
+const bookSnapshot = book => ({
+    libid: book.libid,
+    title: book.title,
+    authors: book.authors,
+    cover_id: book.cover_id,
+});
+
 export const DownloadBook = ({ className, book, size = 'default' }) => {
     const [downloadState, setDownloadState] = useState(DownloadStates.UNINITIALIZED);
+    const [, { add: addDownload }] = useDownloads();
 
     const handleRequest = async event => {
         event.preventDefault();
@@ -36,6 +45,7 @@ export const DownloadBook = ({ className, book, size = 'default' }) => {
         try {
             const blob = await downloadBookFile(book.filename);
             downloadBlob(blob, book.filename);
+            addDownload(bookSnapshot(book));
             setDownloadState(DownloadStates.UNINITIALIZED);
         } catch (err) {
             setDownloadState(DownloadStates.REJECTED);

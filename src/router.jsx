@@ -15,6 +15,7 @@ import { Explore } from '@/pages/explore';
 import { Collection } from '@/pages/collection';
 import { Topic } from '@/pages/topic';
 import { About } from '@/pages/about';
+import { Activity } from '@/pages/activity';
 
 const redirect = ({ to }) => () => {
     useEffect(() => {
@@ -46,6 +47,7 @@ const collectionWithHeadlineRoute = createRoute({ getParentRoute: () => rootRout
 const topicRoute = createRoute({ getParentRoute: () => rootRoute, path: '/topic/$id', component: Topic });
 const topicWithHintRoute = createRoute({ getParentRoute: () => rootRoute, path: '/topic/$id/$hint', component: Topic });
 const aboutRoute = createRoute({ getParentRoute: () => rootRoute, path: '/about', component: About });
+const activityRoute = createRoute({ getParentRoute: () => rootRoute, path: '/activity', component: Activity });
 const issuesRoute = createRoute({ getParentRoute: () => rootRoute, path: '/issues', component: redirect({ to: 'https://github.com/dannegm/bookworms/issues' }) });
 const notFoundRoute = createRoute({ getParentRoute: () => rootRoute, path: '/404', component: NotFound });
 
@@ -65,6 +67,7 @@ export const router = createRouter({
         topicRoute,
         topicWithHintRoute,
         aboutRoute,
+        activityRoute,
         issuesRoute,
         notFoundRoute,
     ]),

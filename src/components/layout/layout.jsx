@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from '@tanstack/react-router';
+import { Heart } from 'lucide-react';
 
 import { useDocumentClassNames } from '@/hooks/use-document-class-names';
 import { useSettings } from '@/hooks/use-settings';
@@ -44,6 +45,14 @@ export const Layout = ({ title, children }) => {
                                     <DebugModeToggle />
                                 </TrackClick>
                             )}
+
+                            <Link
+                                to='/activity'
+                                className='inline-flex items-center gap-1.5 h-9 px-3 rounded-md text-sm font-noto text-brand bg-brand/10 hover:bg-brand/15 transition-colors'
+                            >
+                                <Heart className='size-3.5' />
+                                Actividad
+                            </Link>
 
                             <TrackClick name='dark-mode:toggle' data={{ theme }}>
                                 <DarkModeToggle />
