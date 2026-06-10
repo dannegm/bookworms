@@ -21,7 +21,7 @@ export const BookCover = ({ vendor = DEFAULT_VENDOR, book, className, ...props }
         <div className={cn('relative', className)}>
             <Component book={book} {...props} />
             {favorited && (
-                <div className='absolute top-2 right-2 size-6 rounded-full bg-rose-900/50 backdrop-blur-sm flex items-center justify-center pointer-events-none z-10'>
+                <div className='absolute bottom-2 left-2 size-6 rounded-full bg-rose-900/50 backdrop-blur-sm flex items-center justify-center pointer-events-none z-10'>
                     <Heart className='size-3.5 fill-rose-400 text-rose-400' />
                 </div>
             )}

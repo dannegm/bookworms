@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { Clock, Download, Heart, X } from 'lucide-react';
+import { Check, Clock, Download, Heart, X } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 
 import { keyCase } from '@/helpers/strings';
@@ -59,12 +59,13 @@ const BookRow = ({ book, onRemove }) => {
                 </div>
                 {progress > 0 && (
                     progress >= 100 ? (
-                        <span className='shrink-0 text-[10px] font-noto font-medium px-2 py-0.5 rounded-full bg-brand/10 text-brand'>
-                            Completado
+                        <span className='shrink-0 inline-flex items-center gap-1 text-[10px] font-noto font-medium sm:px-2 sm:py-0.5 size-6 sm:size-auto rounded-full bg-emerald-600 text-white dark:bg-emerald-700 dark:text-white justify-center'>
+                            <Check className='size-3 shrink-0' />
+                            <span className='hidden sm:inline'>Completado</span>
                         </span>
                     ) : (
                         <div className='shrink-0 flex items-center gap-1.5'>
-                            <span className='text-[11px] text-muted-foreground font-noto'>{progress}% completado</span>
+                            <span className='hidden sm:block text-[11px] text-muted-foreground font-noto'>{progress}% completado</span>
                             <CircleProgress value={progress} />
                         </div>
                     )
@@ -72,7 +73,7 @@ const BookRow = ({ book, onRemove }) => {
             </Link>
             <button
                 onClick={() => onRemove(book.libid)}
-                className='shrink-0 size-6 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted opacity-0 group-hover:opacity-100 transition-all'
+                className='shrink-0 size-6 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted sm:opacity-0 sm:group-hover:opacity-100 transition-all'
             >
                 <X className='size-3.5' />
             </button>
@@ -106,7 +107,7 @@ const GridSection = ({ icon, label, books, emptyMessage, onRemove }) => (
                         <BookCard book={book} />
                         <button
                             onClick={() => onRemove(book.libid)}
-                            className='absolute top-1.5 left-1.5 z-20 size-5 flex items-center justify-center rounded-full bg-black/50 text-white opacity-0 group-hover/card:opacity-100 transition-opacity'
+                            className='absolute top-1.5 right-1.5 z-20 size-5 flex items-center justify-center rounded-full bg-black/50 text-white sm:opacity-0 sm:group-hover/card:opacity-100 transition-opacity'
                         >
                             <X className='size-3' />
                         </button>
