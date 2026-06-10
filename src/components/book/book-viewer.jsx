@@ -87,7 +87,7 @@ export const SwipeableButton = ({ swipeable, setSwipeable }) => {
                 content: { side: 'bottom', align: 'end' },
             }}
             trigger={
-                <Button size='icon' variant='ghost'>
+                <Button size='icon' variant='brand' className='text-brand'>
                     {!swipeable ? <PointerOff /> : <Pointer />}
                 </Button>
             }
@@ -95,9 +95,9 @@ export const SwipeableButton = ({ swipeable, setSwipeable }) => {
             <div className='flex flex-col p-2 gap-2'>
                 <Button
                     className={cn('h-auto w-full flex flex-row gap-2 items-start justify-start', {
-                        'bg-gray-200 dark:bg-gray-800': swipeable,
+                        'bg-brand/15': swipeable,
                     })}
-                    variant={!swipeable ? 'ghost' : 'secondary'}
+                    variant='brand'
                     onClick={() => {
                         setSwipeable(true);
                         setOpen(false);
@@ -116,9 +116,9 @@ export const SwipeableButton = ({ swipeable, setSwipeable }) => {
 
                 <Button
                     className={cn('h-auto w-full flex flex-row gap-2 items-start justify-start', {
-                        'bg-gray-200 dark:bg-gray-800': !swipeable,
+                        'bg-brand/15': !swipeable,
                     })}
-                    variant={swipeable ? 'ghost' : 'secondary'}
+                    variant='brand'
                     onClick={() => {
                         setSwipeable(false);
                         setOpen(false);
@@ -157,7 +157,7 @@ export const TableOfContents = ({ toc, onSelect }) => {
                 content: { side: 'bottom', align: 'start' },
             }}
             trigger={
-                <Button size='icon' variant='ghost' onClick={() => setOpen(!open)}>
+                <Button size='icon' variant='brand' onClick={() => setOpen(!open)}>
                     <TableOfContentsIcon />
                 </Button>
             }
@@ -168,8 +168,8 @@ export const TableOfContents = ({ toc, onSelect }) => {
                     {toc.map(item => (
                         <Button
                             key={item.id}
-                            variant='ghost'
-                            className='w-full justify-start text-left line-clamp-1'
+                            variant='brand'
+                            className='justify-start text-left line-clamp-1 mx-1 px-3'
                             onClick={() => handleSelect(item)}
                         >
                             {sanitizeLabel(item.label)}
@@ -188,14 +188,10 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
 
     const [toc, setToc] = useState([]);
 
-    const [location, setLocation] = useLocalStorage(`book:viewer:${book.id}:location`, 0);
+    const [location, setLocation] = useLocalStorage(`book:viewer:${book.libid}:location`, 0);
 
-    const [chapter, setChapter] = useLocalStorage(`book:viewer:${book.id}:chapter`, '');
-    const [chapterPage, setChapterPage] = useLocalStorage(`book:viewer:${book.id}:chapterPage`, 0);
-    const [chapterTotalPages, setChapterTotalPages] = useLocalStorage(
-        `book:viewer:${book.id}:chapterTotalPages`,
-        0,
-    );
+    const [chapter, setChapter] = useLocalStorage(`book:viewer:${book.libid}:chapter`, '');
+    const [progress, setProgress] = useLocalStorage(`book:viewer:${book.libid}:progress`, 0);
 
     const [swipeable, setSwipeable] = useLocalStorage(`book:viewer:swipeable`, false);
 
@@ -204,13 +200,14 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
 
         if (!$rendition.current || !toc) return;
 
-        const { displayed, href, cfi } = $rendition.current.location.start;
+        const { href } = $rendition.current.location.start;
         const chapter = toc.find(item => item.href === href);
         const sanitized = sanitizeLabel(chapter?.label) || null;
 
-        setChapterPage(displayed.page);
-        setChapterTotalPages(displayed.total);
         setChapter(sanitized);
+
+        const pct = $rendition.current.location?.start?.percentage;
+        if (pct != null && pct > 0) setProgress(Math.round(pct * 100));
     };
 
     const handleTocChange = toc => {
@@ -238,37 +235,43 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
     }, [theme, $rendition.current]);
 
     return (
-        <div className='relative flex flex-col gap-0 sm:gap-4 h-full'>
-            <div className='flex flex-row items-center justify-between mt-4 sm:mt-0 pb-2 sm:pb-0'>
-                <div className='flex flex-row items-center gap-1'>
+        <div className='relative flex flex-col h-full'>
+            <div className='flex flex-row items-center justify-between px-1 py-1.5 border-b border-border bg-background shrink-0'>
+                <div className='flex flex-row items-center gap-1 min-w-0'>
                     <TableOfContents toc={toc} onSelect={({ href }) => handleLocChange(href)} />
 
                     <Tooltip content={book.title} align='start'>
-                        <h1 className='text-lg font-bold line-clamp-1'>{book.title}</h1>
+                        <h1 className='font-merriweather text-xl font-bold line-clamp-1 text-foreground'>
+                            {book.title}
+                        </h1>
                     </Tooltip>
 
                     {chapter && (
                         <>
-                            <Dot className='hidden sm:block text-md' />
-                            <h2 className='hidden sm:block text-md'>{chapter}</h2>
+                            <Dot className='hidden sm:block shrink-0 text-muted-foreground' />
+                            <h2 className='hidden sm:block text-xs text-muted-foreground font-noto line-clamp-1 shrink-0'>
+                                {chapter}
+                            </h2>
                         </>
                     )}
                 </div>
 
-                <div className='flex flex-row gap-2'>
+                <div className='flex flex-row gap-1 shrink-0'>
                     <SwipeableButton swipeable={swipeable} setSwipeable={setSwipeable} />
-
-                    <DarkModeToggle className='bg-transparent dark:bg-transparent' />
-
-                    <Button size='icon' variant='ghost' onClick={() => onOpenChange?.(false)}>
+                    <DarkModeToggle className='bg-transparent' />
+                    <Button size='icon' variant='brand' onClick={() => onOpenChange?.(false)}>
                         <X />
                     </Button>
                 </div>
             </div>
 
-            <div className='absolute z-max bottom-4 left-1/2 -translate-x-1/2 text-xs'>
-                Página {chapterPage} de {chapterTotalPages}
-            </div>
+            {progress > 0 && (
+                <div className='absolute z-max bottom-4 left-1/2 -translate-x-1/2'>
+                    <span className='text-[11px] font-noto text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-0.5 rounded-full border border-border/50'>
+                        {progress}%
+                    </span>
+                </div>
+            )}
 
             {!swipeable && (
                 <>
@@ -279,7 +282,7 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                         )}
                         onClick={handlePrev}
                     >
-                        <div className='absolute w-full h-[80%] top-1/2 -translate-y-1/2 flex-center rounded-2xl bg-neutral-500/40 backdrop-blur-sm animate-blink-out delay-300'>
+                        <div className='absolute w-full h-[80%] top-1/2 -translate-y-1/2 flex-center rounded-2xl text-brand bg-brand/30 backdrop-blur-sm animate-blink-out delay-300'>
                             <ChevronLeft className='block xl:hidden' />
                         </div>
                         <div className='hidden xl:flex absolute w-full h-full flex-center'>
@@ -294,7 +297,7 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                         )}
                         onClick={handleNext}
                     >
-                        <div className='absolute w-full h-[80%] top-1/2 -translate-y-1/2 flex-center rounded-2xl bg-neutral-500/40 backdrop-blur-sm animate-blink-out delay-300'>
+                        <div className='absolute w-full h-[80%] top-1/2 -translate-y-1/2 flex-center rounded-2xl text-brand bg-brand/30 backdrop-blur-sm animate-blink-out delay-300'>
                             <ChevronRight className='block xl:hidden' />
                         </div>
                         <div className='hidden xl:flex absolute w-full h-full flex-center'>
@@ -304,21 +307,27 @@ export const Viewer = ({ book, filename, onOpenChange }) => {
                 </>
             )}
 
-            <div className='relative w-full h-full'>
+            <div className='relative w-full flex-1 min-h-0'>
                 <ReactReader
                     url={filename}
                     location={location}
                     locationChanged={handleLocChange}
                     tocChanged={handleTocChange}
                     showToc={false}
-                    getRendition={rendition => ($rendition.current = rendition)}
+                    getRendition={rendition => {
+                        $rendition.current = rendition;
+                        rendition.book.locations.generate(1024).then(() => {
+                            const pct = rendition.currentLocation()?.start?.percentage;
+                            if (pct != null && pct > 0) setProgress(Math.round(pct * 100));
+                        });
+                    }}
                     readerStyles={readerDefaultStyles}
                     swipeable={swipeable}
                 />
             </div>
 
             <div className='absolute z-max bottom-0 left-0 right-0'>
-                <Progress className='h-1' value={chapterPage} max={chapterTotalPages} />
+                <Progress className='h-0.75 rounded-none bg-border' value={progress} />
             </div>
         </div>
     );
@@ -335,7 +344,7 @@ export const BookViewer = ({ className, book }) => {
     const [open, setOpen] = useQueryState('viewer', parseAsBoolean.withDefault(false));
 
     const [downloadState, setDownloadState] = useState(DownloadStates.UNINITIALIZED);
-    const [cachedUrl, setCachedUrl] = useLocalStorage(`book:viewer:${book.id}:url`, '');
+    const [cachedUrl, setCachedUrl] = useLocalStorage(`book:viewer:${book.libid}:url`, '');
     const [, { upsert: upsertReading }] = useReadingHistory();
 
     const [filename, setFilename] = useState();

@@ -11,7 +11,6 @@ import { BookCover } from '@/components/book/book-cover';
 import { AuthorPreview } from '@/components/author/author-preview';
 import { AuthorChip } from '@/components/author/author-chip';
 import { DownloadBook } from '@/components/download/download-book';
-import { SendToKindle } from '@/components/download/send-to-kindle';
 import { BookViewer } from '@/components/book/book-viewer';
 import { TrackClick } from '@/components/system/track-click';
 import { Button } from '@/ui/button';
@@ -47,7 +46,6 @@ export const BookDetails = ({ className, book }) => {
 
                 <div className='hidden sm:flex flex-col gap-2'>
                     <DownloadBook className='w-full' book={book} />
-                    <SendToKindle className='w-full' book={book} />
                     <TrackClick name='book:read' data={{ book }}>
                         <Button
                             variant='outline'
@@ -162,7 +160,6 @@ export const BookDetails = ({ className, book }) => {
                 {/* Mobile actions */}
                 <div className='flex flex-col gap-2 mt-2 pt-4 border-t border-border sm:hidden'>
                     <DownloadBook className='w-full' book={book} />
-                    <SendToKindle className='w-full' book={book} />
                     <Button
                         variant='outline'
                         className='w-full font-noto'

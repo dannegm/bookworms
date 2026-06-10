@@ -32,6 +32,8 @@ export const Layout = ({ title, children }) => {
 
             <BreakpointIndicator />
 
+            <div data-name="safe-area" className="pointer-events-none fixed top-full z-50 w-full h-screen bg-red-500" />
+
             <div className='relative bg-background'>
                 <header className='sticky top-0 z-10 bg-background border-b border-border'>
                     <div className='w-main mx-auto px-5 py-3 flex items-center justify-between'>
