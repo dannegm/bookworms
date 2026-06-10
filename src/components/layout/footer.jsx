@@ -23,10 +23,10 @@ export const Footer = () => {
     return (
         <footer className='border-t border-border'>
             <div className='w-main mx-auto px-5 pt-4 sm:pb-6 sm:pt-8'>
-                <div className='flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-6 flex-wrap mb-6'>
+                <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-6 mb-6'>
                     <Logo className='text-lg' />
 
-                    <nav className='flex flex-col sm:flex-row gap-2 sm:gap-5 flex-wrap sm:items-center'>
+                    <nav className='flex flex-col sm:flex-row gap-2 sm:gap-5 sm:items-center'>
                         <a
                             href='/explore'
                             className='text-sm text-muted-foreground hover:text-brand transition-colors font-noto'
