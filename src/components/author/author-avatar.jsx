@@ -9,7 +9,9 @@ export const AuthorAvatar = ({ className, name }) => {
     return (
         <Avatar className={cn('size-12', className)}>
             <AvatarImage src={avatarPicture} />
-            <AvatarFallback className='bg-gray-500 text-white'>{toAcronym(name)}</AvatarFallback>
+            <AvatarFallback className='bg-brand/15 text-brand font-noto font-medium text-sm'>
+                {toAcronym(name)}
+            </AvatarFallback>
         </Avatar>
     );
 };

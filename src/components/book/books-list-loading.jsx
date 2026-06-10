@@ -1,17 +1,17 @@
 import { cn, getId } from '@/helpers/utils';
 import { sequence } from '@/helpers/arrays';
 
-import { BookPreviewLoading } from '@/components/book/book-preview-loading';
+import { Skeleton } from '@/ui/skeleton';
 
-export const BooksListLoading = ({ className, items = 6 }) => {
-    const skeletonItems = sequence(items).map(() => ({
-        key: getId(),
-    }));
-
+export const BooksListLoading = ({ className, items = 8 }) => {
     return (
-        <div className={cn('grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-8', className)}>
-            {skeletonItems.map(item => (
-                <BookPreviewLoading key={item.key} />
+        <div className={cn('grid grid-cols-2 sm:grid-cols-4 gap-2.5', className)}>
+            {sequence(items).map(() => (
+                <div key={getId()} className='flex flex-col'>
+                    <Skeleton className='w-full aspect-book rounded-lg mb-2' />
+                    <Skeleton className='h-3.5 w-full mb-1.5' />
+                    <Skeleton className='h-3 w-3/4' />
+                </div>
             ))}
         </div>
     );
