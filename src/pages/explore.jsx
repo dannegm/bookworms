@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useQueryState, parseAsInteger } from 'nuqs';
 
 import { getTopics, getCollections } from '@/services/bookworms';
+import { cn } from '@/helpers/utils';
 import { Skeleton } from '@/ui/skeleton';
 
 import { Layout } from '@/components/layout/layout';
@@ -38,7 +39,11 @@ const CollectionRowSkeleton = () => (
 const TopicRow = ({ topics }) => (
     <PageInner>
         <div className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
-            {topics.map(topic => <TopicChip key={topic.id} topic={topic} />)}
+            {topics.map((topic, i) => (
+                <div key={topic.id} className={cn(i >= 2 && 'hidden sm:block')}>
+                    <TopicChip topic={topic} />
+                </div>
+            ))}
         </div>
     </PageInner>
 );
@@ -97,8 +102,16 @@ export const Explore = () => {
                 <Eyebrow className='mb-3'>Explorar por tema</Eyebrow>
                 <div className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
                     {topicsLoading
-                        ? Array.from({ length: TOP_TOPICS }).map((_, i) => <TopicChipSkeleton key={i} />)
-                        : topTopics.map(topic => <TopicChip key={topic.id} topic={topic} />)
+                        ? Array.from({ length: TOP_TOPICS }).map((_, i) => (
+                            <div key={i} className={cn(i >= 4 && 'hidden sm:block')}>
+                                <TopicChipSkeleton />
+                            </div>
+                        ))
+                        : topTopics.map((topic, i) => (
+                            <div key={topic.id} className={cn(i >= 4 && 'hidden sm:block')}>
+                                <TopicChip topic={topic} />
+                            </div>
+                        ))
                     }
                 </div>
             </PageInner>

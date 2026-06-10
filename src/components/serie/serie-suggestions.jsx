@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getSerie } from '@/services/bookworms';
 
+import { keyCase } from '@/helpers/strings';
 import { PageInner, Divider, Eyebrow, SectionTitle } from '@/components/layout/primitives';
 import { BookRow } from '@/components/book/book-row';
 import { BooksListLoading } from '@/components/book/books-list-loading';
@@ -19,8 +20,9 @@ export const SerieSuggestions = ({ serieName, currentLibid }) => {
     );
 
     const suggestions = (data?.books ?? [])
-        .filter(book => book.libid !== currentLibid)
-        .sort((a, b) => (a.serie_sequence ?? Infinity) - (b.serie_sequence ?? Infinity));
+        .filter(book => String(book.libid) !== String(currentLibid))
+        .sort((a, b) => (a.serie_sequence ?? Infinity) - (b.serie_sequence ?? Infinity))
+        .slice(0, 5);
 
     if (!suggestions.length) return null;
 
@@ -37,6 +39,12 @@ export const SerieSuggestions = ({ serieName, currentLibid }) => {
                         <BookRow key={book.libid} book={book} />
                     ))}
                 </div>
+                <a
+                    href={`/serie/${keyCase(serieName)}`}
+                    className='self-start text-xs font-noto text-brand hover:underline'
+                >
+                    Ver serie completa →
+                </a>
             </PageInner>
         </>
     );
