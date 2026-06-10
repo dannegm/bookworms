@@ -2,9 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 
 import { cn } from '@/helpers/utils';
 import { thousands } from '@/helpers/strings';
-import { getSummaries, getSearchSuggestions } from '@/services/bookworms';
+import { getSummaries } from '@/services/bookworms';
 import { Skeleton } from '@/ui/skeleton';
 import { SearchBox } from '@/components/layout/search-box';
+import { SearchChips } from '@/components/layout/search-chips';
 
 const HeroSubtitle = () => {
     const { data, isLoading } = useQuery(getSummaries());
@@ -19,35 +20,6 @@ const HeroSubtitle = () => {
     );
 };
 
-const SearchChips = () => {
-    const { data, isLoading } = useQuery(getSearchSuggestions());
-
-    if (isLoading) {
-        return (
-            <div className='flex flex-wrap gap-2 mb-6'>
-                {[80, 140, 100, 120, 90].map(w => (
-                    <Skeleton key={w} className='h-[26px] rounded-full' style={{ width: w }} />
-                ))}
-            </div>
-        );
-    }
-
-    if (!data?.length) return null;
-
-    return (
-        <div className='flex flex-wrap gap-2 mb-6'>
-            {data.map(({ query }) => (
-                <a
-                    key={query}
-                    href={`/search?q=${encodeURIComponent(query)}`}
-                    className='text-xs text-foreground/70 border border-border rounded-full px-3 py-[5px] hover:text-brand hover:border-brand transition-all whitespace-nowrap font-noto'
-                >
-                    {query}
-                </a>
-            ))}
-        </div>
-    );
-};
 
 const StatsGrid = () => {
     const { data, isLoading } = useQuery(getSummaries());
@@ -109,7 +81,9 @@ export const HomeHero = () => {
                 <SearchBox variant='hero' />
             </div>
 
-            <SearchChips />
+            <div className='mb-6'>
+                <SearchChips />
+            </div>
 
 
             <StatsGrid />

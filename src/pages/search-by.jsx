@@ -10,6 +10,7 @@ import { Debugger } from '@/components/system/debugger';
 import { Layout } from '@/components/layout/layout';
 import { Section } from '@/components/layout/section';
 import { SearchBox } from '@/components/layout/search-box';
+import { SearchEmpty } from '@/components/layout/search-empty';
 import { Pagination } from '@/components/layout/pagination';
 
 import { AuthorsListLoading } from '@/components/author/authors-list-loading';
@@ -56,6 +57,13 @@ export const SearchBy = () => {
     });
 
     if (!isValidEntity) return <Navigate to='/404' />;
+
+    if (!query) return (
+        <Layout>
+            <SearchBox />
+            <SearchEmpty />
+        </Layout>
+    );
 
     if (isLoading) return (
         <Layout key={page}>

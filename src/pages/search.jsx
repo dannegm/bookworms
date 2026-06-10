@@ -11,6 +11,7 @@ import { Debugger } from '@/components/system/debugger';
 import { Layout } from '@/components/layout/layout';
 import { Section } from '@/components/layout/section';
 import { SearchBox } from '@/components/layout/search-box';
+import { SearchEmpty } from '@/components/layout/search-empty';
 
 import { AuthorsListLoading } from '@/components/author/authors-list-loading';
 import { SeriesListLoading } from '@/components/serie/series-list-loading';
@@ -22,6 +23,13 @@ import { BooksList } from '@/components/book/books-list';
 
 export const Search = () => {
     const [query] = useQueryState('q', { defaultValue: '' });
+
+    if (!query) return (
+        <Layout>
+            <SearchBox />
+            <SearchEmpty />
+        </Layout>
+    );
 
     const { data: authorsData, isLoading: authorsLoading, error: authorsError } = useQuery(
         searchEntity({ query, entity: 'author', limit: 6 }),
