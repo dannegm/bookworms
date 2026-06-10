@@ -1,13 +1,13 @@
 import { cn } from '@/helpers/utils';
 
 export const Eyebrow = ({ children, className }) => (
-    <p className={cn('text-[11px] uppercase tracking-[0.1em] text-brand font-noto', className)}>
+    <p className={cn('text-[11px] uppercase tracking-widest text-brand font-noto', className)}>
         {children}
     </p>
 );
 
 export const SectionTitle = ({ children, className }) => (
-    <h2 className={cn('font-merriweather font-normal text-[clamp(18px,4.5vw,24px)] leading-[1.25] text-foreground', className)}>
+    <h2 className={cn('font-merriweather font-normal text-[clamp(18px,4.5vw,24px)] leading-tight text-foreground', className)}>
         {children}
     </h2>
 );

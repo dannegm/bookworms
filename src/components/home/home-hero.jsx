@@ -70,7 +70,7 @@ const StatsGrid = () => {
 export const HomeHero = () => {
     return (
         <div className='w-main mx-auto px-5 pt-12'>
-            <div className='w-9 h-[3px] bg-brand rounded-full mb-[18px]' />
+            <div className='w-9 h-0.75 bg-brand rounded-full mb-4.5' />
             <h1 className='font-merriweather font-normal text-[clamp(36px,10vw,56px)] leading-[1.05] text-foreground mb-2'>
                 Bookworms
             </h1>
