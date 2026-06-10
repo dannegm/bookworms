@@ -27,7 +27,7 @@ export const SearchChips = () => {
                     href={`/search?q=${encodeURIComponent(query)}`}
                     className={cn(
                         'text-xs text-foreground/70 border border-border rounded-full px-3 py-1.25 hover:text-brand hover:border-brand transition-all whitespace-nowrap font-noto',
-                        i >= 3 && 'hidden sm:inline-flex',
+                        i >= 4 && 'hidden sm:inline-flex',
                     )}
                 >
                     {query}
