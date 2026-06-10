@@ -7,7 +7,14 @@ import { Toaster } from '@/ui/sonner';
 import { DarkModeProvider } from '@/providers/dark-mode-provider';
 import { TrackersProvider } from '@/providers/trackers-provider';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            refetchOnReconnect: false,
+        },
+    },
+});
 
 export const Providers = ({ children }) => {
     return (
