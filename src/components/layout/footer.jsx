@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getSummaries, getSettings } from '@/services/bookworms';
 import { thousands } from '@/helpers/strings';
 import { formatDate } from '@/helpers/date';
+import { Logo } from './logo';
 
 const useCatalogMeta = () => {
     const { data: summaries } = useQuery(getSummaries());
@@ -21,12 +22,11 @@ export const Footer = () => {
 
     return (
         <footer className='border-t border-border'>
-            <div className='w-main mx-auto px-5 pt-8 pb-7'>
-                <div className='flex justify-between items-start gap-6 flex-wrap mb-6'>
-                    <span className='font-merriweather text-lg font-normal text-foreground'>
-                        Bookworms
-                    </span>
-                    <nav className='flex gap-5 flex-wrap items-center'>
+            <div className='w-main mx-auto px-5 pt-4 sm:pb-6 sm:pt-8'>
+                <div className='flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-6 flex-wrap mb-6'>
+                    <Logo className='text-lg' />
+
+                    <nav className='flex flex-col sm:flex-row gap-2 sm:gap-5 flex-wrap sm:items-center'>
                         <a
                             href='/explore'
                             className='text-sm text-muted-foreground hover:text-brand transition-colors font-noto'
@@ -67,7 +67,7 @@ export const Footer = () => {
                     país respecto a la distribución de material con derechos de autor.
                 </p>
 
-                <div className='flex justify-between items-center gap-4 flex-wrap'>
+                <div className='flex justify-between items-center sm:gap-4 flex-wrap mb-8'>
                     <span className='text-[11px] text-muted-foreground/70 font-noto'>
                         MIT License © {new Date().getFullYear()}
                     </span>
