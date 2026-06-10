@@ -20,7 +20,7 @@ export const SearchChips = () => {
     if (!data?.length) return null;
 
     return (
-        <div className='flex flex-wrap gap-2'>
+        <div className='flex flex-wrap gap-2 justify-center sm:justify-start'>
             {data.map(({ query }, i) => (
                 <a
                     key={query}
