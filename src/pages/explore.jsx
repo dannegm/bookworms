@@ -10,7 +10,7 @@ import { Layout } from '@/components/layout/layout';
 import { SearchBox } from '@/components/layout/search-box';
 import { CollectionPreview } from '@/components/collection/collection-preview';
 import { TopicChip, TopicChipSkeleton } from '@/components/topic/topic-chip';
-import { Eyebrow, PageInner, HomeDivider } from '@/components/home/home-primitives';
+import { Eyebrow, PageInner, SearchBoxContainer, Divider as HomeDivider } from '@/components/layout/primitives';
 
 const PAGE_SIZE = 4;
 const TOP_TOPICS = 6;
@@ -78,7 +78,7 @@ export const Explore = () => {
                 <title>Explorar — Bookworms</title>
             </Helmet>
 
-            <SearchBox />
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
 
             <PageInner className='pb-4'>
                 <div className='w-9 h-0.75 bg-brand rounded-full mb-4.5' />

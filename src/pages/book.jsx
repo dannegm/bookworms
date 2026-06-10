@@ -8,7 +8,7 @@ import { getBook } from '@/services/bookworms';
 import { Debugger } from '@/components/system/debugger';
 
 import { Layout } from '@/components/layout/layout';
-import { Section } from '@/components/layout/section';
+import { PageInner, SearchBoxContainer } from '@/components/layout/primitives';
 import { SearchBox } from '@/components/layout/search-box';
 
 import { BookDetails } from '@/components/book/book-details';
@@ -27,10 +27,10 @@ export const Book = () => {
 
     if (isLoading) return (
         <Layout>
-            <SearchBox />
-            <Section className='flex flex-col gap-4'>
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
+            <PageInner className='flex flex-col gap-4'>
                 <BookDetailsLoading />
-            </Section>
+            </PageInner>
         </Layout>
     );
 
@@ -38,7 +38,7 @@ export const Book = () => {
 
     return (
         <Layout>
-            <SearchBox />
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
 
             <Helmet>
                 <title>{data.title}</title>
@@ -47,9 +47,9 @@ export const Book = () => {
             <Debugger name='book' data={data} />
             {error && <Debugger name='error' data={error} />}
 
-            <Section className='flex flex-col gap-4'>
+            <PageInner className='flex flex-col gap-4'>
                 <BookDetails book={data} />
-            </Section>
+            </PageInner>
 
             {data.serie_name && (
                 <SerieSuggestions serieName={data.serie_name} />

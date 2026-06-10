@@ -11,7 +11,7 @@ import { getCategory } from '@/services/bookworms';
 import { Debugger } from '@/components/system/debugger';
 
 import { Layout } from '@/components/layout/layout';
-import { Section } from '@/components/layout/section';
+import { PageInner, SearchBoxContainer } from '@/components/layout/primitives';
 import { SearchBox } from '@/components/layout/search-box';
 import { Pagination } from '@/components/layout/pagination';
 
@@ -35,16 +35,16 @@ export const Category = () => {
 
     if (isLoading) return (
         <Layout>
-            <SearchBox />
-            <Section className='flex flex-col gap-4'>
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
+            <PageInner className='flex flex-col gap-4'>
                 <CategoryDetailsLoading />
-            </Section>
+            </PageInner>
         </Layout>
     );
 
     if (!data || error) return (
         <Layout>
-            <SearchBox />
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
 
             <Helmet>
                 <title>Ups, algo salió mal...</title>
@@ -52,7 +52,7 @@ export const Category = () => {
 
             <Debugger name='error' data={error} expanded />
 
-            <Section className='flex flex-col gap-4'>
+            <PageInner className='flex flex-col gap-4'>
                 <Alert variant='destructive'>
                     <AlertCircleIcon />
                     <AlertTitle>Ups, algo salió mal.</AlertTitle>
@@ -72,7 +72,7 @@ export const Category = () => {
                         </Button>
                     </AlertDescription>
                 </Alert>
-            </Section>
+            </PageInner>
         </Layout>
     );
 
@@ -80,7 +80,7 @@ export const Category = () => {
 
     return (
         <Layout>
-            <SearchBox />
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
 
             <Helmet>
                 <title>{categoryName}</title>
@@ -88,7 +88,7 @@ export const Category = () => {
 
             <Debugger name='category' data={data} expanded />
 
-            <Section>
+            <PageInner>
                 <header className='flex flex-row gap-4 items-center justify-between'>
                     <h1 className='flex-center h-10 pl-3 pr-4 flex gap-2 items-center text-md font-bold font-merriweather bg-cyan-200 dark:bg-cyan-900 rounded-xl'>
                         <Tag className='size-4' /> {categoryName}
@@ -101,14 +101,14 @@ export const Category = () => {
                         </span>
                     </div>
                 </header>
-            </Section>
+            </PageInner>
 
-            <Section className='flex flex-col gap-4'>
+            <PageInner className='flex flex-col gap-4'>
                 <CategoryDetails name='Novela' data={data?.data} />
-            </Section>
+            </PageInner>
 
             {data?.pagination.pages > 1 && (
-                <Section>
+                <PageInner>
                     <Pagination
                         currentPage={page}
                         totalPages={data?.pagination.pages || 0}
@@ -116,7 +116,7 @@ export const Category = () => {
                         onNext={() => setPage(page + 1)}
                         onPrev={() => setPage(page - 1)}
                     />
-                </Section>
+                </PageInner>
             )}
         </Layout>
     );

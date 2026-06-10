@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { keyCase } from '@/helpers/strings';
 import { CollectionBookItem } from '@/components/book/collection-book-item';
-import { Eyebrow, SectionTitle, SectionDesc, PageInner } from '@/components/home/home-primitives';
+import { Eyebrow, SectionTitle, SectionDesc, PageInner } from '@/components/layout/primitives';
 
 const BOOKS_PER_COLLECTION = 4;
 

@@ -1,5 +1,5 @@
 import { SearchChips } from '@/components/layout/search-chips';
-import { PageInner } from '@/components/home/home-primitives';
+import { PageInner } from '@/components/layout/primitives';
 
 export const SearchEmpty = () => (
     <PageInner>

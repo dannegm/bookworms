@@ -8,7 +8,7 @@ import { searchEntity } from '@/services/bookworms';
 import { Debugger } from '@/components/system/debugger';
 
 import { Layout } from '@/components/layout/layout';
-import { Section } from '@/components/layout/section';
+import { PageInner, SearchBoxContainer } from '@/components/layout/primitives';
 import { SearchBox } from '@/components/layout/search-box';
 import { SearchEmpty } from '@/components/layout/search-empty';
 import { Pagination } from '@/components/layout/pagination';
@@ -60,36 +60,36 @@ export const SearchBy = () => {
 
     if (!query) return (
         <Layout>
-            <SearchBox />
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
             <SearchEmpty />
         </Layout>
     );
 
     if (isLoading) return (
         <Layout key={page}>
-            <SearchBox />
-            <Section>
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
+            <PageInner>
                 <h1 className='font-merriweather text-xl'>
                     Resultados de <b>{query}</b>
                 </h1>
-            </Section>
-            <Section className='flex flex-col gap-4'>
+            </PageInner>
+            <PageInner className='flex flex-col gap-4'>
                 <Loader entity={entity} />
-            </Section>
+            </PageInner>
         </Layout>
     );
 
     return (
         <Layout key={page}>
-            <SearchBox />
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
 
-            <Section>
+            <PageInner>
                 <h1 className='font-merriweather text-xl'>
                     Resultados de <b>{query}</b>
                 </h1>
-            </Section>
+            </PageInner>
 
-            <Section className='flex flex-col gap-4'>
+            <PageInner className='flex flex-col gap-4'>
                 <h2 className='font-bold'>{entitiesTitles[entity]}</h2>
 
                 <h3 className='text-sm text-muted-foreground -mt-4'>
@@ -97,17 +97,17 @@ export const SearchBy = () => {
                     {Math.min(data?.pagination.to, data?.pagination.found)} de{' '}
                     {data?.pagination.found} encontrados
                 </h3>
-            </Section>
+            </PageInner>
 
-            <Section className='flex flex-col gap-4 pb-8'>
+            <PageInner className='flex flex-col gap-4 pb-8'>
                 <Debugger name={entity} data={data} expanded simple />
                 {error && <Debugger name='error' data={error} simple />}
 
                 <ResultsList entity={entity} data={data} />
-            </Section>
+            </PageInner>
 
             {data?.pagination.pages > 1 && (
-                <Section>
+                <PageInner>
                     <Pagination
                         currentPage={page}
                         totalPages={data?.pagination.pages || 0}
@@ -115,7 +115,7 @@ export const SearchBy = () => {
                         onNext={() => setPage(page + 1)}
                         onPrev={() => setPage(page - 1)}
                     />
-                </Section>
+                </PageInner>
             )}
         </Layout>
     );

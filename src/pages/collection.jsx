@@ -9,11 +9,11 @@ import { Skeleton } from '@/ui/skeleton';
 import { Layout } from '@/components/layout/layout';
 import { SearchBox } from '@/components/layout/search-box';
 import { CollectionBookItem } from '@/components/book/collection-book-item';
-import { Eyebrow, SectionTitle, SectionDesc, PageInner } from '@/components/home/home-primitives';
+import { Eyebrow, SectionTitle, SectionDesc, PageInner, SearchBoxContainer } from '@/components/layout/primitives';
 
 const CollectionSkeleton = () => (
     <Layout>
-        <SearchBox />
+        <SearchBoxContainer><SearchBox /></SearchBoxContainer>
         <PageInner>
             <Skeleton className='h-3 w-24 mb-3' />
             <Skeleton className='h-8 w-72 mb-2' />
@@ -50,7 +50,7 @@ export const Collection = () => {
                 <title>{data.headline} — Bookworms</title>
             </Helmet>
 
-            <SearchBox />
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
 
             <PageInner>
                 <div className='w-9 h-0.75 bg-brand rounded-full mb-4.5' />

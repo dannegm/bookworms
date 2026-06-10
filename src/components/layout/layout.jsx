@@ -40,7 +40,7 @@ export const Layout = ({ title, children }) => {
                             Bookworms
                         </Link>
 
-                        <div className='flex gap-1 -m-2'>
+                        <div className='flex gap-1'>
                             {secrets && (
                                 <TrackClick name='debug:toggle'>
                                     <DebugModeToggle />

@@ -8,7 +8,7 @@ import { getAuthor } from '@/services/bookworms';
 import { Debugger } from '@/components/system/debugger';
 
 import { Layout } from '@/components/layout/layout';
-import { Section } from '@/components/layout/section';
+import { PageInner, SearchBoxContainer } from '@/components/layout/primitives';
 import { SearchBox } from '@/components/layout/search-box';
 
 import { AuthorDetails } from '@/components/author/author-details';
@@ -26,10 +26,10 @@ export const Author = () => {
 
     if (isLoading) return (
         <Layout>
-            <SearchBox />
-            <Section className='flex flex-col gap-4'>
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
+            <PageInner className='flex flex-col gap-4'>
                 <AuthorDetailsLoading />
-            </Section>
+            </PageInner>
         </Layout>
     );
 
@@ -37,7 +37,7 @@ export const Author = () => {
 
     return (
         <Layout>
-            <SearchBox />
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
 
             <Helmet>
                 <title>{data.name}</title>
@@ -46,9 +46,9 @@ export const Author = () => {
             <Debugger name='author' data={data} />
             {error && <Debugger name='error' data={error} />}
 
-            <Section className='flex flex-col gap-4'>
+            <PageInner className='flex flex-col gap-4'>
                 <AuthorDetails author={data} />
-            </Section>
+            </PageInner>
         </Layout>
     );
 };

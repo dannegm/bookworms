@@ -9,7 +9,7 @@ export const ToggleIcon = ({ className, icons, ...props }) => {
     return (
         <Toggle
             className={cn(
-                'group bg-neutral-100 hover:bg-neutral-200 hover:text-neutral-900 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:hover:text-white',
+                'group text-brand bg-brand/10 hover:bg-brand/15',
                 className,
             )}
             {...props}

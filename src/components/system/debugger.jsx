@@ -2,7 +2,7 @@ import { cn } from '@/helpers/utils';
 import { useSettings } from '@/hooks/use-settings';
 
 import { JsonViewer } from '@/components/system/json-viewer';
-import { Section } from '@/components/layout/section';
+import { PageInner } from '@/components/layout/primitives';
 
 export const Debugger = ({ className, name = 'root', data = {}, simple = false, expanded }) => {
     const [debug] = useSettings('settings:debug', false);
@@ -18,8 +18,8 @@ export const Debugger = ({ className, name = 'root', data = {}, simple = false, 
     }
 
     return (
-        <Section className={cn(className)}>
+        <PageInner className={cn(className)}>
             <JsonViewer name={name} data={data} expanded={expanded} />
-        </Section>
+        </PageInner>
     );
 };

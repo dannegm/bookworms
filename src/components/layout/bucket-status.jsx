@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { cn } from '@/helpers/utils';
 import { getSettings } from '@/services/bookworms';
 
-import { Section } from '@/components/layout/section';
+import { PageInner } from '@/components/layout/primitives';
 import { Alert, AlertDescription, AlertTitle } from '@/ui/alert';
 
 export const BucketStatus = ({ className }) => {
@@ -15,7 +15,7 @@ export const BucketStatus = ({ className }) => {
     if (data?.['bucket.online'] !== false) return null;
 
     return (
-        <Section className={cn(className)}>
+        <PageInner className={cn(className)}>
             <Alert className='bg-yellow-50 border-yellow-200 text-yellow-800 dark:bg-yellow-900 dark:border-yellow-800 dark:text-yellow-300'>
                 <BadgeInfo className='size-4' />
 
@@ -35,6 +35,6 @@ export const BucketStatus = ({ className }) => {
                     </AlertDescription>
                 )}
             </Alert>
-        </Section>
+        </PageInner>
     );
 };

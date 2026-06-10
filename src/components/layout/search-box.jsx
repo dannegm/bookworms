@@ -2,7 +2,7 @@ import { BookOpenText } from 'lucide-react';
 
 import { cn } from '@/helpers/utils';
 
-const SearchForm = ({ variant }) => {
+export const SearchBox = ({ variant }) => {
     const isHero = variant === 'hero';
 
     return (
@@ -14,10 +14,7 @@ const SearchForm = ({ variant }) => {
                 )}
             >
                 <BookOpenText
-                    className={cn(
-                        'text-muted-foreground shrink-0',
-                        isHero ? 'size-4.5' : 'size-4',
-                    )}
+                    className={cn('text-muted-foreground shrink-0', isHero ? 'size-4.5' : 'size-4')}
                 />
                 <input
                     name='q'
@@ -39,15 +36,5 @@ const SearchForm = ({ variant }) => {
                 </button>
             </div>
         </form>
-    );
-};
-
-export const SearchBox = ({ variant = 'compact', className }) => {
-    if (variant === 'hero') return <SearchForm variant='hero' />;
-
-    return (
-        <div className={cn('w-main mx-auto px-5 py-4 border-b border-border', className)}>
-            <SearchForm variant='compact' />
-        </div>
     );
 };

@@ -9,7 +9,7 @@ import { Button } from '@/ui/button';
 import { Debugger } from '@/components/system/debugger';
 
 import { Layout } from '@/components/layout/layout';
-import { Section } from '@/components/layout/section';
+import { PageInner, SearchBoxContainer } from '@/components/layout/primitives';
 import { SearchBox } from '@/components/layout/search-box';
 import { SearchEmpty } from '@/components/layout/search-empty';
 
@@ -26,7 +26,7 @@ export const Search = () => {
 
     if (!query) return (
         <Layout>
-            <SearchBox />
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
             <SearchEmpty />
         </Layout>
     );
@@ -43,38 +43,38 @@ export const Search = () => {
 
     if (authorsLoading || seriesLoading || booksLoading) return (
         <Layout>
-            <SearchBox />
-            <Section>
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
+            <PageInner>
                 <h1 className='font-merriweather text-xl'>
                     Resultados de <b>{query}</b>
                 </h1>
-            </Section>
-            <Section className='flex flex-col gap-4'>
+            </PageInner>
+            <PageInner className='flex flex-col gap-4'>
                 <h2 className='font-bold'>Autores</h2>
                 <AuthorsListLoading />
-            </Section>
-            <Section className='flex flex-col gap-4'>
+            </PageInner>
+            <PageInner className='flex flex-col gap-4'>
                 <h2 className='font-bold'>Series</h2>
                 <SeriesListLoading />
-            </Section>
-            <Section className='flex flex-col gap-8'>
+            </PageInner>
+            <PageInner className='flex flex-col gap-8'>
                 <h2 className='font-bold'>Libros</h2>
                 <BooksListLoading />
-            </Section>
+            </PageInner>
         </Layout>
     );
 
     return (
         <Layout>
-            <SearchBox />
+            <SearchBoxContainer><SearchBox /></SearchBoxContainer>
 
-            <Section>
+            <PageInner>
                 <h1 className='font-merriweather text-xl'>
                     Resultados de <b>{query}</b>
                 </h1>
-            </Section>
+            </PageInner>
 
-            <Section className='flex flex-col gap-4'>
+            <PageInner className='flex flex-col gap-4'>
                 <h2 className='font-bold'>Autores</h2>
 
                 {Boolean(authorsData?.pagination.found) &&
@@ -97,9 +97,9 @@ export const Search = () => {
                         </Link>
                     </Button>
                 )}
-            </Section>
+            </PageInner>
 
-            <Section className='flex flex-col gap-4'>
+            <PageInner className='flex flex-col gap-4'>
                 <h2 className='font-bold'>Series</h2>
 
                 {Boolean(seriesData?.pagination.found) &&
@@ -122,9 +122,9 @@ export const Search = () => {
                         </Link>
                     </Button>
                 )}
-            </Section>
+            </PageInner>
 
-            <Section className='flex flex-col gap-8'>
+            <PageInner className='flex flex-col gap-8'>
                 <h2 className='font-bold'>Libros</h2>
 
                 {Boolean(booksData?.pagination.found) &&
@@ -147,7 +147,7 @@ export const Search = () => {
                         </Link>
                     </Button>
                 )}
-            </Section>
+            </PageInner>
         </Layout>
     );
 };
