@@ -35,7 +35,7 @@ export const BookDetails = ({ className, book }) => {
             <div className='flex flex-col gap-4 items-center sm:items-stretch w-full sm:w-56 shrink-0'>
                 <BookCover book={book} width={224} />
 
-                <div className='flex flex-col gap-2 hidden sm:flex'>
+                <div className='hidden sm:flex flex-col gap-2'>
                     <DownloadBook className='w-full' book={book} />
                     <SendToKindle className='w-full' book={book} />
                     <TrackClick name='book:read' data={{ book }}>
