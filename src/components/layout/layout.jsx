@@ -12,6 +12,7 @@ import { TrackClick } from '@/components/system/track-click';
 
 import { BucketStatus } from '@/components/layout/bucket-status';
 import { Footer } from '@/components/layout/footer';
+import { Logo } from '@/components/layout/logo';
 
 export const Layout = ({ title, children }) => {
     const [secrets] = useSettings('settings:secrets:show', false);
@@ -33,11 +34,8 @@ export const Layout = ({ title, children }) => {
             <div className='relative bg-background'>
                 <header className='sticky top-0 z-10 bg-background border-b border-border'>
                     <div className='w-main mx-auto px-5 py-3 flex items-center justify-between'>
-                        <Link
-                            to='/'
-                            className='font-merriweather text-base font-normal text-foreground hover:text-brand transition-colors duration-150'
-                        >
-                            Bookworms
+                        <Link to='/' className='hover:text-brand transition-colors duration-150'>
+                            <Logo />
                         </Link>
 
                         <div className='flex gap-1'>
