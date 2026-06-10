@@ -13,7 +13,7 @@ export const CollectionBookItem = ({ book, className }) => (
         <BookCover book={book} fluid className='mb-2 transition-transform duration-150 group-hover:-translate-y-0.5' />
         <div className='text-xs font-medium text-foreground truncate font-noto'>{book.title}</div>
         <div className='text-[11px] text-muted-foreground truncate font-noto'>
-            {book.authors?.join(', ')}
+            {book.authors?.map(a => a?.name ?? a).join(', ')}
         </div>
     </Link>
 );

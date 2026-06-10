@@ -1,155 +1,94 @@
-import { cn, getId } from '@/helpers/utils';
-import { sequence } from '@/helpers/arrays';
+import { cn } from '@/helpers/utils';
 import { clamp } from '@/helpers/maths';
+import { sequence } from '@/helpers/arrays';
 
-import {
-    Pagination as ShadcnPagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from '@/ui/pagination';
-
-const getMiddlePages = (currentPage, lastPage, size = 5) => {
-    const clampedSize = clamp(size, 1, lastPage);
-
-    if (currentPage < clampedSize) {
-        return sequence(clampedSize).map(index => {
-            const pageNumber = index + 1;
-            return {
-                pageNumber,
-                selected: pageNumber === currentPage,
-            };
-        });
-    }
-
-    if (currentPage > lastPage - clampedSize + 1) {
-        return sequence(clampedSize).map(index => {
-            const pageNumber = lastPage + index + 1 - clampedSize;
-            return {
-                pageNumber,
-                selected: pageNumber === currentPage,
-            };
-        });
-    }
-
-    const middle = Math.floor(clampedSize / 2);
-
-    return sequence(clampedSize).map(index => {
-        const pageNumber = currentPage + index - middle;
-        return {
-            pageNumber,
-            selected: pageNumber === currentPage,
-        };
-    });
+const getPages = (current, total, size = 5) => {
+    const s = clamp(size, 1, total);
+    if (current < s) return sequence(s).map(i => i + 1);
+    if (current > total - s + 1) return sequence(s).map(i => total + i + 1 - s);
+    const mid = Math.floor(s / 2);
+    return sequence(s).map(i => current + i - mid);
 };
 
 export const Pagination = ({
     className,
-    totalPages = 10,
+    totalPages = 1,
     currentPage = 1,
     pagesShowed = 5,
     onChange,
-    onNext,
-    onPrev,
-    onFirst,
-    onLast,
 }) => {
-    const clampedCurrentPage = clamp(currentPage, 1, totalPages);
+    const page = clamp(currentPage, 1, totalPages);
+    const isFirst = page <= 1;
+    const isLast = page >= totalPages;
+    const pages = getPages(page, totalPages, pagesShowed);
+    const showFirst = totalPages > pagesShowed && page >= pagesShowed;
+    const showLast = totalPages > pagesShowed && page <= totalPages - pagesShowed + 1;
 
-    const middlePages = getMiddlePages(clampedCurrentPage, totalPages, pagesShowed).map(page => ({
-        ...page,
-        key: getId(),
-    }));
+    const go = (n, ev) => { ev.preventDefault(); onChange(n); };
+    const prev = ev => { ev.preventDefault(); if (!isFirst) onChange(page - 1); };
+    const next = ev => { ev.preventDefault(); if (!isLast) onChange(page + 1); };
 
-    const showFirstPage = totalPages > pagesShowed && clampedCurrentPage >= pagesShowed;
-    const showLastPage =
-        totalPages > pagesShowed && clampedCurrentPage <= totalPages - pagesShowed + 1;
-
-    const isFirst = clampedCurrentPage <= 1;
-    const isLast = clampedCurrentPage >= totalPages;
-
-    const handleChange = (pageNumber, ev) => {
-        ev.preventDefault();
-        onChange(pageNumber);
-    };
-
-    const handleFirst = ev => {
-        ev.preventDefault();
-        onFirst(1);
-        onChange(1);
-    };
-    const handleLast = ev => {
-        ev.preventDefault();
-        onLast(totalPages);
-        onChange(totalPages);
-    };
-    const handlePrev = ev => {
-        ev.preventDefault();
-        const prevPage = Math.max(1, currentPage - 1);
-        onPrev(prevPage);
-        onChange(prevPage);
-    };
-    const handleNext = ev => {
-        ev.preventDefault();
-        const nextPage = Math.min(totalPages, currentPage + 1);
-        onNext(nextPage);
-        onChange(nextPage);
-    };
+    const navBtn = 'inline-flex items-center gap-1.5 text-sm font-noto px-3 py-1.5 rounded-lg transition-colors';
+    const pageBtn = 'inline-flex items-center justify-center size-8 rounded-lg text-sm font-noto transition-colors';
 
     return (
-        <ShadcnPagination className={cn(className)}>
-            <PaginationContent>
-                <PaginationItem>
-                    <PaginationPrevious href='#' disabled={isFirst} onClick={handlePrev} />
-                </PaginationItem>
+        <nav className={cn('flex items-center justify-between gap-4', className)}>
+            <button
+                onClick={prev}
+                disabled={isFirst}
+                className={cn(navBtn, isFirst
+                    ? 'text-muted-foreground/40 cursor-not-allowed'
+                    : 'text-foreground hover:bg-muted'
+                )}
+            >
+                <span>←</span>
+                <span className='hidden sm:inline'>Anterior</span>
+            </button>
 
-                {showFirstPage && (
+            <div className='flex items-center gap-1'>
+                {showFirst && (
                     <>
-                        <PaginationItem>
-                            <PaginationLink href='#' onClick={handleFirst}>
-                                1
-                            </PaginationLink>
-                        </PaginationItem>
-
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
+                        <button onClick={ev => go(1, ev)} className={cn(pageBtn, 'text-muted-foreground hover:bg-muted')}>
+                            1
+                        </button>
+                        <span className='text-muted-foreground/40 text-sm px-1'>…</span>
                     </>
                 )}
 
-                {middlePages.map((page, index) => (
-                    <PaginationItem key={page.key}>
-                        <PaginationLink
-                            href='#'
-                            onClick={ev => handleChange(page.pageNumber, ev)}
-                            isActive={page.selected}
-                        >
-                            {page.pageNumber}
-                        </PaginationLink>
-                    </PaginationItem>
+                {pages.map(n => (
+                    <button
+                        key={n}
+                        onClick={ev => go(n, ev)}
+                        className={cn(pageBtn, n === page
+                            ? 'bg-brand text-brand-foreground font-medium'
+                            : 'text-muted-foreground hover:bg-muted'
+                        )}
+                    >
+                        {n}
+                    </button>
                 ))}
 
-                {showLastPage && (
+                {showLast && (
                     <>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-
-                        <PaginationItem>
-                            <PaginationLink href='#' onClick={handleLast}>
-                                {totalPages}
-                            </PaginationLink>
-                        </PaginationItem>
+                        <span className='text-muted-foreground/40 text-sm px-1'>…</span>
+                        <button onClick={ev => go(totalPages, ev)} className={cn(pageBtn, 'text-muted-foreground hover:bg-muted')}>
+                            {totalPages}
+                        </button>
                     </>
                 )}
+            </div>
 
-                <PaginationItem>
-                    <PaginationNext href='#' disabled={isLast} onClick={handleNext} />
-                </PaginationItem>
-            </PaginationContent>
-        </ShadcnPagination>
+            <button
+                onClick={next}
+                disabled={isLast}
+                className={cn(navBtn, isLast
+                    ? 'text-muted-foreground/40 cursor-not-allowed'
+                    : 'text-foreground hover:bg-muted'
+                )}
+            >
+                <span className='hidden sm:inline'>Siguiente</span>
+                <span>→</span>
+            </button>
+        </nav>
     );
 };
