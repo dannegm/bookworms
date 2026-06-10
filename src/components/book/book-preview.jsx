@@ -2,8 +2,6 @@ import { Link } from '@tanstack/react-router';
 import { cn } from '@/helpers/utils';
 import { BookCover } from '@/components/book/book-cover';
 import { Tooltip } from '@/ui/tooltip-simple';
-import { DownloadBook } from '@/components/download/download-book';
-import { Download, Eye } from 'lucide-react';
 import { keyCase } from '@/helpers/strings';
 
 export const BookPreview = ({ className, book }) => {
@@ -23,22 +21,6 @@ export const BookPreview = ({ className, book }) => {
             {book?.authors && (
                 <p className='text-center text-sm line-clamp-1'>{book.authors[0].name}</p>
             )}
-
-            <div className='flex h-5 items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-300'>
-                <div className='flex flex-row gap-1 items-center'>
-                    <Download className='size-4' />
-                    <b>{book.downloads}</b> descargas
-                </div>
-
-                <div className='flex flex-row gap-1 items-center'>
-                    <Eye className='size-4' />
-                    <b>{book.views}</b> vistas
-                </div>
-            </div>
-
-            <div className='mt-4 w-full'>
-                <DownloadBook className='w-full' book={book} />
-            </div>
         </Link>
     );
 };

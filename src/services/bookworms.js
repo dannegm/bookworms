@@ -37,15 +37,6 @@ export const searchEntity = ({ entity, query, page = 1, limit = 10, ...options }
     ...options,
 });
 
-export const getTop = (entity, category = 'views', limit = 10, options = {}) => ({
-    queryKey: ['top', entity, category, limit],
-    queryFn: async () => {
-        const params = buildQueryParams({ entity, category, limit });
-        return (await request(`/top${params}`)).json();
-    },
-    ...options,
-});
-
 export const getBook = (libid, options = {}) => ({
     queryKey: ['book', libid],
     queryFn: async () => (await request(`/book/${libid}`)).json(),
@@ -81,6 +72,12 @@ export const getCategory = ({ categoryName, page = 1, limit = 10, ...options }) 
         ...options,
     };
 };
+
+export const getSearchSuggestions = (options = {}) => ({
+    queryKey: ['search', 'suggestions'],
+    queryFn: async () => (await request('/search/suggestions')).json(),
+    ...options,
+});
 
 export const getTopics = ({ page = 1, limit = 50, ...options } = {}) => ({
     queryKey: ['topics', page, limit],

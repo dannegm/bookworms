@@ -4,15 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 
 import { cn } from '@/helpers/utils';
 import { thousands } from '@/helpers/strings';
-import { getSummaries } from '@/services/bookworms';
+import { getSummaries, getSearchSuggestions } from '@/services/bookworms';
 import { Skeleton } from '@/ui/skeleton';
-
-const CHIPS = [
-    'Dune',
-    'Gabriel García Márquez',
-    'Isaac Asimov',
-    'Terror psicológico',
-];
 
 const HeroSubtitle = () => {
     const { data, isLoading } = useQuery(getSummaries());
@@ -24,6 +17,36 @@ const HeroSubtitle = () => {
         <p className='text-[clamp(13px,3.5vw,15px)] text-muted-foreground italic font-merriweather mb-6'>
             {thousands(data.books)} títulos en español — gratis, sin registro.
         </p>
+    );
+};
+
+const SearchChips = () => {
+    const { data, isLoading } = useQuery(getSearchSuggestions());
+
+    if (isLoading) {
+        return (
+            <div className='flex flex-wrap gap-2 mb-6'>
+                {[80, 140, 100, 120, 90].map(w => (
+                    <Skeleton key={w} className='h-[26px] rounded-full' style={{ width: w }} />
+                ))}
+            </div>
+        );
+    }
+
+    if (!data?.length) return null;
+
+    return (
+        <div className='flex flex-wrap gap-2 mb-6'>
+            {data.map(({ query }) => (
+                <a
+                    key={query}
+                    href={`/search?q=${encodeURIComponent(query)}`}
+                    className='text-xs text-foreground/70 border border-border rounded-full px-3 py-[5px] hover:text-brand hover:border-brand transition-all whitespace-nowrap font-noto'
+                >
+                    {query}
+                </a>
+            ))}
+        </div>
     );
 };
 
@@ -101,18 +124,8 @@ export const HomeHero = () => {
                 </div>
             </form>
 
-            <div className='flex flex-wrap gap-2 mb-6'>
-                {CHIPS.map(chip => (
-                    <button
-                        key={chip}
-                        type='button'
-                        onClick={() => setQuery(chip)}
-                        className='text-xs text-foreground/70 border border-border rounded-full px-3 py-[5px] hover:text-brand hover:border-brand transition-all whitespace-nowrap font-noto bg-transparent'
-                    >
-                        {chip}
-                    </button>
-                ))}
-            </div>
+            <SearchChips />
+
 
             <StatsGrid />
         </div>

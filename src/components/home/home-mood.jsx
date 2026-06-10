@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getTopics } from '@/services/bookworms';
 import { DynamicIcon } from '@/components/system/dynamic-icon';
 import { Eyebrow, PageInner } from '@/components/home/home-primitives';
+import { keyCase } from '@/helpers/strings';
 
 const DISPLAY_COUNT = 6;
 
@@ -26,7 +27,7 @@ const MoodChipSkeleton = () => (
 
 const MoodChip = ({ topic }) => (
     <a
-        href={`/topic/${topic.id}`}
+        href={`/topic/${topic.id}/${keyCase(topic.hint)}`}
         className='bg-card border border-border rounded-[10px] p-3.5 hover:border-brand transition-colors duration-150 block'
     >
         <div className='text-brand mb-2'>
